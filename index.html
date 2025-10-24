@@ -63,6 +63,15 @@
         .page-transition {
             transition: opacity 0.3s ease-in-out;
         }
+        /* Estilo específico para las tarjetas de series */
+        .series-card {
+            background-color: #1f2937; /* Fondo más oscuro para destacar */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .series-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 15px 30px rgba(239, 68, 68, 0.3); /* Sombra roja */
+        }
     </style>
 </head>
 <body class="bg-gray-900">
@@ -136,15 +145,88 @@
         const LOGO_URL = "https://i.postimg.cc/J06sCDBm/unnamed-7-removebg-preview.png";
         const LOGO_TAG = `<img src="${LOGO_URL}" alt="Logo de rodreyrj - Rayo" class="logo-img mr-3">`;
         
-        // URL del CSV con los datos de los proyectos (¡TU URL!)
-        const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTurxcfqNiMeXwH7GdrsL1MGih4HhKv7cS_g7JRgwu17i2IGeaaUV8FlMrir-f7wf9SgRw6g4WLw1BH/pub?output=csv";
+        // URL del CSV con los datos de los proyectos
+        const TEMPLATES_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTurxcfqNiMeXwH7GdrsL1MGih4HhKv7cS_g7JRgwu17i2IGeaaUV8FlMrir-f7wf9SgRw6g4WLw1BH/pub?output=csv";
+        
+        // NUEVA URL del CSV para el Catálogo de Series
+        const SERIES_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQMqFFyVFUM9e157cdDMwcX7DGmOj8DuL8ZUHMw9QAnNYn-tG1dDZ_u89Za19QPHjIvpBvc-q9E1SQR/pub?output=csv";
+
+        // Número de WhatsApp del usuario
+        const WHATSAPP_NUMBER = "56639178"; 
 
         const mainContent = document.getElementById('main-content');
         const headerContainer = document.getElementById('main-header');
         const mobileMenuId = 'mobile-menu'; 
         let currentView = 'home';
         let countdownInterval;
-        let templatesData = null; // Caché para los proyectos
+        
+        // Caché para los datos (Proyectos y Series)
+        let templatesData = null; // Caché para los proyectos (plantillas)
+        let seriesData = null;    // NUEVA Caché para las series
+
+        // --- LÓGICA DE DATOS CSV ---
+
+        function csvToArray(text) {
+            const rows = text.trim().split('\n');
+            if (rows.length < 2) return [];
+            
+            // Los encabezados se toman de la primera fila
+            const headers = rows[0].split(',').map(h => h.trim());
+            
+            const data = [];
+            for (let i = 1; i < rows.length; i++) {
+                // Usamos una regex para manejar comas dentro de comillas (si las hubiera, aunque el split simple es suficiente para hojas de cálculo simples)
+                const values = rows[i].split(',').map(v => v.trim());
+                if (values.length !== headers.length) continue; 
+
+                const item = {};
+                headers.forEach((header, index) => {
+                    // Normalizar el nombre de la propiedad
+                    let cleanHeader = header.toLowerCase().replace(/[^a-z0-9]/g, '');
+                    item[cleanHeader] = values[index];
+                });
+
+                data.push(item);
+            }
+            return data;
+        }
+
+        // Función de obtención de datos con caché (Para Proyectos/Plantillas)
+        async function fetchTemplates() {
+            if (templatesData) return templatesData; 
+
+            try {
+                const response = await fetch(TEMPLATES_CSV_URL);
+                if (!response.ok) throw new Error(`Error al cargar el CSV de Proyectos: ${response.statusText}`);
+                const csvText = await response.text();
+                // Asumiendo el orden de la hoja de proyectos: URL, Proyecto-Name, Host, Descripcion
+                const data = csvToArray(csvText); 
+                templatesData = data; 
+                return data;
+            } catch (error) {
+                console.error("Error fetching or parsing templates:", error);
+                return []; 
+            }
+        }
+        
+        // NUEVA Función de obtención de datos con caché (Para Series)
+        async function fetchSeries() {
+            if (seriesData) return seriesData; 
+
+            try {
+                const response = await fetch(SERIES_CSV_URL);
+                if (!response.ok) throw new Error(`Error al cargar el CSV de Series: ${response.statusText}`);
+                const csvText = await response.text();
+                // Asumiendo el orden de la hoja de series: url, nombre, precio
+                const data = csvToArray(csvText);
+                seriesData = data;
+                return data;
+            } catch (error) {
+                console.error("Error fetching or parsing series:", error);
+                return []; 
+            }
+        }
+
 
         // --- VISTAS / TEMPLATES ---
 
@@ -157,7 +239,6 @@
                 <nav class="hidden md:flex space-x-6 text-sm font-medium">
                     <a href="javascript:void(0);" onclick="navigateTo('quienes-somos');" class="text-gray-300 hover:text-blue-400 transition duration-200">Quiénes Somos</a>
                     <a href="javascript:void(0);" onclick="navigateTo('servicios-informaticos');" class="text-white bg-blue-600 px-3 py-1 rounded-full hover:bg-blue-700 transition duration-200">Servicios Informáticos</a>
-                    <!-- El botón del header ahora dice Proyectos -->
                     <a href="javascript:void(0);" onclick="navigateTo('plantillas');" class="text-white bg-purple-600 px-3 py-1 rounded-full hover:bg-purple-700 transition duration-200">Proyectos</a>
                 </nav>
                 
@@ -170,7 +251,6 @@
                 <div class="px-4 pt-4 pb-4 space-y-2">
                     <a href="javascript:void(0);" onclick="navigateTo('quienes-somos')" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-800">Quiénes Somos</a>
                     <a href="javascript:void(0);" onclick="navigateTo('servicios-informaticos')" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-blue-600 hover:bg-blue-700">Servicios Informáticos</a>
-                    <!-- El enlace del menú móvil ahora dice Proyectos -->
                     <a href="javascript:void(0);" onclick="navigateTo('plantillas')" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-purple-600 hover:bg-purple-700">Proyectos</a>
                 </div>
                 <div class="border-t border-gray-800 pt-4 px-4 pb-4">
@@ -183,6 +263,50 @@
                 </div>
             </nav>
         `;
+        
+        // Función para generar las tarjetas de series con enlace a WhatsApp
+        function generateSeriesHTML(data) {
+            if (!data || data.length === 0) {
+                return `<div class="col-span-full text-center p-4 bg-gray-700 rounded-xl text-yellow-400">
+                            No hay series disponibles en este momento.
+                        </div>`;
+            }
+
+            return data.map(serie => {
+                // Las propiedades son url, nombre, precio
+                const name = serie.nombre || 'Título Desconocido';
+                const imageUrl = serie.url || `https://placehold.co/200x300/1f2937/ffffff?text=Serie`;
+                const price = serie.precio || 'Consultar';
+                
+                // Generar el mensaje de WhatsApp codificado
+                const whatsappMessage = `Me interesa la serie: *${name}* - con precio de *${price}*. Por favor, dame más información.`;
+                const whatsappLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`;
+                
+                return `
+                    <div class="series-card rounded-xl shadow-lg border border-red-700/50 overflow-hidden">
+                        <div class="h-56 bg-gray-800 overflow-hidden">
+                            <img src="${imageUrl}" 
+                                 alt="Portada de la serie ${name}" 
+                                 class="w-full h-full object-cover"
+                                 onerror="this.onerror=null; this.src='https://placehold.co/200x300/1f2937/ffffff?text=Imagen+No+Cargada';">
+                        </div>
+                        <div class="p-4">
+                            <h4 class="text-lg font-bold text-white mb-2 truncate">${name}</h4>
+                            <div class="flex justify-between items-center mt-2">
+                                <span class="text-2xl font-extrabold text-red-400">${price}</span>
+                                <a href="${whatsappLink}" 
+                                   target="_blank" 
+                                   rel="noopener noreferrer"
+                                   class="text-sm bg-red-600 text-white py-2 px-4 rounded-full font-bold hover:bg-red-700 transition flex items-center space-x-1">
+                                    <i class="fab fa-whatsapp"></i>
+                                    <span>Me Interesa</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
 
         const homeContentHTML = `
             <section id="inicio" class="max-w-4xl mx-auto px-4 py-8 text-center min-h-[50vh] flex flex-col justify-center items-center">
@@ -230,6 +354,17 @@
                     <a href="javascript:void(0);" onclick="navigateTo('servicios-informaticos');" class="text-blue-400 font-bold hover:text-blue-300 transition">
                         Ver listado completo de servicios →
                     </a>
+                </div>
+            </section>
+
+            <!-- NUEVA SECCIÓN: CATÁLOGO DE SERIES (SOLO EN INICIO) -->
+            <section class="max-w-6xl mx-auto px-4 py-12 border-t border-gray-800">
+                <h2 class="text-3xl font-bold text-red-400 mb-8 text-center">🍿 Nuestro Catálogo de Series</h2>
+                <div id="series-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                    <!-- Las tarjetas de series se inyectarán aquí -->
+                </div>
+                <div id="series-loading-message" class="text-center text-xl text-gray-400 mt-10 hidden">
+                    Cargando catálogo...
                 </div>
             </section>
         `;
@@ -333,20 +468,18 @@
             </section>
         `;
         
-        // Plantilla estática con un contenedor para inyectar datos dinámicos
+        // Plantilla estática con un contenedor para inyectar datos dinámicos (Proyectos)
         const basePlantillasContentHTML = `
             <section class="max-w-7xl mx-auto px-4 py-12 pt-20">
                 <div class="bg-gray-800 p-8 rounded-2xl shadow-2xl border border-gray-700">
-                    <!-- El título de la vista en la barra superior es "Proyectos" -->
                     <h2 class="text-4xl font-bold text-purple-400 mb-6 border-b border-gray-700 pb-3">Catálogo de Proyectos Realizados</h2>
-                    <!-- El subtítulo ahora dice Proyectos -->
                     <p class="text-gray-400 text-lg mb-8">
                         Nuestros proyectos web más recientes. Haz clic en 'Ver Demo' para previsualizar el proyecto completo.
                     </p>
                     <div id="plantillas-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         <!-- Los proyectos dinámicos se inyectarán aquí -->
                     </div>
-                    <!-- CAMBIO: Nuevo mensaje de carga más amigable y oculto inicialmente -->
+                    <!-- Mensaje de carga para PROYECTOS -->
                     <div id="loading-message" class="text-center text-xl text-gray-400 mt-10 hidden">
                         Preparando proyectos... Un momento por favor.
                     </div>
@@ -354,7 +487,7 @@
             </section>
         `;
 
-        // Función para generar las tarjetas de plantillas (ahora proyectos)
+        // Función para generar las tarjetas de plantillas (proyectos)
         function generateTemplatesHTML(data) {
             if (!data || data.length === 0) {
                 return `<div class="col-span-full text-center p-8 bg-gray-700 rounded-xl text-red-400">
@@ -363,21 +496,20 @@
             }
 
             return data.map(template => {
-                // Aseguramos que la descripción no esté vacía
+                // Las propiedades son url, proyectoname, host, descripcion
                 const description = template.descripcion || 'Diseño web profesional y responsivo.';
-                
-                // Usamos template.url para la imagen y template.host para el demo
-                const imageUrl = template.url || `https://placehold.co/400x200/3b82f6/ffffff?text=${template['proyecto-name']}`;
+                const name = template.proyectoname || 'Proyecto Web';
+                const imageUrl = template.url || `https://placehold.co/400x200/3b82f6/ffffff?text=${name}`;
                 
                 return `
                     <div class="bg-gray-700 p-4 rounded-xl border border-gray-600 shadow-lg hover:shadow-purple-500/30 transition-shadow duration-300">
                         <div class="h-40 bg-gray-600 rounded-lg mb-3 overflow-hidden">
                             <img src="${imageUrl}" 
-                                 alt="Vista previa del proyecto ${template['proyecto-name']}" 
+                                 alt="Vista previa del proyecto ${name}" 
                                  class="w-full h-full object-cover transition transform hover:scale-105"
                                  onerror="this.onerror=null; this.src='https://placehold.co/400x200/3b82f6/ffffff?text=Imagen+No+Cargada';">
                         </div>
-                        <h3 class="text-xl font-semibold text-white mb-2">${template['proyecto-name']}</h3>
+                        <h3 class="text-xl font-semibold text-white mb-2">${name}</h3>
                         <p class="text-sm text-gray-400 mb-3">${description}</p>
                         <a href="${template.host}" target="_blank" rel="noopener noreferrer" 
                            class="w-full inline-block text-center bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition">
@@ -387,57 +519,6 @@
                 `;
             }).join('');
         }
-
-        // --- LÓGICA DE DATOS CSV ---
-
-        function csvToArray(text) {
-            const rows = text.trim().split('\n');
-            if (rows.length === 0) return [];
-            
-            // Reemplazar espacios y guiones por nombres de propiedad limpios
-            const headers = rows[0].split(',').map(h => h.trim().toLowerCase().replace(/-/g, '').replace(/\s/g, ''));
-            
-            const data = [];
-            for (let i = 1; i < rows.length; i++) {
-                const values = rows[i].split(',');
-                if (values.length !== headers.length) continue; 
-
-                const item = {};
-                headers.forEach((header, index) => {
-                    item[header] = values[index].trim();
-                });
-                
-                // Añadimos el manejo explícito de las columnas originales si es necesario
-                item['url'] = values[0].trim();
-                item['proyecto-name'] = values[1].trim();
-                item['host'] = values[2].trim();
-                item['descripcion'] = values[3] ? values[3].trim() : '';
-
-                data.push(item);
-            }
-            return data;
-        }
-
-        // Función de obtención de datos con caché
-        async function fetchTemplates() {
-            // Si ya tenemos los datos, los retornamos inmediatamente
-            if (templatesData) return templatesData; 
-
-            try {
-                const response = await fetch(CSV_URL);
-                if (!response.ok) {
-                    throw new Error(`Error al cargar el CSV: ${response.statusText}`);
-                }
-                const csvText = await response.text();
-                const data = csvToArray(csvText);
-                templatesData = data; // Guardamos los datos en caché
-                return data;
-            } catch (error) {
-                console.error("Error fetching or parsing templates:", error);
-                return []; 
-            }
-        }
-
 
         // --- LÓGICA DE NAVEGACIÓN Y HORARIO ---
 
@@ -517,6 +598,29 @@
             countdownInterval = setInterval(updateServiceStatus, 1000); 
         }
 
+        // Función para renderizar el catálogo de series en la vista de inicio
+        async function renderSeriesCatalog() {
+            const seriesGrid = document.getElementById('series-grid');
+            const loadingMessage = document.getElementById('series-loading-message');
+            
+            if (!seriesGrid) return; 
+
+            // 1. Si los datos ya están en caché, renderiza de inmediato
+            if (seriesData) {
+                seriesGrid.innerHTML = generateSeriesHTML(seriesData);
+            } else {
+                // 2. Muestra mensaje de carga (aunque la precarga ya lo intentó)
+                if (loadingMessage) loadingMessage.style.display = 'block';
+
+                const data = await fetchSeries(); 
+                
+                // 3. Cuando los datos lleguen, oculta el mensaje y renderiza
+                if (loadingMessage) loadingMessage.style.display = 'none';
+                seriesGrid.innerHTML = generateSeriesHTML(data);
+            }
+        }
+
+
         async function renderView(viewName) {
             let headerHTML = '';
             let contentHTML = '';
@@ -540,16 +644,13 @@
                 const templatesGrid = document.getElementById('plantillas-grid');
                 const loadingMessage = document.getElementById('loading-message');
                 
-                // Si los datos ya están en caché, renderiza inmediatamente
                 if (templatesData) {
                     templatesGrid.innerHTML = generateTemplatesHTML(templatesData);
                     if (loadingMessage) loadingMessage.style.display = 'none';
                 } else {
-                    // Si no están en caché (primera vez o red muy lenta), muestra el mensaje de carga
                     if (loadingMessage) loadingMessage.style.display = 'block';
 
                     const data = await fetchTemplates(); 
-                    // Cuando los datos lleguen, oculta el mensaje y renderiza
                     if (loadingMessage) loadingMessage.style.display = 'none';
                     templatesGrid.innerHTML = generateTemplatesHTML(data);
                 }
@@ -617,6 +718,8 @@
                 // 5. Iniciar lógica específica de la vista
                 if (viewName === 'home') {
                     startCountdown(); 
+                    // Llamar al renderizado de series en HOME
+                    renderSeriesCatalog(); 
                 } else {
                     if (countdownInterval) clearInterval(countdownInterval); 
                 }
@@ -663,8 +766,9 @@
         
         // --- INICIALIZACIÓN ---
         window.onload = function() {
-            // OPTIMIZACIÓN: Iniciamos la precarga de datos del CSV tan pronto como la página carga.
+            // OPTIMIZACIÓN: Iniciamos la precarga de AMBOS catálogos tan pronto como la página carga.
             fetchTemplates(); 
+            fetchSeries(); 
             renderView('home');
             window.addEventListener('scroll', handleScroll); 
         };
