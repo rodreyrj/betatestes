@@ -9,7 +9,7 @@
     <!-- Carga de Font Awesome para iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* Estilos CSS (Sin cambios significativos, solo renombré algunas clases para claridad) */
+        /* Estilos CSS */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
         body {
             font-family: 'Inter', sans-serif;
@@ -74,7 +74,7 @@
 
     <!-- Contenido Principal - Donde se cargan las vistas -->
     <main id="main-content" class="min-h-screen page-transition">
-        <!-- Vistas de la página (Home, Servicios, Plantillas, Quiénes Somos) se inyectan aquí -->
+        <!-- Vistas de la página (Home, Servicios, Proyectos, Quiénes Somos) se inyectan aquí -->
     </main>
     
     <!-- Footer (El footer siempre es estático y visible) -->
@@ -99,7 +99,8 @@
                     <li><a href="javascript:void(0);" onclick="navigateTo('home');" class="hover:text-blue-400">Inicio</a></li>
                     <li><a href="javascript:void(0);" onclick="navigateTo('quienes-somos');" class="hover:text-blue-400">Quiénes Somos</a></li>
                     <li><a href="javascript:void(0);" onclick="navigateTo('servicios-informaticos');" class="hover:text-blue-400">Servicios Informáticos</a></li>
-                    <li><a href="javascript:void(0);" onclick="navigateTo('plantillas');" class="hover:text-blue-400">Plantillas</a></li>
+                    <!-- Enlace del footer ahora dice Proyectos -->
+                    <li><a href="javascript:void(0);" onclick="navigateTo('plantillas');" class="hover:text-blue-400">Proyectos</a></li> 
                 </ul>
             </div>
 
@@ -135,7 +136,7 @@
         const LOGO_URL = "https://i.postimg.cc/J06sCDBm/unnamed-7-removebg-preview.png";
         const LOGO_TAG = `<img src="${LOGO_URL}" alt="Logo de rodreyrj - Rayo" class="logo-img mr-3">`;
         
-        // URL del CSV con los datos de las plantillas (¡TU URL!)
+        // URL del CSV con los datos de los proyectos (¡TU URL!)
         const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTurxcfqNiMeXwH7GdrsL1MGih4HhKv7cS_g7JRgwu17i2IGeaaUV8FlMrir-f7wf9SgRw6g4WLw1BH/pub?output=csv";
 
         const mainContent = document.getElementById('main-content');
@@ -143,9 +144,9 @@
         const mobileMenuId = 'mobile-menu'; 
         let currentView = 'home';
         let countdownInterval;
-        let templatesData = null; // Caché para las plantillas
+        let templatesData = null; // Caché para los proyectos
 
-        // --- VISTAS / TEMPLATES (El resto del código HTML se mantiene igual) ---
+        // --- VISTAS / TEMPLATES ---
 
         const homeHeaderHTML = (isMobileMenuOpen) => `
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
@@ -156,7 +157,8 @@
                 <nav class="hidden md:flex space-x-6 text-sm font-medium">
                     <a href="javascript:void(0);" onclick="navigateTo('quienes-somos');" class="text-gray-300 hover:text-blue-400 transition duration-200">Quiénes Somos</a>
                     <a href="javascript:void(0);" onclick="navigateTo('servicios-informaticos');" class="text-white bg-blue-600 px-3 py-1 rounded-full hover:bg-blue-700 transition duration-200">Servicios Informáticos</a>
-                    <a href="javascript:void(0);" onclick="navigateTo('plantillas');" class="text-white bg-purple-600 px-3 py-1 rounded-full hover:bg-purple-700 transition duration-200">Plantillas</a>
+                    <!-- El botón del header ahora dice Proyectos -->
+                    <a href="javascript:void(0);" onclick="navigateTo('plantillas');" class="text-white bg-purple-600 px-3 py-1 rounded-full hover:bg-purple-700 transition duration-200">Proyectos</a>
                 </nav>
                 
                 <button id="menu-toggle" class="md:hidden text-gray-300 hover:text-blue-500 focus:outline-none p-2 rounded-lg bg-gray-800" aria-label="Abrir Menú Móvil">
@@ -168,7 +170,8 @@
                 <div class="px-4 pt-4 pb-4 space-y-2">
                     <a href="javascript:void(0);" onclick="navigateTo('quienes-somos')" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-800">Quiénes Somos</a>
                     <a href="javascript:void(0);" onclick="navigateTo('servicios-informaticos')" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-blue-600 hover:bg-blue-700">Servicios Informáticos</a>
-                    <a href="javascript:void(0);" onclick="navigateTo('plantillas')" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-purple-600 hover:bg-purple-700">Plantillas</a>
+                    <!-- El enlace del menú móvil ahora dice Proyectos -->
+                    <a href="javascript:void(0);" onclick="navigateTo('plantillas')" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-purple-600 hover:bg-purple-700">Proyectos</a>
                 </div>
                 <div class="border-t border-gray-800 pt-4 px-4 pb-4">
                     <a href="javascript:void(0);" onclick="navigateTo('home');" class="inline-flex items-center text-2xl font-extrabold text-blue-500 mb-2">
@@ -334,25 +337,28 @@
         const basePlantillasContentHTML = `
             <section class="max-w-7xl mx-auto px-4 py-12 pt-20">
                 <div class="bg-gray-800 p-8 rounded-2xl shadow-2xl border border-gray-700">
-                    <h2 class="text-4xl font-bold text-purple-400 mb-6 border-b border-gray-700 pb-3">Catálogo de Plantillas Profesionales</h2>
+                    <!-- El título de la vista en la barra superior es "Proyectos" -->
+                    <h2 class="text-4xl font-bold text-purple-400 mb-6 border-b border-gray-700 pb-3">Catálogo de Proyectos Realizados</h2>
+                    <!-- El subtítulo ahora dice Proyectos -->
                     <p class="text-gray-400 text-lg mb-8">
-                        Plantillas web listas para usar. Haz clic en 'Ver Demo' para previsualizar el proyecto completo.
+                        Nuestros proyectos web más recientes. Haz clic en 'Ver Demo' para previsualizar el proyecto completo.
                     </p>
                     <div id="plantillas-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <!-- Las plantillas dinámicas se inyectarán aquí -->
+                        <!-- Los proyectos dinámicos se inyectarán aquí -->
                     </div>
-                    <div id="loading-message" class="text-center text-xl text-gray-400 mt-10">
-                        Cargando plantillas...
+                    <!-- CAMBIO: Nuevo mensaje de carga más amigable y oculto inicialmente -->
+                    <div id="loading-message" class="text-center text-xl text-gray-400 mt-10 hidden">
+                        Preparando proyectos... Un momento por favor.
                     </div>
                 </div>
             </section>
         `;
 
-        // Función para generar las tarjetas de plantillas
+        // Función para generar las tarjetas de plantillas (ahora proyectos)
         function generateTemplatesHTML(data) {
             if (!data || data.length === 0) {
                 return `<div class="col-span-full text-center p-8 bg-gray-700 rounded-xl text-red-400">
-                            No se encontraron plantillas o hubo un error al cargar los datos.
+                            No se encontraron proyectos o hubo un error al cargar los datos.
                         </div>`;
             }
 
@@ -367,7 +373,7 @@
                     <div class="bg-gray-700 p-4 rounded-xl border border-gray-600 shadow-lg hover:shadow-purple-500/30 transition-shadow duration-300">
                         <div class="h-40 bg-gray-600 rounded-lg mb-3 overflow-hidden">
                             <img src="${imageUrl}" 
-                                 alt="Vista previa de la plantilla ${template['proyecto-name']}" 
+                                 alt="Vista previa del proyecto ${template['proyecto-name']}" 
                                  class="w-full h-full object-cover transition transform hover:scale-105"
                                  onerror="this.onerror=null; this.src='https://placehold.co/400x200/3b82f6/ffffff?text=Imagen+No+Cargada';">
                         </div>
@@ -384,7 +390,6 @@
 
         // --- LÓGICA DE DATOS CSV ---
 
-        // Función para parsear CSV a un Array de Objetos
         function csvToArray(text) {
             const rows = text.trim().split('\n');
             if (rows.length === 0) return [];
@@ -395,12 +400,10 @@
             const data = [];
             for (let i = 1; i < rows.length; i++) {
                 const values = rows[i].split(',');
-                if (values.length !== headers.length) continue; // Saltar filas mal formadas
+                if (values.length !== headers.length) continue; 
 
                 const item = {};
                 headers.forEach((header, index) => {
-                    // Usamos el nombre original de la columna si contiene guiones, 
-                    // sino usamos el nombre limpio
                     item[header] = values[index].trim();
                 });
                 
@@ -415,10 +418,10 @@
             return data;
         }
 
-
-        // Función para obtener las plantillas del CSV
+        // Función de obtención de datos con caché
         async function fetchTemplates() {
-            if (templatesData) return templatesData; // Retornar caché si existe
+            // Si ya tenemos los datos, los retornamos inmediatamente
+            if (templatesData) return templatesData; 
 
             try {
                 const response = await fetch(CSV_URL);
@@ -427,11 +430,10 @@
                 }
                 const csvText = await response.text();
                 const data = csvToArray(csvText);
-                templatesData = data; // Guardar en caché
+                templatesData = data; // Guardamos los datos en caché
                 return data;
             } catch (error) {
                 console.error("Error fetching or parsing templates:", error);
-                // Si falla, retornamos un array vacío
                 return []; 
             }
         }
@@ -439,7 +441,6 @@
 
         // --- LÓGICA DE NAVEGACIÓN Y HORARIO ---
 
-        // 1. Manejador de Scroll (solo para el Home)
         function handleScroll() {
             const header = document.getElementById('main-header');
             if (window.scrollY > 50) { 
@@ -451,7 +452,6 @@
             }
         }
 
-        // 2. Lógica del Temporizador (CIERRE A LAS 18:00 HRS)
         function updateServiceStatus() {
             const hoursElement = document.getElementById('timer-hours');
             const minsElement = document.getElementById('timer-mins');
@@ -517,21 +517,61 @@
             countdownInterval = setInterval(updateServiceStatus, 1000); 
         }
 
-
-        // 3. Renderizado de las Vistas
         async function renderView(viewName) {
             let headerHTML = '';
             let contentHTML = '';
             let newHeaderClass = '';
             let pageTitle = '';
+            
+            // 1. Manejo de Proyectos (Plantillas) para precarga / síncrono
+            if (viewName === 'plantillas') {
+                pageTitle = 'Proyectos'; 
+                headerHTML = secondaryHeaderHTML(pageTitle);
+                contentHTML = basePlantillasContentHTML;
+                newHeaderClass = 'header-shadow-active';
 
-            // 1. Determinar el contenido y estilo
+                currentView = viewName;
+                document.title = pageTitle;
+                headerContainer.className = `fixed top-0 left-0 z-50 w-full transition duration-300 ease-in-out ${newHeaderClass}`;
+                headerContainer.innerHTML = headerHTML;
+                mainContent.innerHTML = contentHTML;
+                window.scrollTo(0, 0);
+                
+                const templatesGrid = document.getElementById('plantillas-grid');
+                const loadingMessage = document.getElementById('loading-message');
+                
+                // Si los datos ya están en caché, renderiza inmediatamente
+                if (templatesData) {
+                    templatesGrid.innerHTML = generateTemplatesHTML(templatesData);
+                    if (loadingMessage) loadingMessage.style.display = 'none';
+                } else {
+                    // Si no están en caché (primera vez o red muy lenta), muestra el mensaje de carga
+                    if (loadingMessage) loadingMessage.style.display = 'block';
+
+                    const data = await fetchTemplates(); 
+                    // Cuando los datos lleguen, oculta el mensaje y renderiza
+                    if (loadingMessage) loadingMessage.style.display = 'none';
+                    templatesGrid.innerHTML = generateTemplatesHTML(data);
+                }
+
+                // Lógica de transición y eventos
+                mainContent.style.opacity = '1';
+                const menuButton = document.getElementById('menu-toggle');
+                if (menuButton) {
+                    menuButton.removeEventListener('click', toggleMenu); 
+                    menuButton.addEventListener('click', toggleMenu);
+                }
+                if (countdownInterval) clearInterval(countdownInterval);
+                return; 
+            }
+
+            // --- Lógica para vistas estáticas (home, quienes-somos, servicios) ---
             switch (viewName) {
                 case 'home':
+                    pageTitle = 'rodreyrj | Inicio';
                     headerHTML = homeHeaderHTML(false);
                     contentHTML = homeContentHTML;
                     newHeaderClass = 'header-initial';
-                    pageTitle = 'rodreyrj | Inicio';
                     break;
                 case 'quienes-somos':
                     pageTitle = 'Quiénes Somos';
@@ -545,44 +585,6 @@
                     contentHTML = serviciosInformaticosContentHTML;
                     newHeaderClass = 'header-shadow-active';
                     break;
-                case 'plantillas':
-                    // Mostrar primero el esqueleto de la vista con el mensaje de carga
-                    pageTitle = 'Plantillas';
-                    headerHTML = secondaryHeaderHTML(pageTitle);
-                    contentHTML = basePlantillasContentHTML;
-                    newHeaderClass = 'header-shadow-active';
-
-                    // Cargar contenido inmediatamente para que el usuario vea el spinner/mensaje
-                    currentView = viewName;
-                    document.title = pageTitle;
-                    headerContainer.className = `fixed top-0 left-0 z-50 w-full transition duration-300 ease-in-out ${newHeaderClass}`;
-                    headerContainer.innerHTML = headerHTML;
-                    mainContent.innerHTML = contentHTML;
-                    window.scrollTo(0, 0);
-                    
-                    // Iniciar la carga de datos
-                    const templatesGrid = document.getElementById('plantillas-grid');
-                    const loadingMessage = document.getElementById('loading-message');
-                    
-                    if (templatesGrid) {
-                        const data = await fetchTemplates();
-                        const generatedHTML = generateTemplatesHTML(data);
-                        templatesGrid.innerHTML = generatedHTML;
-                        
-                        // Ocultar mensaje de carga
-                        if (loadingMessage) loadingMessage.style.display = 'none';
-                    }
-
-                    // No hacer el fadeOut/fadeIn aquí, ya que el contenido base ya se cargó
-                    // Salimos del switch/función después de cargar los datos dinámicamente
-                    // Aseguramos que el listener del menú se re-adjunte al final
-                    const menuButton = document.getElementById('menu-toggle');
-                    if (menuButton) {
-                        menuButton.removeEventListener('click', toggleMenu); 
-                        menuButton.addEventListener('click', toggleMenu);
-                    }
-                    if (countdownInterval) clearInterval(countdownInterval);
-                    return; // Salir para evitar el doble renderizado
                 default:
                     renderView('home');
                     return;
@@ -645,14 +647,15 @@
         function toggleMenu() {
             const mobileMenu = document.getElementById(mobileMenuId);
             if (mobileMenu) {
-                mobileMenu.classList.toggle('hidden');
-                const button = document.getElementById('menu-toggle');
-                if (button) {
-                    const svg = button.querySelector('svg path');
-                    if (mobileMenu.classList.contains('hidden')) {
-                        svg.setAttribute('d', 'M4 6h16M4 12h16m-7 6h7');
-                    } else {
-                        svg.setAttribute('d', 'M6 18L18 6M6 6l12 12');
+                const isOpen = mobileMenu.classList.toggle('hidden');
+                // Al abrir/cerrar el menú, re-renderizamos el header para asegurar la vinculación
+                if (currentView === 'home') {
+                    headerContainer.innerHTML = homeHeaderHTML(!isOpen);
+                    // Re-adjuntar listener del menú móvil (ESENCIAL)
+                    const menuButton = document.getElementById('menu-toggle');
+                    if (menuButton) {
+                        menuButton.removeEventListener('click', toggleMenu); 
+                        menuButton.addEventListener('click', toggleMenu);
                     }
                 }
             }
@@ -660,8 +663,10 @@
         
         // --- INICIALIZACIÓN ---
         window.onload = function() {
+            // OPTIMIZACIÓN: Iniciamos la precarga de datos del CSV tan pronto como la página carga.
+            fetchTemplates(); 
             renderView('home');
-            window.addEventListener('scroll', handleScroll); // Agregamos el listener de scroll aquí para que esté siempre activo
+            window.addEventListener('scroll', handleScroll); 
         };
     </script>
 
