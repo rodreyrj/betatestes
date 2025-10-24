@@ -20,6 +20,11 @@
         .active-view {
             display: block;
         }
+        /* Clase para la sombra en el Header (se activa con JS al hacer scroll) */
+        .header-shadow {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -2px rgba(0, 0, 0, 0.2);
+            transition: box-shadow 0.3s ease-in-out;
+        }
         /* Estilos para los Mockups (Se mantienen los anteriores) */
         .mockup-container {
             position: relative;
@@ -73,7 +78,7 @@
 <body class="bg-gray-900">
 
     <!-- Navegación (Header) -->
-    <header class="bg-gray-900 sticky top-0 z-50 border-b border-gray-800">
+    <header id="main-header" class="bg-gray-900 sticky top-0 z-50 border-b border-gray-800 transition duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
             <!-- Logo principal: Rayo + rodreyrj -->
             <a href="#" onclick="showView('home'); return false;" class="flex items-center text-2xl font-extrabold text-blue-500 hover:text-blue-400 transition duration-300">
@@ -436,10 +441,6 @@
                         <button type="submit" class="w-full bg-blue-600 text-white font-bold p-4 rounded-lg hover:bg-blue-700 transition duration-300">
                             Enviar Mensaje
                         </button>
-                    </form>
-                    <div class="mt-8 text-center">
-                        <p class="text-gray-400">Email: contacto@rodreyrj.com</p>
-                        <p class="text-gray-400">Teléfono: +502 XXXX XXXX</p>
                     </div>
                 </div>
             </div>
@@ -447,13 +448,22 @@
 
     </main>
     
-    <!-- Pie de Página (Solo Copyright) -->
-    <footer class="bg-gray-900 text-center py-6 border-t border-gray-800">
-        <p class="text-gray-500 text-sm">© 2025 rodreyrj. Todos los derechos reservados.</p>
+    <!-- Pie de Página (con Logo y Copyright) -->
+    <footer class="bg-gray-900 text-center py-10 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+             <!-- Logo en Footer -->
+            <a href="#" onclick="showView('home'); return false;" class="inline-flex items-center text-3xl font-extrabold text-blue-500 hover:text-blue-400 transition duration-300 mb-4">
+                <span class="text-4xl mr-2 text-yellow-400">⚡</span> rodreyrj
+            </a>
+            <p class="text-gray-500 text-sm mt-2">
+                Desarrollo y Consultoría Informática de Alta Calidad.
+            </p>
+            <p class="text-gray-500 text-xs mt-4">© 2025 rodreyrj. Todos los derechos reservados.</p>
+        </div>
     </footer>
 
 
-    <!-- Script de Navegación y Temporizador -->
+    <!-- Script de Navegación, Temporizador y Scroll Shadow -->
     <script>
         // Función para cambiar la vista (simulación de modularidad)
         function showView(viewId) {
@@ -477,10 +487,25 @@
 
         document.getElementById('menu-toggle').addEventListener('click', toggleMenu);
 
+        // Lógica para agregar sombra al header al hacer scroll
+        function handleScroll() {
+            const header = document.getElementById('main-header');
+            if (window.scrollY > 0) {
+                header.classList.add('header-shadow');
+                header.classList.add('border-b-transparent'); // Remueve la línea de abajo
+            } else {
+                header.classList.remove('header-shadow');
+                header.classList.remove('border-b-transparent');
+            }
+        }
+        
+        window.addEventListener('scroll', handleScroll);
+
 
         // Lógica del temporizador (cuenta hasta las 18:00 - 6 PM)
         function startCountdown() {
             const countdownElement = document.getElementById('countdown');
+            if (!countdownElement) return;
 
             const interval = setInterval(function() {
                 const now = new Date();
@@ -513,7 +538,10 @@
             }, 1000);
         }
 
-        window.onload = startCountdown;
+        window.onload = function() {
+            startCountdown();
+            handleScroll(); // Verifica la posición inicial al cargar la página
+        };
     </script>
 
 </body>
