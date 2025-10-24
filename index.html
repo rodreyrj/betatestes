@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rodreyrj | Soluciones Informáticas Profesionales</title>
+    <!-- Carga de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #111827; /* Fondo oscuro (Gray-900) */
+            color: #f9fafb; /* Color de texto base (Gray-50) */
+        }
+        .view {
+            display: none; /* Oculta todas las vistas por defecto */
+            min-height: calc(100vh - 80px); 
+        }
+        .active-view {
+            display: block;
+        }
+        .mockup-container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 2rem;
+            height: 250px;
+        }
+        .mockup-pc, .mockup-mobile {
+            background: #2d3748;
+            border: 4px solid #3d4852;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+        .mockup-pc { width: 70%; height: 100%; }
+        .mockup-pc-screen {
+            background-color: #1f2937;
+            height: calc(100% - 20px);
+            margin: 10px 10px 0 10px;
+            border-radius: 0.5rem 0.5rem 0 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #d1d5db;
+            font-size: 0.8rem;
+        }
+        .mockup-mobile {
+            width: 100px; height: 180px; border-radius: 1.5rem;
+            position: absolute; right: 0; top: 50%;
+            transform: translateY(-50%) translateX(20%);
+            z-index: 20; 
+        }
+        .mockup-mobile-screen {
+            background-color: #1f2937;
+            height: calc(100% - 8px);
+            margin: 4px;
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #d1d5db;
+            font-size: 0.6rem;
+        }
+        @media (max-width: 640px) {
+            .mockup-mobile { display: none; }
+        }
+    </style>
+</head>
+<body class="bg-gray-900">
+
+    <!-- Navegación (Header) -->
+    <header class="bg-gray-900 sticky top-0 z-50 border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
+            <a href="#" onclick="showView('home'); return false;" class="text-2xl font-extrabold text-blue-500 hover:text-blue-400 transition duration-300">rodreyrj</a>
+            
+            <!-- Menú Desktop -->
+            <nav class="hidden md:flex space-x-8">
+                <a href="#home" onclick="showView('home'); return false;" class="text-gray-300 hover:text-blue-500 font-medium transition duration-200">INICIO</a>
+                <a href="#quienes-somos" onclick="showView('quienes-somos'); return false;" class="text-gray-300 hover:text-blue-500 font-medium transition duration-200">QUIÉNES SOMOS</a>
+                <a href="#servicios" onclick="showView('servicios'); return false;" class="text-gray-300 hover:text-blue-500 font-medium transition duration-200">SERVICIOS</a>
+                <a href="#plantillas" onclick="showView('plantillas'); return false;" class="text-gray-300 hover:text-blue-500 font-medium transition duration-200">PLANTILLAS</a>
+                <a href="#contacto" onclick="showView('contacto'); return false;" class="text-gray-300 hover:text-blue-500 font-medium transition duration-200">CONTACTO</a>
+            </nav>
+            
+            <!-- Botón de Menú Móvil (Hamburguesa) -->
+            <button id="menu-toggle" class="md:hidden text-gray-300 hover:text-blue-500 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+        
+        <!-- Menú Móvil Desplegable (Estilo Edukuk con botones grandes) -->
+        <nav id="mobile-menu" class="md:hidden hidden bg-gray-800 border-t border-gray-700">
+            <div class="px-4 pt-4 pb-6 space-y-3">
+                <a href="#" onclick="showView('servicios'); toggleMenu(); return false;" class="block py-4 rounded-xl text-center text-xl font-bold text-white bg-blue-600 shadow-lg hover:bg-blue-700 transition duration-300">
+                    SERVICIOS
+                </a>
+                <a href="#" onclick="showView('plantillas'); toggleMenu(); return false;" class="block py-4 rounded-xl text-center text-xl font-bold text-white bg-purple-600 shadow-lg hover:bg-purple-700 transition duration-300">
+                    PLANTILLAS
+                </a>
+                <a href="#" onclick="showView('quienes-somos'); toggleMenu(); return false;" class="block py-4 rounded-xl text-center text-xl font-bold text-white bg-green-600 shadow-lg hover:bg-green-700 transition duration-300">
+                    QUIÉNES SOMOS
+                </a>
+                <!-- Otros enlaces -->
+                <a href="#" onclick="showView('contacto'); toggleMenu(); return false;" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 text-center">CONTACTO</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Contenedor Principal de Vistas -->
+    <main>
+        
+        <!-- ============================================== -->
+        <!-- 1. VISTA PRINCIPAL (HOME) -->
+        <!-- ============================================== -->
+        <section id="home" class="view active-view text-white py-16 md:py-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                
+                <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-4 text-white">
+                    Soluciones Informáticas | <span class="text-blue-400">rodreyrj</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-400 mb-8">
+                    Desarrollo, Soporte y Consultoría para la Transformación Digital de tu Empresa.
+                </p>
+
+                <!-- Caja del Temporizador (Hasta las 6 PM) -->
+                <div class="bg-gray-800 p-6 rounded-xl shadow-xl inline-block max-w-md w-full border border-blue-600 mb-12">
+                    <p class="text-lg font-bold text-yellow-400 mb-3">
+                        ✨ Jornada de soporte disponible hasta:
+                    </p>
+                    <div id="countdown" class="text-center text-3xl md:text-4xl font-extrabold mb-4 text-white">
+                        -- HORAS : -- MIN : -- SEG
+                    </div>
+                    <a href="#" onclick="showView('contacto'); return false;" class="bg-blue-600 text-white font-bold py-3 px-8 rounded-lg w-full inline-block transition transform hover:bg-blue-700 hover:shadow-lg">
+                        AGENDA UNA CONSULTA RÁPIDA
+                    </a>
+                </div>
+
+                <!-- Lista de Servicios/Puntos Clave (Como en el Home del Video) -->
+                <h2 class="text-3xl font-bold text-white mb-8">Nuestros Principales Enfoques</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
+                    
+                    <div class="bg-gray-800 p-6 rounded-xl border-l-4 border-blue-500 shadow-lg">
+                        <div class="text-3xl mb-3 text-blue-400">🌐</div>
+                        <h3 class="text-xl font-semibold text-white mb-2">Desarrollo Web Full Stack</h3>
+                        <p class="text-gray-400 text-sm">Creación de sitios, e-commerce y sistemas a medida usando las últimas tecnologías (React, Node, Angular).</p>
+                    </div>
+
+                    <div class="bg-gray-800 p-6 rounded-xl border-l-4 border-green-500 shadow-lg">
+                        <div class="text-3xl mb-3 text-green-400">🛡️</div>
+                        <h3 class="text-xl font-semibold text-white mb-2">Seguridad y Respaldo de Datos</h3>
+                        <p class="text-gray-400 text-sm">Implementación de firewalls, encriptación y planes de Disaster Recovery para proteger tu información crítica.</p>
+                    </div>
+
+                    <div class="bg-gray-800 p-6 rounded-xl border-l-4 border-yellow-500 shadow-lg">
+                        <div class="text-3xl mb-3 text-yellow-400">⚡</div>
+                        <h3 class="text-xl font-semibold text-white mb-2">Optimización de Rendimiento</h3>
+                        <p class="text-gray-400 text-sm">Mejoramos la velocidad de tus aplicaciones y la infraestructura de servidores para máxima eficiencia.</p>
+                    </div>
+
+                    <div class="bg-gray-800 p-6 rounded-xl border-l-4 border-purple-500 shadow-lg">
+                        <div class="text-3xl mb-3 text-purple-400">📊</div>
+                        <h3 class="text-xl font-semibold text-white mb-2">Consultoría y Estrategia TI</h3>
+                        <p class="text-gray-400 text-sm">Análisis de necesidades tecnológicas y planificación de proyectos de transformación digital.</p>
+                    </div>
+
+                    <div class="bg-gray-800 p-6 rounded-xl border-l-4 border-red-500 shadow-lg">
+                        <div class="text-3xl mb-3 text-red-400">⚙️</div>
+                        <h3 class="text-xl font-semibold text-white mb-2">Mantenimiento Preventivo</h3>
+                        <p class="text-gray-400 text-sm">Servicios recurrentes para mantener tus equipos y software actualizados y libres de fallos.</p>
+                    </div>
+
+                    <div class="bg-gray-800 p-6 rounded-xl border-l-4 border-teal-500 shadow-lg">
+                        <div class="text-3xl mb-3 text-teal-400">💡</div>
+                        <h3 class="text-xl font-semibold text-white mb-2">Capacitación y Soporte Personalizado</h3>
+                        <p class="text-gray-400 text-sm">Entrenamiento a tu personal en nuevas herramientas y soporte técnico inmediato.</p>
+                    </div>
+                </div>
+
+                <div class="mt-12">
+                    <button onclick="showView('servicios')" class="bg-blue-600 text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-blue-700 transition transform hover:scale-105">
+                        VER TODOS LOS SERVICIOS
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- 2. VISTA SERVICIOS -->
+        <!-- ============================================== -->
+        <section id="servicios" class="view py-16 md:py-24 bg-gray-900 border-t border-gray-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-4xl font-extrabold text-white mb-4">Catálogo Completo de Servicios</h2>
+                <p class="text-xl text-gray-400 mb-12">Detalles de las soluciones que ofrece rodreyrj para el crecimiento de tu negocio.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+                    
+                    <!-- Tarjeta de Desarrollo Web -->
+                    <div class="bg-gray-800 p-8 rounded-xl shadow-2xl border-t-8 border-blue-500">
+                        <div class="flex items-center mb-4">
+                            <div class="text-4xl text-blue-500 mr-4">💻</div>
+                            <h3 class="text-2xl font-bold text-white">Desarrollo de Software y Web</h3>
+                        </div>
+                        <p class="text-gray-400 mb-4">Desde landing pages hasta ERPs complejos. Nos especializamos en arquitectura escalable y experiencia de usuario. Entregamos código documentado y propiedad total del proyecto.</p>
+                        <ul class="list-disc list-inside text-gray-500 space-y-1 ml-4">
+                            <li>Sitios estáticos y dinámicos</li>
+                            <li>Integración con pasarelas de pago y APIs</li>
+                            <li>Webs optimizadas para SEO y velocidad</li>
+                        </ul>
+                    </div>
+
+                    <!-- Tarjeta de Soporte Técnico -->
+                    <div class="bg-gray-800 p-8 rounded-xl shadow-2xl border-t-8 border-green-500">
+                        <div class="flex items-center mb-4">
+                            <div class="text-4xl text-green-500 mr-4">🩺</div>
+                            <h3 class="text-2xl font-bold text-white">Mantenimiento y Soporte TI</h3>
+                        </div>
+                        <p class="text-gray-400 mb-4">Contratos de soporte 24/7 y planes de mantenimiento preventivo para evitar fallos. Incluye revisión de hardware, software y redes.</p>
+                        <ul class="list-disc list-inside text-gray-500 space-y-1 ml-4">
+                            <li>Soporte remoto y presencial (zona Guatemala)</li>
+                            <li>Gestión de servidores y hosting</li>
+                            <li>Auditorías de seguridad periódicas</li>
+                        </ul>
+                    </div>
+
+                    <!-- Tarjeta de Infraestructura -->
+                    <div class="bg-gray-800 p-8 rounded-xl shadow-2xl border-t-8 border-yellow-500">
+                        <div class="flex items-center mb-4">
+                            <div class="text-4xl text-yellow-500 mr-4">☁️</div>
+                            <h3 class="text-2xl font-bold text-white">Cloud Computing y Servidores</h3>
+                        </div>
+                        <p class="text-gray-400 mb-4">Migración y gestión de infraestructuras en la nube (AWS, Google Cloud). Configuración de servidores y balanceo de carga para alta disponibilidad.</p>
+                        <ul class="list-disc list-inside text-gray-500 space-y-1 ml-4">
+                            <li>Diseño de arquitectura de red</li>
+                            <li>Despliegue automatizado (CI/CD)</li>
+                            <li>Monitoreo continuo de recursos</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Tarjeta de Consultoría -->
+                    <div class="bg-gray-800 p-8 rounded-xl shadow-2xl border-t-8 border-purple-500">
+                        <div class="flex items-center mb-4">
+                            <div class="text-4xl text-purple-500 mr-4">🧠</div>
+                            <h3 class="text-2xl font-bold text-white">Consultoría Tecnológica Integral</h3>
+                        </div>
+                        <p class="text-gray-400 mb-4">Te ayudamos a tomar las mejores decisiones tecnológicas. Analizamos tus procesos y proponemos herramientas para optimizar recursos y costos.</p>
+                        <ul class="list-disc list-inside text-gray-500 space-y-1 ml-4">
+                            <li>Análisis de ROI en inversiones TI</li>
+                            <li>Planes de digitalización a corto y largo plazo</li>
+                            <li>Selección e implementación de CRMs/ERPs</li>
+                        </ul>
+                    </div>
+
+                </div>
+                <div class="mt-12">
+                    <button onclick="showView('contacto')" class="bg-blue-600 text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-blue-700 transition transform hover:scale-105">
+                        QUIERO EMPEZAR MI PROYECTO
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- 3. VISTA PLANTILLAS -->
+        <!-- ============================================== -->
+        <section id="plantillas" class="view py-16 md:py-24 bg-gray-900 border-t border-gray-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-4xl font-extrabold text-white mb-4">Plantillas Exclusivas de rodreyrj</h2>
+                <p class="text-xl text-gray-400 mb-8">Soluciones pre-diseñadas y listas para implementarse en 24 horas.</p>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    
+                    <!-- Plantilla 1: E-commerce -->
+                    <div class="bg-gray-800 p-6 rounded-xl shadow-2xl hover:shadow-purple-500/30 transition duration-500 border border-gray-700">
+                        <div class="mockup-container mx-auto">
+                            <div class="mockup-pc"> <div class="mockup-pc-screen">Plantilla E-commerce</div> </div>
+                            <div class="mockup-mobile"> <div class="mockup-mobile-screen">Vista Móvil</div> </div>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2">E-commerce Moderno (ReactJS)</h3>
+                        <p class="text-gray-400 mb-4 text-sm">Integración con Stripe/PayPal. Gestión de inventario y pedidos.</p>
+                        <div class="flex justify-center space-x-4">
+                            <button class="px-5 py-2 rounded-lg font-semibold text-white bg-purple-600 transition duration-300 hover:bg-purple-700">Comprar</button>
+                            <button class="px-5 py-2 rounded-lg font-semibold text-gray-300 bg-gray-700 transition duration-300 hover:bg-gray-600">Demo</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Plantilla 2: Dashboard/CRM -->
+                    <div class="bg-gray-800 p-6 rounded-xl shadow-2xl hover:shadow-purple-500/30 transition duration-500 border border-gray-700">
+                        <div class="mockup-container mx-auto">
+                            <div class="mockup-pc"> <div class="mockup-pc-screen">Plantilla CRM</div> </div>
+                            <div class="mockup-mobile"> <div class="mockup-mobile-screen">Vista Móvil</div> </div>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2">Dashboard de Gestión (NodeJS)</h3>
+                        <p class="text-gray-400 mb-4 text-sm">Panel de control completo para clientes, reportes y métricas de negocio.</p>
+                        <div class="flex justify-center space-x-4">
+                            <button class="px-5 py-2 rounded-lg font-semibold text-white bg-purple-600 transition duration-300 hover:bg-purple-700">Comprar</button>
+                            <button class="px-5 py-2 rounded-lg font-semibold text-gray-300 bg-gray-700 transition duration-300 hover:bg-gray-600">Demo</button>
+                        </div>
+                    </div>
+
+                    <!-- Plantilla 3: Landing Page Avanzada -->
+                    <div class="bg-gray-800 p-6 rounded-xl shadow-2xl hover:shadow-purple-500/30 transition duration-500 border border-gray-700">
+                        <div class="mockup-container mx-auto">
+                            <div class="mockup-pc"> <div class="mockup-pc-screen">Landing Page</div> </div>
+                            <div class="mockup-mobile"> <div class="mockup-mobile-screen">Vista Móvil</div> </div>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2">Landing Page Conversión (HTML/JS)</h3>
+                        <p class="text-gray-400 mb-4 text-sm">Diseño enfocado en captación de leads y ventas con alta velocidad de carga.</p>
+                        <div class="flex justify-center space-x-4">
+                            <button class="px-5 py-2 rounded-lg font-semibold text-white bg-purple-600 transition duration-300 hover:bg-purple-700">Comprar</button>
+                            <button class="px-5 py-2 rounded-lg font-semibold text-gray-300 bg-gray-700 transition duration-300 hover:bg-gray-600">Demo</button>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="mt-12">
+                    <button onclick="showView('contacto')" class="bg-purple-600 text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-purple-700 transition transform hover:scale-105">
+                        SOLICITAR PLANTILLA PERSONALIZADA
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- 4. VISTA QUIÉNES SOMOS -->
+        <!-- ============================================== -->
+        <section id="quienes-somos" class="view py-16 md:py-24 bg-gray-900 border-t border-gray-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                
+                <div class="lg:order-2">
+                    <div class="mockup-container w-full h-auto">
+                        <div class="mockup-pc w-full h-auto">
+                            <div class="mockup-pc-screen h-64 md:h-96 flex flex-col justify-center items-center p-8">
+                                <p class="text-white text-2xl font-bold mb-4">La Misión de rodreyrj</p>
+                                <p class="text-gray-400 text-center text-sm">"Ofrecer soluciones informáticas de alto valor que impulsen la eficiencia y la rentabilidad de las PYMES en Latinoamérica, garantizando un soporte técnico inigualable."</p>
+                            </div>
+                        </div>
+                        <div class="mockup-mobile">
+                            <div class="mockup-mobile-screen">Diseño Móvil</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-left lg:order-1">
+                    <h2 class="text-4xl font-extrabold text-white mb-4">
+                        Conoce a **rodreyrj**
+                    </h2>
+                    <p class="text-xl text-gray-400 mb-6">
+                        Somos más que una agencia, somos tu socio tecnológico. Fundados en Guatemala, nuestro equipo está compuesto por desarrolladores y consultores de TI apasionados por la innovación y la seguridad.
+                    </p>
+                    <div class="bg-gray-800 p-4 rounded-lg border-l-4 border-green-500 mb-6">
+                        <h4 class="font-bold text-green-400">Nuestros Valores:</h4>
+                        <ul class="text-gray-500 text-sm list-disc list-inside ml-2 mt-1">
+                            <li>**Excelencia:** Solo entregamos código y soporte de máxima calidad.</li>
+                            <li>**Integridad:** Transparencia en cada proceso y presupuesto.</li>
+                            <li>**Compromiso:** Tu éxito es nuestra prioridad.</li>
+                        </ul>
+                    </div>
+                    
+                    <button onclick="showView('contacto')" class="bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-blue-700 transition duration-300 transform hover:scale-105">
+                        Hablemos de tu Proyecto
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- 5. VISTA CONTACTO (Footer integrado) -->
+        <!-- ============================================== -->
+        <section id="contacto" class="view py-16 md:py-24 bg-gray-800 border-t border-gray-700">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-4xl font-extrabold text-white mb-4">Ponte en Contacto</h2>
+                <p class="text-xl text-gray-400 mb-10">
+                    Estamos listos para impulsar tu próximo proyecto. Envíanos un mensaje y te responderemos pronto.
+                </p>
+                <div class="bg-gray-900 p-8 rounded-xl shadow-2xl border border-gray-700">
+                    <form class="space-y-4">
+                        <input type="text" placeholder="Tu Nombre" class="w-full p-4 rounded-lg bg-gray-700 text-white border-none focus:ring-2 focus:ring-blue-500" required>
+                        <input type="email" placeholder="Tu Correo Electrónico" class="w-full p-4 rounded-lg bg-gray-700 text-white border-none focus:ring-2 focus:ring-blue-500" required>
+                        <textarea placeholder="Tu Mensaje o Requerimiento" rows="4" class="w-full p-4 rounded-lg bg-gray-700 text-white border-none focus:ring-2 focus:ring-blue-500" required></textarea>
+                        <button type="submit" class="w-full bg-blue-600 text-white font-bold p-4 rounded-lg hover:bg-blue-700 transition duration-300">
+                            Enviar Mensaje
+                        </button>
+                    </form>
+                    <div class="mt-8 text-center">
+                        <p class="text-gray-400">Email: contacto@rodreyrj.com</p>
+                        <p class="text-gray-400">Teléfono: +502 XXXX XXXX</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <!-- Pie de Página (Solo Copyright) -->
+    <footer class="bg-gray-900 text-center py-6 border-t border-gray-800">
+        <p class="text-gray-500 text-sm">© 2025 rodreyrj. Todos los derechos reservados.</p>
+    </footer>
+
+
+    <!-- Script de Navegación y Temporizador -->
+    <script>
+        // Función para cambiar la vista (simulación de modularidad)
+        function showView(viewId) {
+            const views = document.querySelectorAll('.view');
+            views.forEach(view => {
+                view.classList.remove('active-view');
+            });
+            const activeView = document.getElementById(viewId);
+            if (activeView) {
+                activeView.classList.add('active-view');
+            }
+        }
+
+        // Función para el menú móvil
+        function toggleMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        }
+
+        document.getElementById('menu-toggle').addEventListener('click', toggleMenu);
+
+
+        // Lógica del temporizador (cuenta hasta las 18:00 - 6 PM)
+        function startCountdown() {
+            const countdownElement = document.getElementById('countdown');
+
+            const interval = setInterval(function() {
+                const now = new Date();
+                const targetTime = new Date(now);
+                targetTime.setHours(18, 0, 0, 0); // 6:00 PM (18:00) hoy
+
+                // Si la hora actual ya pasó las 6 PM, establece el objetivo para las 6 PM de mañana
+                if (now.getHours() >= 18) {
+                    targetTime.setDate(targetTime.getDate() + 1);
+                }
+
+                const distance = targetTime.getTime() - now.getTime();
+
+                // Cálculos de tiempo
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                // Formato con dos dígitos
+                const formatTime = (time) => String(time).padStart(2, '0');
+
+                countdownElement.innerHTML = 
+                    `${formatTime(hours)} HORAS : ${formatTime(minutes)} MIN : ${formatTime(seconds)} SEG`;
+
+                // Si por alguna razón la distancia es negativa (seguridad)
+                if (distance < 0) {
+                    clearInterval(interval);
+                    countdownElement.innerHTML = "JORNADA CERRADA";
+                }
+            }, 1000);
+        }
+
+        window.onload = startCountdown;
+    </script>
+
+</body>
+</html>
