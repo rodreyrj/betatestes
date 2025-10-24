@@ -20,6 +20,7 @@
         .active-view {
             display: block;
         }
+        /* Estilos para los Mockups (Se mantienen los anteriores) */
         .mockup-container {
             position: relative;
             display: flex;
@@ -74,7 +75,10 @@
     <!-- Navegación (Header) -->
     <header class="bg-gray-900 sticky top-0 z-50 border-b border-gray-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
-            <a href="#" onclick="showView('home'); return false;" class="text-2xl font-extrabold text-blue-500 hover:text-blue-400 transition duration-300">rodreyrj</a>
+            <!-- Logo principal: Rayo + rodreyrj -->
+            <a href="#" onclick="showView('home'); return false;" class="flex items-center text-2xl font-extrabold text-blue-500 hover:text-blue-400 transition duration-300">
+                <span class="text-3xl mr-2 text-yellow-400">⚡</span> rodreyrj
+            </a>
             
             <!-- Menú Desktop -->
             <nav class="hidden md:flex space-x-8">
@@ -91,7 +95,7 @@
             </button>
         </div>
         
-        <!-- Menú Móvil Desplegable (Estilo Edukuk con botones grandes) -->
+        <!-- Menú Móvil Desplegable -->
         <nav id="mobile-menu" class="md:hidden hidden bg-gray-800 border-t border-gray-700">
             <div class="px-4 pt-4 pb-6 space-y-3">
                 <a href="#" onclick="showView('servicios'); toggleMenu(); return false;" class="block py-4 rounded-xl text-center text-xl font-bold text-white bg-blue-600 shadow-lg hover:bg-blue-700 transition duration-300">
@@ -125,7 +129,7 @@
                     Desarrollo, Soporte y Consultoría para la Transformación Digital de tu Empresa.
                 </p>
 
-                <!-- Caja del Temporizador (Hasta las 6 PM) -->
+                <!-- Caja del Temporizador -->
                 <div class="bg-gray-800 p-6 rounded-xl shadow-xl inline-block max-w-md w-full border border-blue-600 mb-12">
                     <p class="text-lg font-bold text-yellow-400 mb-3">
                         ✨ Jornada de soporte disponible hasta:
@@ -138,7 +142,7 @@
                     </a>
                 </div>
 
-                <!-- Lista de Servicios/Puntos Clave (Como en el Home del Video) -->
+                <!-- Lista de Servicios/Puntos Clave -->
                 <h2 class="text-3xl font-bold text-white mb-8">Nuestros Principales Enfoques</h2>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
@@ -192,9 +196,21 @@
         <!-- 2. VISTA SERVICIOS -->
         <!-- ============================================== -->
         <section id="servicios" class="view py-16 md:py-24 bg-gray-900 border-t border-gray-800">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h2 class="text-4xl font-extrabold text-white mb-4">Catálogo Completo de Servicios</h2>
-                <p class="text-xl text-gray-400 mb-12">Detalles de las soluciones que ofrece rodreyrj para el crecimiento de tu negocio.</p>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Header interno con botón de atrás y logo -->
+                <div class="flex items-center justify-between mb-8 pb-4 border-b border-gray-700">
+                    <button onclick="showView('home'); return false;" class="flex items-center text-lg font-semibold text-gray-400 hover:text-blue-500 transition duration-200">
+                        <span class="text-2xl mr-2">⬅️</span> Volver a Inicio
+                    </button>
+                    <p class="flex items-center text-xl font-bold text-white">
+                        <span class="text-2xl mr-2 text-yellow-400">⚡</span> Servicios
+                    </p>
+                </div>
+
+                <div class="text-center">
+                    <h2 class="text-4xl font-extrabold text-white mb-4">Catálogo Completo de Servicios</h2>
+                    <p class="text-xl text-gray-400 mb-12">Detalles de las soluciones que ofrece rodreyrj para el crecimiento de tu negocio.</p>
+                </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
                     
@@ -255,7 +271,7 @@
                     </div>
 
                 </div>
-                <div class="mt-12">
+                <div class="mt-12 text-center">
                     <button onclick="showView('contacto')" class="bg-blue-600 text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-blue-700 transition transform hover:scale-105">
                         QUIERO EMPEZAR MI PROYECTO
                     </button>
@@ -267,9 +283,21 @@
         <!-- 3. VISTA PLANTILLAS -->
         <!-- ============================================== -->
         <section id="plantillas" class="view py-16 md:py-24 bg-gray-900 border-t border-gray-800">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h2 class="text-4xl font-extrabold text-white mb-4">Plantillas Exclusivas de rodreyrj</h2>
-                <p class="text-xl text-gray-400 mb-8">Soluciones pre-diseñadas y listas para implementarse en 24 horas.</p>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Header interno con botón de atrás y logo -->
+                <div class="flex items-center justify-between mb-8 pb-4 border-b border-gray-700">
+                    <button onclick="showView('home'); return false;" class="flex items-center text-lg font-semibold text-gray-400 hover:text-blue-500 transition duration-200">
+                        <span class="text-2xl mr-2">⬅️</span> Volver a Inicio
+                    </button>
+                    <p class="flex items-center text-xl font-bold text-white">
+                        <span class="text-2xl mr-2 text-yellow-400">⚡</span> Plantillas
+                    </p>
+                </div>
+
+                <div class="text-center">
+                    <h2 class="text-4xl font-extrabold text-white mb-4">Plantillas Exclusivas de rodreyrj</h2>
+                    <p class="text-xl text-gray-400 mb-8">Soluciones pre-diseñadas y listas para implementarse en 24 horas.</p>
+                </div>
                 
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     
@@ -316,7 +344,7 @@
                     </div>
 
                 </div>
-                <div class="mt-12">
+                <div class="mt-12 text-center">
                     <button onclick="showView('contacto')" class="bg-purple-600 text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-purple-700 transition transform hover:scale-105">
                         SOLICITAR PLANTILLA PERSONALIZADA
                     </button>
@@ -328,41 +356,53 @@
         <!-- 4. VISTA QUIÉNES SOMOS -->
         <!-- ============================================== -->
         <section id="quienes-somos" class="view py-16 md:py-24 bg-gray-900 border-t border-gray-800">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Header interno con botón de atrás y logo -->
+                <div class="flex items-center justify-between mb-8 pb-4 border-b border-gray-700">
+                    <button onclick="showView('home'); return false;" class="flex items-center text-lg font-semibold text-gray-400 hover:text-blue-500 transition duration-200">
+                        <span class="text-2xl mr-2">⬅️</span> Volver a Inicio
+                    </button>
+                    <p class="flex items-center text-xl font-bold text-white">
+                        <span class="text-2xl mr-2 text-yellow-400">⚡</span> Quiénes Somos
+                    </p>
+                </div>
                 
-                <div class="lg:order-2">
-                    <div class="mockup-container w-full h-auto">
-                        <div class="mockup-pc w-full h-auto">
-                            <div class="mockup-pc-screen h-64 md:h-96 flex flex-col justify-center items-center p-8">
-                                <p class="text-white text-2xl font-bold mb-4">La Misión de rodreyrj</p>
-                                <p class="text-gray-400 text-center text-sm">"Ofrecer soluciones informáticas de alto valor que impulsen la eficiencia y la rentabilidad de las PYMES en Latinoamérica, garantizando un soporte técnico inigualable."</p>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    
+                    <div class="lg:order-2">
+                        <div class="mockup-container w-full h-auto">
+                            <div class="mockup-pc w-full h-auto">
+                                <div class="mockup-pc-screen h-64 md:h-96 flex flex-col justify-center items-center p-8">
+                                    <p class="text-white text-2xl font-bold mb-4">La Misión de rodreyrj</p>
+                                    <p class="text-gray-400 text-center text-sm">"Ofrecer soluciones informáticas de alto valor que impulsen la eficiencia y la rentabilidad de las PYMES en Latinoamérica, garantizando un soporte técnico inigualable."</p>
+                                </div>
+                            </div>
+                            <div class="mockup-mobile">
+                                <div class="mockup-mobile-screen">Diseño Móvil</div>
                             </div>
                         </div>
-                        <div class="mockup-mobile">
-                            <div class="mockup-mobile-screen">Diseño Móvil</div>
-                        </div>
                     </div>
-                </div>
 
-                <div class="text-left lg:order-1">
-                    <h2 class="text-4xl font-extrabold text-white mb-4">
-                        Conoce a **rodreyrj**
-                    </h2>
-                    <p class="text-xl text-gray-400 mb-6">
-                        Somos más que una agencia, somos tu socio tecnológico. Fundados en Guatemala, nuestro equipo está compuesto por desarrolladores y consultores de TI apasionados por la innovación y la seguridad.
-                    </p>
-                    <div class="bg-gray-800 p-4 rounded-lg border-l-4 border-green-500 mb-6">
-                        <h4 class="font-bold text-green-400">Nuestros Valores:</h4>
-                        <ul class="text-gray-500 text-sm list-disc list-inside ml-2 mt-1">
-                            <li>**Excelencia:** Solo entregamos código y soporte de máxima calidad.</li>
-                            <li>**Integridad:** Transparencia en cada proceso y presupuesto.</li>
-                            <li>**Compromiso:** Tu éxito es nuestra prioridad.</li>
-                        </ul>
+                    <div class="text-left lg:order-1">
+                        <h2 class="text-4xl font-extrabold text-white mb-4">
+                            Conoce a **rodreyrj**
+                        </h2>
+                        <p class="text-xl text-gray-400 mb-6">
+                            Somos más que una agencia, somos tu socio tecnológico. Fundados en Guatemala, nuestro equipo está compuesto por desarrolladores y consultores de TI apasionados por la innovación y la seguridad.
+                        </p>
+                        <div class="bg-gray-800 p-4 rounded-lg border-l-4 border-green-500 mb-6">
+                            <h4 class="font-bold text-green-400">Nuestros Valores:</h4>
+                            <ul class="text-gray-500 text-sm list-disc list-inside ml-2 mt-1">
+                                <li>**Excelencia:** Solo entregamos código y soporte de máxima calidad.</li>
+                                <li>**Integridad:** Transparencia en cada proceso y presupuesto.</li>
+                                <li>**Compromiso:** Tu éxito es nuestra prioridad.</li>
+                            </ul>
+                        </div>
+                        
+                        <button onclick="showView('contacto')" class="bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-blue-700 transition duration-300 transform hover:scale-105">
+                            Hablemos de tu Proyecto
+                        </button>
                     </div>
-                    
-                    <button onclick="showView('contacto')" class="bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-blue-700 transition duration-300 transform hover:scale-105">
-                        Hablemos de tu Proyecto
-                    </button>
                 </div>
             </div>
         </section>
@@ -371,11 +411,23 @@
         <!-- 5. VISTA CONTACTO (Footer integrado) -->
         <!-- ============================================== -->
         <section id="contacto" class="view py-16 md:py-24 bg-gray-800 border-t border-gray-700">
-            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h2 class="text-4xl font-extrabold text-white mb-4">Ponte en Contacto</h2>
-                <p class="text-xl text-gray-400 mb-10">
-                    Estamos listos para impulsar tu próximo proyecto. Envíanos un mensaje y te responderemos pronto.
-                </p>
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Header interno con botón de atrás y logo -->
+                <div class="flex items-center justify-between mb-8 pb-4 border-b border-gray-700">
+                    <button onclick="showView('home'); return false;" class="flex items-center text-lg font-semibold text-gray-400 hover:text-blue-500 transition duration-200">
+                        <span class="text-2xl mr-2">⬅️</span> Volver a Inicio
+                    </button>
+                    <p class="flex items-center text-xl font-bold text-white">
+                        <span class="text-2xl mr-2 text-yellow-400">⚡</span> Contacto
+                    </p>
+                </div>
+                
+                <div class="text-center">
+                    <h2 class="text-4xl font-extrabold text-white mb-4">Ponte en Contacto</h2>
+                    <p class="text-xl text-gray-400 mb-10">
+                        Estamos listos para impulsar tu próximo proyecto. Envíanos un mensaje y te responderemos pronto.
+                    </p>
+                </div>
                 <div class="bg-gray-900 p-8 rounded-xl shadow-2xl border border-gray-700">
                     <form class="space-y-4">
                         <input type="text" placeholder="Tu Nombre" class="w-full p-4 rounded-lg bg-gray-700 text-white border-none focus:ring-2 focus:ring-blue-500" required>
@@ -412,6 +464,8 @@
             const activeView = document.getElementById(viewId);
             if (activeView) {
                 activeView.classList.add('active-view');
+                // Scroll to top when changing view
+                window.scrollTo({ top: 0, behavior: 'smooth' }); 
             }
         }
 
