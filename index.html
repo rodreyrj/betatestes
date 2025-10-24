@@ -9,6 +9,7 @@
     <!-- Carga de Font Awesome para iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* Estilos CSS (Sin cambios significativos, solo renombré algunas clases para claridad) */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
         body {
             font-family: 'Inter', sans-serif;
@@ -16,17 +17,14 @@
             color: #e5e7eb; /* Texto claro */
             scroll-behavior: smooth;
         }
-        /* Clase para la sombra marcada en el Header al hacer scroll (Efecto Flotante) */
         .header-shadow-active {
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
             background-color: #111827;
             transition: all 0.3s ease-in-out;
         }
-        /* Clase para el fondo inicial del header (transparente por encima del hero) */
         .header-initial {
             background-color: transparent;
         }
-        /* Estilos del Temporizador/Horario */
         .time-box {
             background-color: #374151;
             padding: 0.5rem 1.5rem;
@@ -48,27 +46,22 @@
             color: #9ca3af;
             margin-top: 0.25rem;
         }
-        .no-scroll {
-            overflow: hidden;
-        }
-        .page-transition {
-            transition: opacity 0.3s ease-in-out;
-        }
-        /* Estilos específicos para la imagen del logo (AUMENTADO A 48px) */
         .logo-img {
-            height: 48px; /* Tamaño consistente y AUMENTADO para el logo */
+            height: 48px;
             width: auto;
             object-fit: contain;
-            filter: brightness(1.2); /* Pequeño ajuste para que brille un poco más */
+            filter: brightness(1.2);
         }
-        /* Estilo de la tarjeta de servicio (nuevo para esta vista) */
         .service-card {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
         }
         .service-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.2); /* Sombra azul al pasar el mouse */
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.2);
+        }
+        .page-transition {
+            transition: opacity 0.3s ease-in-out;
         }
     </style>
 </head>
@@ -90,7 +83,6 @@
             
             <!-- Columna 1: Logo y Misión -->
             <div>
-                <!-- Logo Footer (TAMAÑO AUMENTADO) -->
                 <a href="javascript:void(0);" onclick="navigateTo('home');" class="inline-flex items-center text-4xl font-extrabold text-blue-500 mb-4">
                     <img src="https://i.postimg.cc/J06sCDBm/unnamed-7-removebg-preview.png" alt="Logo de rodreyrj - Rayo" class="logo-img mr-3">
                     rodreyrj
@@ -139,38 +131,39 @@
 
     <!-- Script de Funcionalidad -->
     <script>
+        // --- CONSTANTES Y CONFIGURACIÓN ---
         const LOGO_URL = "https://i.postimg.cc/J06sCDBm/unnamed-7-removebg-preview.png";
-        // Importante: Aumentamos el margen (mr-3) y el tamaño del texto para que el logo más grande no se vea pegado
         const LOGO_TAG = `<img src="${LOGO_URL}" alt="Logo de rodreyrj - Rayo" class="logo-img mr-3">`;
         
+        // URL del CSV con los datos de las plantillas (¡TU URL!)
+        const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTurxcfqNiMeXwH7GdrsL1MGih4HhKv7cS_g7JRgwu17i2IGeaaUV8FlMrir-f7wf9SgRw6g4WLw1BH/pub?output=csv";
+
         const mainContent = document.getElementById('main-content');
         const headerContainer = document.getElementById('main-header');
         const mobileMenuId = 'mobile-menu'; 
+        let currentView = 'home';
+        let countdownInterval;
+        let templatesData = null; // Caché para las plantillas
 
-        // --- VISTAS / TEMPLATES ---
+        // --- VISTAS / TEMPLATES (El resto del código HTML se mantiene igual) ---
 
-        // 1. HOME VIEW (Página de Oferta)
         const homeHeaderHTML = (isMobileMenuOpen) => `
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
-                <!-- Logo: ÚNICO enlace para volver al inicio (CLASE DE TEXTO AUMENTADA A 3XL) -->
                 <a href="javascript:void(0);" onclick="navigateTo('home');" class="flex items-center text-3xl font-extrabold text-blue-500 hover:text-blue-400 transition duration-300">
                     ${LOGO_TAG} rodreyrj
                 </a>
                 
-                <!-- Menú Desktop: SIN "Inicio" -->
                 <nav class="hidden md:flex space-x-6 text-sm font-medium">
                     <a href="javascript:void(0);" onclick="navigateTo('quienes-somos');" class="text-gray-300 hover:text-blue-400 transition duration-200">Quiénes Somos</a>
                     <a href="javascript:void(0);" onclick="navigateTo('servicios-informaticos');" class="text-white bg-blue-600 px-3 py-1 rounded-full hover:bg-blue-700 transition duration-200">Servicios Informáticos</a>
                     <a href="javascript:void(0);" onclick="navigateTo('plantillas');" class="text-white bg-purple-600 px-3 py-1 rounded-full hover:bg-purple-700 transition duration-200">Plantillas</a>
                 </nav>
                 
-                <!-- Botón de Menú Móvil (Hamburguesa) -->
-                <button id="menu-toggle" onclick="toggleMenu()" class="md:hidden text-gray-300 hover:text-blue-500 focus:outline-none p-2 rounded-lg bg-gray-800">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                <button id="menu-toggle" class="md:hidden text-gray-300 hover:text-blue-500 focus:outline-none p-2 rounded-lg bg-gray-800" aria-label="Abrir Menú Móvil">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${isMobileMenuOpen ? 'M6 18L18 6M6 6l12 12' : 'M4 6h16M4 12h16m-7 6h7'}"></path></svg>
                 </button>
             </div>
             
-            <!-- Menú Móvil Desplegable (CLASE DE TEXTO AUMENTADA A 2XL) -->
             <nav id="${mobileMenuId}" class="md:hidden ${isMobileMenuOpen ? '' : 'hidden'} bg-gray-900 border-t border-gray-800">
                 <div class="px-4 pt-4 pb-4 space-y-2">
                     <a href="javascript:void(0);" onclick="navigateTo('quienes-somos')" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-800">Quiénes Somos</a>
@@ -193,26 +186,17 @@
                 <div class="inline-block bg-purple-600/50 text-white text-xs font-semibold px-4 py-1 rounded-full mb-4 border border-purple-500">
                     SERVICIO TÉCNICO Y WEB
                 </div>
-
                 <h1 class="text-5xl md:text-6xl font-extrabold leading-tight mb-4 text-white">
                     Soluciones Informáticas <span class="text-blue-400">para tu Negocio y Hogar</span>
                 </h1>
                 <p class="text-lg md:text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
                     Mantenimiento de sistemas, seguridad y presencia digital profesional. ¡Trabajamos hasta las 6 PM!
                 </p>
-
-                <!-- Contenedor del Horario y Estado del Servicio -->
                 <div class="bg-gray-800 p-6 rounded-2xl shadow-xl inline-block w-full md:max-w-md border border-gray-700">
                     <div id="service-status-message" class="flex items-center justify-center space-x-2 text-yellow-400 mb-4 font-bold text-xl">
-                        <!-- Mensaje de estado se inyecta aquí -->
                     </div>
-                    
-                    <!-- Temporizador o Hora de Cierre -->
                     <div id="countdown-timer" class="flex justify-center space-x-3 mb-6">
-                        <!-- Elementos del temporizador se inyectan aquí -->
                     </div>
-
-                    <!-- Botón de Oferta/Contacto (habilitado o deshabilitado) -->
                     <button id="home-action-button" onclick="window.location.hash = 'contacto-footer';" class="w-full bg-red-600 text-white font-bold py-4 px-8 rounded-xl shadow-lg hover:bg-red-700 transition transform hover:scale-[1.01] disabled:bg-gray-600 disabled:cursor-not-allowed">
                         <span class="text-xl">📞 SOLICITAR SERVICIO AHORA</span>
                     </button>
@@ -223,19 +207,16 @@
             <section class="max-w-6xl mx-auto px-4 py-12">
                 <h2 class="text-3xl font-bold text-white mb-8 text-center">Nuestros Servicios Principales</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <!-- Destacado 1: Instalación de Sistemas -->
                     <div class="bg-gray-800 p-6 rounded-xl border border-blue-600/50 hover:shadow-blue-500/30 shadow-lg transition">
                         <span class="text-4xl text-blue-400 mb-3 block">⚙️</span>
                         <h3 class="text-xl font-semibold text-white mb-2">Instalación y Mantenimiento de SO</h3>
                         <p class="text-sm text-gray-400">Windows y Linux. Formateo y configuración completa del sistema operativo.</p>
                     </div>
-                    <!-- Destacado 2: Diseño Web -->
                     <div class="bg-gray-800 p-6 rounded-xl border border-purple-600/50 hover:shadow-purple-500/30 shadow-lg transition">
                         <span class="text-4xl text-purple-400 mb-3 block">🌐</span>
                         <h3 class="text-xl font-semibold text-white mb-2">Creación de Páginas Web y Logos</h3>
                         <p class="text-sm text-gray-400">Diseño profesional de sitios web, logos y posters para tu marca.</p>
                     </div>
-                    <!-- Destacado 3: Seguridad y Antivirus -->
                     <div class="bg-gray-800 p-6 rounded-xl border border-red-600/50 hover:shadow-red-500/30 shadow-lg transition">
                         <span class="text-4xl text-red-400 mb-3 block">🛡️</span>
                         <h3 class="text-xl font-semibold text-white mb-2">Seguridad Informática</h3>
@@ -250,25 +231,17 @@
             </section>
         `;
 
-        // 2. SECONDARY PAGE HEADER
         const secondaryHeaderHTML = (title) => `
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center bg-gray-900 border-b border-gray-800">
-                <!-- Botón de Volver al Inicio (La Flechita) -->
                 <a href="javascript:void(0);" onclick="navigateTo('home');" class="flex items-center text-gray-300 hover:text-blue-400 transition duration-300 font-semibold text-sm">
                     <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                     Inicio
                 </a>
-                
-                <!-- Título Central de la Página -->
                 <h1 class="text-xl font-extrabold text-white">${title}</h1>
-
-                <!-- Espacio para mantener el centrado (o un botón de contacto) -->
                 <a href="#contacto-footer" class="text-sm font-medium text-blue-500 hover:text-blue-400 hidden sm:block">Contáctanos</a>
             </div>
         `;
 
-        // 3. SECONDARY PAGE CONTENT TEMPLATES
-        
         const quienesSomosContentHTML = `
             <section class="max-w-4xl mx-auto px-4 py-12 pt-20">
                 <div class="bg-gray-800 p-8 rounded-2xl shadow-2xl border border-gray-700">
@@ -302,10 +275,7 @@
                         Soluciones técnicas esenciales y herramientas de diseño creativo para asegurar tu máxima operatividad y presencia de marca.
                     </p>
                     
-                    <!-- Contenedor de Tarjetas de Servicios (Soporte + Diseño) -->
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-                        <!-- 1. Reinstalación de Sistema Windows y Linux -->
                         <div class="service-card bg-gray-900 p-6 rounded-xl border border-blue-700/50 shadow-xl">
                             <div class="text-blue-500 text-4xl mb-4">
                                 <i class="fas fa-desktop"></i>
@@ -313,8 +283,6 @@
                             <h3 class="text-xl font-bold text-white mb-2">Reinstalación de Sistema</h3>
                             <p class="text-gray-400">Instalación y configuración limpia de sistemas operativos **Windows** y **Linux** para máximo rendimiento.</p>
                         </div>
-
-                        <!-- 2. Instalación antivirus y actualización -->
                         <div class="service-card bg-gray-900 p-6 rounded-xl border border-green-700/50 shadow-xl">
                             <div class="text-green-500 text-4xl mb-4">
                                 <i class="fas fa-shield-alt"></i>
@@ -322,8 +290,6 @@
                             <h3 class="text-xl font-bold text-white mb-2">Seguridad y Antivirus</h3>
                             <p class="text-gray-400">Instalación de **antivirus** líder y **actualización** completa de software esencial del equipo.</p>
                         </div>
-
-                        <!-- 3. Creación de páginas web -->
                         <div class="service-card bg-gray-900 p-6 rounded-xl border border-purple-700/50 shadow-xl">
                             <div class="text-purple-500 text-4xl mb-4">
                                 <i class="fas fa-globe"></i>
@@ -331,8 +297,6 @@
                             <h3 class="text-xl font-bold text-white mb-2">Creación de Páginas Web</h3>
                             <p class="text-gray-400">Diseño y desarrollo de sitios web profesionales, **responsivos** y optimizados para cualquier plataforma.</p>
                         </div>
-
-                        <!-- 4. Creación de logos -->
                         <div class="service-card bg-gray-900 p-6 rounded-xl border border-yellow-700/50 shadow-xl">
                             <div class="text-yellow-500 text-4xl mb-4">
                                 <i class="fas fa-paint-brush"></i>
@@ -340,8 +304,6 @@
                             <h3 class="text-xl font-bold text-white mb-2">Diseño de Logos</h3>
                             <p class="text-gray-400">Creación de **logos profesionales** y únicos que definen y fortalecen la identidad visual de tu marca.</p>
                         </div>
-
-                        <!-- 5. Creación de póster -->
                         <div class="service-card bg-gray-900 p-6 rounded-xl border border-red-700/50 shadow-xl">
                             <div class="text-red-500 text-4xl mb-4">
                                 <i class="fas fa-images"></i>
@@ -349,8 +311,6 @@
                             <h3 class="text-xl font-bold text-white mb-2">Creación de Póster</h3>
                             <p class="text-gray-400">Diseño gráfico de pósters, flyers y material promocional de alto impacto visual para eventos o negocios.</p>
                         </div>
-
-                        <!-- 6. Eliminación cuentas de Google -->
                         <div class="service-card bg-gray-900 p-6 rounded-xl border border-gray-700/50 shadow-xl">
                             <div class="text-gray-500 text-4xl mb-4">
                                 <i class="fas fa-user-times"></i>
@@ -358,7 +318,6 @@
                             <h3 class="text-xl font-bold text-white mb-2">Eliminación de Cuentas</h3>
                             <p class="text-gray-400">Asistencia para la **eliminación segura** y desvinculación de cuentas de **Google** en dispositivos.</p>
                         </div>
-                        
                     </div>
 
                     <div class="mt-10 p-5 bg-blue-900/30 rounded-xl text-center border border-blue-700">
@@ -371,70 +330,128 @@
             </section>
         `;
         
-        const plantillasContentHTML = `
+        // Plantilla estática con un contenedor para inyectar datos dinámicos
+        const basePlantillasContentHTML = `
             <section class="max-w-7xl mx-auto px-4 py-12 pt-20">
                 <div class="bg-gray-800 p-8 rounded-2xl shadow-2xl border border-gray-700">
                     <h2 class="text-4xl font-bold text-purple-400 mb-6 border-b border-gray-700 pb-3">Catálogo de Plantillas Profesionales</h2>
                     <p class="text-gray-400 text-lg mb-8">
-                        Descarga diseños listos para usar en HTML, CSS y JavaScript. Perfectas para clientes o proyectos personales.
+                        Plantillas web listas para usar. Haz clic en 'Ver Demo' para previsualizar el proyecto completo.
                     </p>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        
-                        <!-- Plantilla 1 -->
-                        <div class="bg-gray-700 p-4 rounded-xl border border-gray-600">
-                            <div class="h-40 bg-gray-600 rounded-lg mb-3 flex items-center justify-center text-gray-400">
-                                
-                            </div>
-                            <h3 class="text-xl font-semibold text-white mb-2">E-commerce Dinámico</h3>
-                            <p class="text-sm text-gray-400 mb-3">Integración con pasarelas de pago y diseño moderno.</p>
-                            <button class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">Ver Demo</button>
-                        </div>
-
-                        <!-- Plantilla 2 -->
-                        <div class="bg-gray-700 p-4 rounded-xl border border-gray-600">
-                            <div class="h-40 bg-gray-600 rounded-lg mb-3 flex items-center justify-center text-gray-400">
-                                
-                            </div>
-                            <h3 class="text-xl font-semibold text-white mb-2">Portafolio Creativo</h3>
-                            <p class="text-sm text-gray-400 mb-3">Diseño minimalista con modo claro y oscuro.</p>
-                            <button class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">Ver Demo</button>
-                        </div>
-
-                        <!-- Plantilla 3 -->
-                        <div class="bg-gray-700 p-4 rounded-xl border border-gray-600">
-                            <div class="h-40 bg-gray-600 rounded-lg mb-3 flex items-center justify-center text-gray-400">
-                                
-                            </div>
-                            <h3 class="text-xl font-semibold text-white mb-2">Landing Page de Agencia</h3>
-                            <p class="text-sm text-gray-400 mb-3">Enfocada en captación de leads y conversión.</p>
-                            <button class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">Ver Demo</button>
-                        </div>
-                        
+                    <div id="plantillas-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Las plantillas dinámicas se inyectarán aquí -->
+                    </div>
+                    <div id="loading-message" class="text-center text-xl text-gray-400 mt-10">
+                        Cargando plantillas...
                     </div>
                 </div>
             </section>
         `;
 
-        // --- LÓGICA DE NAVEGACIÓN Y HORARIO ---
+        // Función para generar las tarjetas de plantillas
+        function generateTemplatesHTML(data) {
+            if (!data || data.length === 0) {
+                return `<div class="col-span-full text-center p-8 bg-gray-700 rounded-xl text-red-400">
+                            No se encontraron plantillas o hubo un error al cargar los datos.
+                        </div>`;
+            }
 
-        let currentView = 'home';
-        let countdownInterval;
+            return data.map(template => {
+                // Aseguramos que la descripción no esté vacía
+                const description = template.descripcion || 'Diseño web profesional y responsivo.';
+                
+                // Usamos template.url para la imagen y template.host para el demo
+                const imageUrl = template.url || `https://placehold.co/400x200/3b82f6/ffffff?text=${template['proyecto-name']}`;
+                
+                return `
+                    <div class="bg-gray-700 p-4 rounded-xl border border-gray-600 shadow-lg hover:shadow-purple-500/30 transition-shadow duration-300">
+                        <div class="h-40 bg-gray-600 rounded-lg mb-3 overflow-hidden">
+                            <img src="${imageUrl}" 
+                                 alt="Vista previa de la plantilla ${template['proyecto-name']}" 
+                                 class="w-full h-full object-cover transition transform hover:scale-105"
+                                 onerror="this.onerror=null; this.src='https://placehold.co/400x200/3b82f6/ffffff?text=Imagen+No+Cargada';">
+                        </div>
+                        <h3 class="text-xl font-semibold text-white mb-2">${template['proyecto-name']}</h3>
+                        <p class="text-sm text-gray-400 mb-3">${description}</p>
+                        <a href="${template.host}" target="_blank" rel="noopener noreferrer" 
+                           class="w-full inline-block text-center bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition">
+                            Ver Demo
+                        </a>
+                    </div>
+                `;
+            }).join('');
+        }
 
-        // 1. Manejador de Scroll (solo para el Home)
-        function handleScroll() {
-            if (currentView === 'home') {
-                const header = document.getElementById('main-header');
-                if (window.scrollY > 50) { 
-                    header.classList.add('header-shadow-active');
-                    header.classList.remove('header-initial');
-                } else {
-                    header.classList.remove('header-shadow-active');
-                    header.classList.add('header-initial');
+        // --- LÓGICA DE DATOS CSV ---
+
+        // Función para parsear CSV a un Array de Objetos
+        function csvToArray(text) {
+            const rows = text.trim().split('\n');
+            if (rows.length === 0) return [];
+            
+            // Reemplazar espacios y guiones por nombres de propiedad limpios
+            const headers = rows[0].split(',').map(h => h.trim().toLowerCase().replace(/-/g, '').replace(/\s/g, ''));
+            
+            const data = [];
+            for (let i = 1; i < rows.length; i++) {
+                const values = rows[i].split(',');
+                if (values.length !== headers.length) continue; // Saltar filas mal formadas
+
+                const item = {};
+                headers.forEach((header, index) => {
+                    // Usamos el nombre original de la columna si contiene guiones, 
+                    // sino usamos el nombre limpio
+                    item[header] = values[index].trim();
+                });
+                
+                // Añadimos el manejo explícito de las columnas originales si es necesario
+                item['url'] = values[0].trim();
+                item['proyecto-name'] = values[1].trim();
+                item['host'] = values[2].trim();
+                item['descripcion'] = values[3] ? values[3].trim() : '';
+
+                data.push(item);
+            }
+            return data;
+        }
+
+
+        // Función para obtener las plantillas del CSV
+        async function fetchTemplates() {
+            if (templatesData) return templatesData; // Retornar caché si existe
+
+            try {
+                const response = await fetch(CSV_URL);
+                if (!response.ok) {
+                    throw new Error(`Error al cargar el CSV: ${response.statusText}`);
                 }
+                const csvText = await response.text();
+                const data = csvToArray(csvText);
+                templatesData = data; // Guardar en caché
+                return data;
+            } catch (error) {
+                console.error("Error fetching or parsing templates:", error);
+                // Si falla, retornamos un array vacío
+                return []; 
             }
         }
 
-        // 2. Lógica del Temporizador y Estado del Servicio (CIERRE A LAS 18:00 HRS)
+
+        // --- LÓGICA DE NAVEGACIÓN Y HORARIO ---
+
+        // 1. Manejador de Scroll (solo para el Home)
+        function handleScroll() {
+            const header = document.getElementById('main-header');
+            if (window.scrollY > 50) { 
+                header.classList.add('header-shadow-active');
+                header.classList.remove('header-initial');
+            } else if (currentView === 'home') {
+                header.classList.remove('header-shadow-active');
+                header.classList.add('header-initial');
+            }
+        }
+
+        // 2. Lógica del Temporizador (CIERRE A LAS 18:00 HRS)
         function updateServiceStatus() {
             const hoursElement = document.getElementById('timer-hours');
             const minsElement = document.getElementById('timer-mins');
@@ -448,29 +465,24 @@
             }
 
             const now = new Date();
-            const closeHour = 18; // 6:00 PM
+            const closeHour = 18; 
             
-            // Establecer el tiempo de cierre para hoy
             const targetTime = new Date(now);
             targetTime.setHours(closeHour, 0, 0, 0); 
             
             let distance = targetTime.getTime() - now.getTime();
 
-            // Si ya pasaron las 6 PM o estamos en el día siguiente
             if (now.getHours() >= closeHour) {
-                // Estado Cerrado
                 statusMessage.innerHTML = '<span class="text-2xl text-red-500">❌</span> SERVICIO CERRADO';
                 actionButton.textContent = 'Servicio Cerrado (Abrimos mañana)';
                 actionButton.disabled = true;
                 
-                // Mostrar 00:00:00
                 hoursElement.textContent = '00';
                 minsElement.textContent = '00';
                 secsElement.textContent = '00';
                 return;
             } 
 
-            // Estado Abierto (antes de las 6 PM)
             if (now.getHours() < closeHour) {
                 statusMessage.innerHTML = '<span class="text-xl">⏱️</span> CIERRA EN:';
                 actionButton.textContent = '📞 SOLICITAR SERVICIO AHORA';
@@ -489,8 +501,7 @@
         }
 
         function startCountdown() {
-            if (countdownInterval) clearInterval(countdownInterval); // Limpiar cualquier intervalo anterior
-            // Inyectar la estructura del temporizador antes de iniciar el conteo
+            if (countdownInterval) clearInterval(countdownInterval); 
             const timerContainer = document.getElementById('countdown-timer');
             if (timerContainer) {
                 timerContainer.innerHTML = `
@@ -502,13 +513,13 @@
                 `;
             }
 
-            updateServiceStatus(); // Primera ejecución
-            countdownInterval = setInterval(updateServiceStatus, 1000); // Ejecutar cada segundo
+            updateServiceStatus(); 
+            countdownInterval = setInterval(updateServiceStatus, 1000); 
         }
 
 
         // 3. Renderizado de las Vistas
-        function renderView(viewName) {
+        async function renderView(viewName) {
             let headerHTML = '';
             let contentHTML = '';
             let newHeaderClass = '';
@@ -535,24 +546,66 @@
                     newHeaderClass = 'header-shadow-active';
                     break;
                 case 'plantillas':
+                    // Mostrar primero el esqueleto de la vista con el mensaje de carga
                     pageTitle = 'Plantillas';
                     headerHTML = secondaryHeaderHTML(pageTitle);
-                    contentHTML = plantillasContentHTML;
+                    contentHTML = basePlantillasContentHTML;
                     newHeaderClass = 'header-shadow-active';
-                    break;
+
+                    // Cargar contenido inmediatamente para que el usuario vea el spinner/mensaje
+                    currentView = viewName;
+                    document.title = pageTitle;
+                    headerContainer.className = `fixed top-0 left-0 z-50 w-full transition duration-300 ease-in-out ${newHeaderClass}`;
+                    headerContainer.innerHTML = headerHTML;
+                    mainContent.innerHTML = contentHTML;
+                    window.scrollTo(0, 0);
+                    
+                    // Iniciar la carga de datos
+                    const templatesGrid = document.getElementById('plantillas-grid');
+                    const loadingMessage = document.getElementById('loading-message');
+                    
+                    if (templatesGrid) {
+                        const data = await fetchTemplates();
+                        const generatedHTML = generateTemplatesHTML(data);
+                        templatesGrid.innerHTML = generatedHTML;
+                        
+                        // Ocultar mensaje de carga
+                        if (loadingMessage) loadingMessage.style.display = 'none';
+                    }
+
+                    // No hacer el fadeOut/fadeIn aquí, ya que el contenido base ya se cargó
+                    // Salimos del switch/función después de cargar los datos dinámicamente
+                    // Aseguramos que el listener del menú se re-adjunte al final
+                    const menuButton = document.getElementById('menu-toggle');
+                    if (menuButton) {
+                        menuButton.removeEventListener('click', toggleMenu); 
+                        menuButton.addEventListener('click', toggleMenu);
+                    }
+                    if (countdownInterval) clearInterval(countdownInterval);
+                    return; // Salir para evitar el doble renderizado
                 default:
                     renderView('home');
                     return;
             }
 
-            // 2. Realizar la transición visual
+            // 2. Realizar la transición visual (Para vistas estáticas)
             mainContent.style.opacity = '0';
             
             setTimeout(() => {
                 // 3. Actualizar el contenido y las clases
                 currentView = viewName;
                 document.title = pageTitle;
+                
                 headerContainer.className = `fixed top-0 left-0 z-50 w-full transition duration-300 ease-in-out ${newHeaderClass}`;
+
+                if (viewName !== 'home') {
+                    headerContainer.classList.add('header-shadow-active');
+                    window.removeEventListener('scroll', handleScroll);
+                } else {
+                    window.addEventListener('scroll', handleScroll);
+                    handleScroll(); 
+                }
+
                 headerContainer.innerHTML = headerHTML;
                 mainContent.innerHTML = contentHTML;
                 
@@ -561,16 +614,20 @@
 
                 // 5. Iniciar lógica específica de la vista
                 if (viewName === 'home') {
-                    startCountdown(); // Iniciar el temporizador
-                    handleScroll(); 
-                    window.addEventListener('scroll', handleScroll);
+                    startCountdown(); 
                 } else {
-                    if (countdownInterval) clearInterval(countdownInterval); // Detener temporizador
-                    window.removeEventListener('scroll', handleScroll);
+                    if (countdownInterval) clearInterval(countdownInterval); 
                 }
 
                 // 6. Finalizar la transición
                 mainContent.style.opacity = '1';
+
+                // 7. Re-adjuntar listener del menú móvil (ESENCIAL)
+                const menuButton = document.getElementById('menu-toggle');
+                if (menuButton) {
+                    menuButton.removeEventListener('click', toggleMenu); 
+                    menuButton.addEventListener('click', toggleMenu);
+                }
 
             }, 300); 
         }
@@ -579,20 +636,24 @@
         function navigateTo(viewName) {
             const mobileMenu = document.getElementById(mobileMenuId);
             if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
-                toggleMenu();
+                toggleMenu(); 
             }
             renderView(viewName);
         }
 
-        // 5. Función para el menú móvil (actualiza el header)
+        // 5. Función para el menú móvil
         function toggleMenu() {
             const mobileMenu = document.getElementById(mobileMenuId);
             if (mobileMenu) {
-                const isOpen = mobileMenu.classList.toggle('hidden');
-                // Al abrir/cerrar el menú, re-renderizamos el header para asegurar la vinculación
-                if (currentView === 'home') {
-                    headerContainer.innerHTML = homeHeaderHTML(!isOpen);
-                    handleScroll(); 
+                mobileMenu.classList.toggle('hidden');
+                const button = document.getElementById('menu-toggle');
+                if (button) {
+                    const svg = button.querySelector('svg path');
+                    if (mobileMenu.classList.contains('hidden')) {
+                        svg.setAttribute('d', 'M4 6h16M4 12h16m-7 6h7');
+                    } else {
+                        svg.setAttribute('d', 'M6 18L18 6M6 6l12 12');
+                    }
                 }
             }
         }
@@ -600,6 +661,7 @@
         // --- INICIALIZACIÓN ---
         window.onload = function() {
             renderView('home');
+            window.addEventListener('scroll', handleScroll); // Agregamos el listener de scroll aquí para que esté siempre activo
         };
     </script>
 
