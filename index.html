@@ -52,6 +52,13 @@
         .page-transition {
             transition: opacity 0.3s ease-in-out;
         }
+        /* Estilos específicos para la imagen del logo */
+        .logo-img {
+            height: 32px; /* Tamaño consistente para el logo en el header/footer */
+            width: auto;
+            object-fit: contain;
+            filter: brightness(1.2); /* Pequeño ajuste para que brille un poco más */
+        }
     </style>
 </head>
 <body class="bg-gray-900">
@@ -72,9 +79,10 @@
             
             <!-- Columna 1: Logo y Misión -->
             <div>
-                <!-- Enlace al Home desde el Footer -->
+                <!-- Logo Footer -->
                 <a href="javascript:void(0);" onclick="navigateTo('home');" class="inline-flex items-center text-3xl font-extrabold text-blue-500 mb-4">
-                    <span class="text-4xl mr-2 text-blue-500">⚡</span> rodreyrj
+                    <img src="https://i.postimg.cc/J06sCDBm/unnamed-7-removebg-preview.png" alt="Logo de rodreyrj - Rayo" class="logo-img mr-2">
+                    rodreyrj
                 </a>
                 <p class="text-gray-400 text-sm mt-2 max-w-xs md:max-w-none mx-auto md:mx-0">
                     Soporte técnico y diseños web modernos, rápidos y optimizados. Aumenta tu presencia online y mejora tu tecnología.
@@ -120,6 +128,9 @@
 
     <!-- Script de Funcionalidad -->
     <script>
+        const LOGO_URL = "https://i.postimg.cc/J06sCDBm/unnamed-7-removebg-preview.png";
+        const LOGO_TAG = `<img src="${LOGO_URL}" alt="Logo de rodreyrj - Rayo" class="logo-img mr-2">`;
+        
         const mainContent = document.getElementById('main-content');
         const headerContainer = document.getElementById('main-header');
         const mobileMenuId = 'mobile-menu'; 
@@ -131,7 +142,7 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
                 <!-- Logo: ÚNICO enlace para volver al inicio -->
                 <a href="javascript:void(0);" onclick="navigateTo('home');" class="flex items-center text-2xl font-extrabold text-blue-500 hover:text-blue-400 transition duration-300">
-                    <span class="text-3xl mr-2 text-blue-500">⚡</span> rodreyrj
+                    ${LOGO_TAG} rodreyrj
                 </a>
                 
                 <!-- Menú Desktop: SIN "Inicio" -->
@@ -156,7 +167,7 @@
                 </div>
                 <div class="border-t border-gray-800 pt-4 px-4 pb-4">
                     <a href="javascript:void(0);" onclick="navigateTo('home');" class="inline-flex items-center text-xl font-extrabold text-blue-500 mb-2">
-                        <span class="text-2xl mr-2 text-blue-500">⚡</span> rodreyrj
+                        ${LOGO_TAG} rodreyrj
                     </a>
                     <p class="text-gray-400 text-sm mt-1">
                         Soporte técnico y diseños web modernos, rápidos y optimizados.
@@ -386,45 +397,34 @@
             const actionButton = document.getElementById('home-action-button');
 
             if (!hoursElement || !statusMessage || !actionButton) {
-                // Si los elementos no están en el DOM (no estamos en Home), detenemos el intervalo
                 if (countdownInterval) clearInterval(countdownInterval);
                 return;
             }
 
             const now = new Date();
             const closeHour = 18; // 6:00 PM
+            
+            // Establecer el tiempo de cierre para hoy
             const targetTime = new Date(now);
             targetTime.setHours(closeHour, 0, 0, 0); 
             
             let distance = targetTime.getTime() - now.getTime();
 
-            // Si ya pasaron las 6 PM, el servicio está cerrado
-            if (distance < 0) {
-                // Si ya pasaron las 6 PM, verificamos si ya es el día siguiente
-                const startOfDay = new Date(now);
-                startOfDay.setHours(0, 0, 0, 0); 
+            // Si ya pasaron las 6 PM o estamos en el día siguiente
+            if (now.getHours() >= closeHour) {
+                // Estado Cerrado
+                statusMessage.innerHTML = '<span class="text-2xl text-red-500">❌</span> SERVICIO CERRADO';
+                actionButton.textContent = 'Servicio Cerrado (Abrimos mañana)';
+                actionButton.disabled = true;
                 
-                // Si estamos entre 18:00 (6pm) y 23:59:59 (medianoche)
-                if (now.getHours() >= closeHour) {
-                    // Mostrar cerrado
-                    statusMessage.innerHTML = '<span class="text-2xl text-red-500">❌</span> SERVICIO CERRADO';
-                    actionButton.textContent = 'Servicio Cerrado (Abrimos 8:00 AM)';
-                    actionButton.disabled = true;
-                    
-                    // Mostrar tiempo restante hasta medianoche (00:00:00) si es necesario,
-                    // pero el requisito es mostrar cerrado. Mostraremos 00:00:00
-                    hoursElement.textContent = '00';
-                    minsElement.textContent = '00';
-                    secsElement.textContent = '00';
-                    return;
-
-                } 
-                // Si la hora es menor a 18:00 (ya en el día siguiente si aplicara, pero la lógica de arriba cubre el caso)
-                // Usamos la lógica de abajo para el conteo normal si la hora fuera anterior a 18:00.
-                
+                // Mostrar 00:00:00
+                hoursElement.textContent = '00';
+                minsElement.textContent = '00';
+                secsElement.textContent = '00';
+                return;
             } 
 
-            // Lógica para contar hasta las 18:00
+            // Estado Abierto (antes de las 6 PM)
             if (now.getHours() < closeHour) {
                 statusMessage.innerHTML = '<span class="text-xl">⏱️</span> CIERRA EN:';
                 actionButton.textContent = '📞 SOLICITAR SERVICIO AHORA';
@@ -439,16 +439,6 @@
                 hoursElement.textContent = formatTime(hours);
                 minsElement.textContent = formatTime(minutes);
                 secsElement.textContent = formatTime(seconds);
-            } else {
-                 // Si la distancia ya fue negativa y estamos después de las 18:00
-                statusMessage.innerHTML = '<span class="text-2xl text-red-500">❌</span> SERVICIO CERRADO';
-                actionButton.textContent = 'Servicio Cerrado (Abrimos 8:00 AM)';
-                actionButton.disabled = true;
-                
-                hoursElement.textContent = '00';
-                minsElement.textContent = '00';
-                secsElement.textContent = '00';
-
             }
         }
 
