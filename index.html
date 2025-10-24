@@ -3,544 +3,364 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>rodreyrj | Soluciones Informáticas Profesionales</title>
+    <title>rodreyrj | Diseños Profesionales Listos para Usar</title>
     <!-- Carga de Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #111827; /* Fondo oscuro (Gray-900) */
-            color: #f9fafb; /* Color de texto base (Gray-50) */
+            background-color: #0d111b; /* Fondo aún más oscuro para coincidir con Edukuk */
+            color: #e5e7eb; /* Texto claro */
         }
-        .view {
-            display: none; /* Oculta todas las vistas por defecto */
-            min-height: calc(100vh - 80px); 
+        /* Clase para la sombra marcada en el Header al hacer scroll */
+        .header-shadow-active {
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            background-color: #111827; /* Fondo oscuro y sólido para que flote bien */
+            transition: all 0.3s ease-in-out;
         }
-        .active-view {
-            display: block;
+        /* Clase para el fondo inicial del header (puede ser semi-transparente o sin sombra) */
+        .header-initial {
+            background-color: transparent;
         }
-        /* Clase para la sombra en el Header (se activa con JS al hacer scroll) */
-        .header-shadow {
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -2px rgba(0, 0, 0, 0.2);
-            transition: box-shadow 0.3s ease-in-out;
-        }
-        /* Estilos para los Mockups (Se mantienen los anteriores) */
-        .mockup-container {
-            position: relative;
+        .time-box {
+            background-color: #374151; /* Gray-700 */
+            padding: 0.5rem 1.5rem;
+            border-radius: 0.75rem;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 2rem;
-            height: 250px;
-        }
-        .mockup-pc, .mockup-mobile {
-            background: #2d3748;
-            border: 4px solid #3d4852;
-            border-radius: 1rem;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
-            overflow: hidden;
-        }
-        .mockup-pc { width: 70%; height: 100%; }
-        .mockup-pc-screen {
-            background-color: #1f2937;
-            height: calc(100% - 20px);
-            margin: 10px 10px 0 10px;
-            border-radius: 0.5rem 0.5rem 0 0;
-            display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            color: #d1d5db;
-            font-size: 0.8rem;
+            line-height: 1;
         }
-        .mockup-mobile {
-            width: 100px; height: 180px; border-radius: 1.5rem;
-            position: absolute; right: 0; top: 50%;
-            transform: translateY(-50%) translateX(20%);
-            z-index: 20; 
+        .time-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #3b82f6; /* Blue-500 */
         }
-        .mockup-mobile-screen {
-            background-color: #1f2937;
-            height: calc(100% - 8px);
-            margin: 4px;
-            border-radius: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #d1d5db;
-            font-size: 0.6rem;
+        .time-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #9ca3af; /* Gray-400 */
+            margin-top: 0.25rem;
         }
-        @media (max-width: 640px) {
-            .mockup-mobile { display: none; }
+        /* Estilo para los botones de navegación horizontal (Plantillas) */
+        .nav-button {
+            padding: 0.5rem 1.5rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .nav-button-active {
+            background-color: #3b82f6; /* Blue-500 */
+            color: white;
+        }
+        .nav-button-inactive {
+            background-color: #1f2937; /* Gray-800 */
+            color: #d1d5db; /* Gray-300 */
+            border: 1px solid #374151;
         }
     </style>
 </head>
 <body class="bg-gray-900">
 
-    <!-- Navegación (Header) -->
-    <header id="main-header" class="bg-gray-900 sticky top-0 z-50 border-b border-gray-800 transition duration-300">
+    <!-- Navegación (Header) - Sticky y con transición para la sombra -->
+    <header id="main-header" class="header-initial sticky top-0 z-50 w-full transition duration-300 ease-in-out">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
-            <!-- Logo principal: Rayo + rodreyrj -->
-            <a href="#" onclick="showView('home'); return false;" class="flex items-center text-2xl font-extrabold text-blue-500 hover:text-blue-400 transition duration-300">
-                <span class="text-3xl mr-2 text-yellow-400">⚡</span> rodreyrj
+            <!-- Logo: Edukuk (usaremos "rodreyrj" para el ejemplo) -->
+            <a href="#" class="flex items-center text-2xl font-extrabold text-blue-500 hover:text-blue-400 transition duration-300">
+                <span class="text-3xl mr-2 text-blue-500">⚡</span> rodreyrj
             </a>
             
-            <!-- Menú Desktop -->
-            <nav class="hidden md:flex space-x-8">
-                <a href="#home" onclick="showView('home'); return false;" class="text-gray-300 hover:text-blue-500 font-medium transition duration-200">INICIO</a>
-                <a href="#quienes-somos" onclick="showView('quienes-somos'); return false;" class="text-gray-300 hover:text-blue-500 font-medium transition duration-200">QUIÉNES SOMOS</a>
-                <a href="#servicios" onclick="showView('servicios'); return false;" class="text-gray-300 hover:text-blue-500 font-medium transition duration-200">SERVICIOS</a>
-                <a href="#plantillas" onclick="showView('plantillas'); return false;" class="text-gray-300 hover:text-blue-500 font-medium transition duration-200">PLANTILLAS</a>
-                <a href="#contacto" onclick="showView('contacto'); return false;" class="text-gray-300 hover:text-blue-500 font-medium transition duration-200">CONTACTO</a>
+            <!-- Menú Desktop con Enlaces de Navegación -->
+            <nav class="hidden md:flex space-x-6 text-sm font-medium">
+                <a href="#inicio" class="text-gray-300 hover:text-blue-400 transition duration-200">Inicio</a>
+                <a href="#quienes-somos" class="text-gray-300 hover:text-blue-400 transition duration-200">Quiénes Somos</a>
+                <a href="#cursos" class="text-white bg-blue-600 px-3 py-1 rounded-full hover:bg-blue-700 transition duration-200">Cursos</a>
+                <a href="#plantillas" class="text-white bg-purple-600 px-3 py-1 rounded-full hover:bg-purple-700 transition duration-200">Plantillas</a>
             </nav>
             
             <!-- Botón de Menú Móvil (Hamburguesa) -->
-            <button id="menu-toggle" class="md:hidden text-gray-300 hover:text-blue-500 focus:outline-none">
+            <button id="menu-toggle" class="md:hidden text-gray-300 hover:text-blue-500 focus:outline-none p-2 rounded-lg bg-gray-800">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
             </button>
         </div>
         
         <!-- Menú Móvil Desplegable -->
-        <nav id="mobile-menu" class="md:hidden hidden bg-gray-800 border-t border-gray-700">
-            <div class="px-4 pt-4 pb-6 space-y-3">
-                <a href="#" onclick="showView('servicios'); toggleMenu(); return false;" class="block py-4 rounded-xl text-center text-xl font-bold text-white bg-blue-600 shadow-lg hover:bg-blue-700 transition duration-300">
-                    SERVICIOS
-                </a>
-                <a href="#" onclick="showView('plantillas'); toggleMenu(); return false;" class="block py-4 rounded-xl text-center text-xl font-bold text-white bg-purple-600 shadow-lg hover:bg-purple-700 transition duration-300">
-                    PLANTILLAS
-                </a>
-                <a href="#" onclick="showView('quienes-somos'); toggleMenu(); return false;" class="block py-4 rounded-xl text-center text-xl font-bold text-white bg-green-600 shadow-lg hover:bg-green-700 transition duration-300">
-                    QUIÉNES SOMOS
-                </a>
-                <!-- Otros enlaces -->
-                <a href="#" onclick="showView('contacto'); toggleMenu(); return false;" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 text-center">CONTACTO</a>
+        <nav id="mobile-menu" class="md:hidden hidden bg-gray-900 border-t border-gray-800">
+            <div class="px-4 pt-4 pb-4 space-y-2">
+                <a href="#inicio" onclick="toggleMenu()" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-800">Inicio</a>
+                <a href="#quienes-somos" onclick="toggleMenu()" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-800">Quiénes Somos</a>
+                <a href="#cursos" onclick="toggleMenu()" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-blue-600 hover:bg-blue-700">Cursos</a>
+                <a href="#plantillas" onclick="toggleMenu()" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-purple-600 hover:bg-purple-700">Plantillas</a>
             </div>
         </nav>
     </header>
 
-    <!-- Contenedor Principal de Vistas -->
-    <main>
+    <!-- Contenido Principal -->
+    <main class="min-h-screen pt-4">
         
-        <!-- ============================================== -->
-        <!-- 1. VISTA PRINCIPAL (HOME) -->
-        <!-- ============================================== -->
-        <section id="home" class="view active-view text-white py-16 md:py-20">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                
-                <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-4 text-white">
-                    Soluciones Informáticas | <span class="text-blue-400">rodreyrj</span>
-                </h1>
-                <p class="text-xl md:text-2xl text-gray-400 mb-8">
-                    Desarrollo, Soporte y Consultoría para la Transformación Digital de tu Empresa.
-                </p>
+        <!-- SECCIÓN DE OFERTA / HOME (Diseño principal de la landing) -->
+        <section id="inicio" class="max-w-4xl mx-auto px-4 py-8 text-center">
+            
+            <!-- Tag NEW / NUEVO -->
+            <div class="inline-block bg-purple-600/50 text-white text-xs font-semibold px-4 py-1 rounded-full mb-4 border border-purple-500">
+                NUEVO
+                <span class="ml-2 text-purple-200">30 plantillas con HTML, CSS y JavaScript</span>
+            </div>
 
-                <!-- Caja del Temporizador -->
-                <div class="bg-gray-800 p-6 rounded-xl shadow-xl inline-block max-w-md w-full border border-blue-600 mb-12">
-                    <p class="text-lg font-bold text-yellow-400 mb-3">
-                        ✨ Jornada de soporte disponible hasta:
-                    </p>
-                    <div id="countdown" class="text-center text-3xl md:text-4xl font-extrabold mb-4 text-white">
-                        -- HORAS : -- MIN : -- SEG
+            <h1 class="text-5xl md:text-6xl font-extrabold leading-tight mb-4 text-white">
+                Diseños profesionales <span class="text-blue-400">listos para usar</span>
+            </h1>
+            <p class="text-lg md:text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
+                Ideal para abogados, dentistas, restaurantes y más. Personalízalas fácilmente con tu propio contenido.
+            </p>
+
+            <!-- Contenedor del Temporizador y Precios -->
+            <div class="bg-gray-800 p-6 rounded-2xl shadow-xl inline-block w-full md:max-w-md border border-gray-700">
+                <div class="flex items-center justify-center space-x-2 text-yellow-400 mb-4 font-bold">
+                    <span class="text-xl">⚡</span> 
+                    <span>Oferta especial termina en:</span>
+                </div>
+                
+                <!-- Temporizador -->
+                <div id="countdown-timer" class="flex justify-center space-x-3 mb-6">
+                    <!-- Horas -->
+                    <div class="time-box">
+                        <span id="timer-hours" class="time-number">10</span>
+                        <span class="time-label">HORAS</span>
                     </div>
-                    <a href="#" onclick="showView('contacto'); return false;" class="bg-blue-600 text-white font-bold py-3 px-8 rounded-lg w-full inline-block transition transform hover:bg-blue-700 hover:shadow-lg">
-                        AGENDA UNA CONSULTA RÁPIDA
+                    <span class="text-blue-500 text-4xl font-bold">:</span>
+                    <!-- Minutos -->
+                    <div class="time-box">
+                        <span id="timer-mins" class="time-number">06</span>
+                        <span class="time-label">MIN</span>
+                    </div>
+                    <span class="text-blue-500 text-4xl font-bold">:</span>
+                    <!-- Segundos -->
+                    <div class="time-box">
+                        <span id="timer-secs" class="time-number">19</span>
+                        <span class="time-label">SEG</span>
+                    </div>
+                </div>
+
+                <!-- Precios y Descuento -->
+                <div class="flex items-center justify-center space-x-4 mb-6">
+                    <span class="text-3xl text-gray-400 line-through">$10</span>
+                    <span class="text-4xl font-extrabold text-green-400">$5</span>
+                    <span class="text-md font-bold text-green-400 bg-green-900/50 px-3 py-1 rounded-full">-50%</span>
+                </div>
+
+                <!-- Botón de Oferta -->
+                <button class="w-full bg-red-600 text-white font-bold py-4 px-8 rounded-xl shadow-lg hover:bg-red-700 transition transform hover:scale-[1.01]">
+                    <span class="text-xl">🔥 OBTENER OFERTA</span>
+                </button>
+            </div>
+            
+            <!-- Mockup al lado (Solo visible en desktop, o un poco más abajo) -->
+            <div class="mt-8">
+                <!-- Placeholder de Mockup o Imagen (se deja el texto simple para evitar imágenes externas) -->
+                <div class="md:flex md:justify-center md:items-center hidden">
+                    <div class="bg-gray-700 p-8 rounded-xl w-3/4 h-64 flex items-center justify-center text-gray-400 border-2 border-dashed border-gray-600">
+                        [Mockup: Vista de PC y Móvil aquí]
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN DE CONTENIDO ADICIONAL (Similar a tus videos) -->
+        <section class="max-w-4xl mx-auto px-4 py-12">
+            
+            <!-- MÓDULO 1: Curso / Tutorial -->
+            <div class="bg-gray-800 p-6 rounded-2xl shadow-2xl border border-gray-700 mb-8">
+                <h2 class="text-2xl font-bold text-gray-300 mb-4">Cómo construir una página web</h2>
+                <div class="flex flex-col md:flex-row gap-6 items-center">
+                    <div class="w-full md:w-2/3 bg-black h-48 rounded-lg flex items-center justify-center text-4xl text-red-500 font-bold border border-red-500">
+                        PÁGINA WEB <br>(PASO A PASO)
+                    </div>
+                    <div class="w-full md:w-1/3 text-left">
+                        <p class="text-sm text-gray-400 mb-3">Aprende CSS3 desde cero hasta dominarlo</p>
+                        <div class="bg-blue-600 p-3 rounded-lg text-white font-semibold">
+                            Curso de CSS (¡Clic para ver!)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MÓDULO 2: Plantillas (Sección de Plantillas) -->
+            <div id="plantillas" class="bg-gray-900 p-6 rounded-2xl shadow-2xl mb-8">
+                <h2 class="text-2xl font-bold text-gray-300 mb-6">Estrategias para conseguir clientes</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Tarjeta de Plantilla 1 -->
+                    <div class="bg-gray-800 p-4 rounded-xl border border-gray-700 hover:shadow-lg transition duration-300">
+                        <div class="h-32 bg-gray-700 rounded-lg mb-3 flex items-center justify-center text-xs text-gray-400">
+                            [Miniatura E-commerce]
+                        </div>
+                        <h3 class="text-lg font-semibold text-white mb-2">E-commerce con ReactJS y CSS</h3>
+                        <p class="text-xs text-gray-400 mb-3">Descubre tu esencia en Esencia Import.</p>
+                        <div class="flex space-x-3">
+                            <button class="bg-blue-600 text-white text-sm px-3 py-1 rounded-lg">Demo</button>
+                            <button class="bg-gray-700 text-gray-300 text-sm px-3 py-1 rounded-lg">Código</button>
+                        </div>
+                    </div>
+                    <!-- Tarjeta de Plantilla 2 -->
+                    <div class="bg-gray-800 p-4 rounded-xl border border-gray-700 hover:shadow-lg transition duration-300">
+                        <div class="h-32 bg-gray-700 rounded-lg mb-3 flex items-center justify-center text-xs text-gray-400">
+                            [Miniatura Portafolio]
+                        </div>
+                        <h3 class="text-lg font-semibold text-white mb-2">Portafolio modo claro y oscuro 4</h3>
+                        <p class="text-xs text-gray-400 mb-3">Presenta habilidades, proyectos y logros profesionales.</p>
+                        <div class="flex space-x-3">
+                            <button class="bg-blue-600 text-white text-sm px-3 py-1 rounded-lg">Demo</button>
+                            <button class="bg-gray-700 text-gray-300 text-sm px-3 py-1 rounded-lg">Código</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-8">
+                    <a href="#plantillas-completo" class="bg-blue-600 text-white font-bold py-3 px-8 rounded-xl shadow-lg hover:bg-blue-700 inline-block transition transform hover:scale-[1.01]">
+                        Ver todas las plantillas →
                     </a>
                 </div>
+            </div>
 
-                <!-- Lista de Servicios/Puntos Clave -->
-                <h2 class="text-3xl font-bold text-white mb-8">Nuestros Principales Enfoques</h2>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
-                    
-                    <div class="bg-gray-800 p-6 rounded-xl border-l-4 border-blue-500 shadow-lg">
-                        <div class="text-3xl mb-3 text-blue-400">🌐</div>
-                        <h3 class="text-xl font-semibold text-white mb-2">Desarrollo Web Full Stack</h3>
-                        <p class="text-gray-400 text-sm">Creación de sitios, e-commerce y sistemas a medida usando las últimas tecnologías (React, Node, Angular).</p>
-                    </div>
-
-                    <div class="bg-gray-800 p-6 rounded-xl border-l-4 border-green-500 shadow-lg">
-                        <div class="text-3xl mb-3 text-green-400">🛡️</div>
-                        <h3 class="text-xl font-semibold text-white mb-2">Seguridad y Respaldo de Datos</h3>
-                        <p class="text-gray-400 text-sm">Implementación de firewalls, encriptación y planes de Disaster Recovery para proteger tu información crítica.</p>
-                    </div>
-
-                    <div class="bg-gray-800 p-6 rounded-xl border-l-4 border-yellow-500 shadow-lg">
-                        <div class="text-3xl mb-3 text-yellow-400">⚡</div>
-                        <h3 class="text-xl font-semibold text-white mb-2">Optimización de Rendimiento</h3>
-                        <p class="text-gray-400 text-sm">Mejoramos la velocidad de tus aplicaciones y la infraestructura de servidores para máxima eficiencia.</p>
-                    </div>
-
-                    <div class="bg-gray-800 p-6 rounded-xl border-l-4 border-purple-500 shadow-lg">
-                        <div class="text-3xl mb-3 text-purple-400">📊</div>
-                        <h3 class="text-xl font-semibold text-white mb-2">Consultoría y Estrategia TI</h3>
-                        <p class="text-gray-400 text-sm">Análisis de necesidades tecnológicas y planificación de proyectos de transformación digital.</p>
-                    </div>
-
-                    <div class="bg-gray-800 p-6 rounded-xl border-l-4 border-red-500 shadow-lg">
-                        <div class="text-3xl mb-3 text-red-400">⚙️</div>
-                        <h3 class="text-xl font-semibold text-white mb-2">Mantenimiento Preventivo</h3>
-                        <p class="text-gray-400 text-sm">Servicios recurrentes para mantener tus equipos y software actualizados y libres de fallos.</p>
-                    </div>
-
-                    <div class="bg-gray-800 p-6 rounded-xl border-l-4 border-teal-500 shadow-lg">
-                        <div class="text-3xl mb-3 text-teal-400">💡</div>
-                        <h3 class="text-xl font-semibold text-white mb-2">Capacitación y Soporte Personalizado</h3>
-                        <p class="text-gray-400 text-sm">Entrenamiento a tu personal en nuevas herramientas y soporte técnico inmediato.</p>
-                    </div>
-                </div>
-
-                <div class="mt-12">
-                    <button onclick="showView('servicios')" class="bg-blue-600 text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-blue-700 transition transform hover:scale-105">
-                        VER TODOS LOS SERVICIOS
-                    </button>
+            <!-- MÓDULO 3: ¿Quiénes Somos? -->
+            <div id="quienes-somos" class="bg-gray-800 p-6 rounded-2xl shadow-2xl border border-gray-700">
+                <h2 class="text-3xl font-bold text-white mb-4">Agencia de Desarrollo Web en Guatemala y Latinoamérica</h2>
+                <p class="text-gray-400 mb-4">
+                    En **rodreyrj**, especialistas en diseño y desarrollo web, creamos sitios optimizados para SEO y enfocados en conversiones. Atendemos clientes en **Guatemala, México, Argentina** y toda la región.
+                </p>
+                <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mt-6">
+                    <a href="#contacto" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg shadow-md flex items-center justify-center hover:bg-blue-700 transition">
+                        <span class="mr-2">✉️</span> Cotizar proyecto
+                    </a>
+                    <a href="#casos-exito" class="w-full bg-gray-700 text-gray-300 font-bold py-3 px-4 rounded-lg shadow-md flex items-center justify-center hover:bg-gray-600 transition">
+                        <span class="mr-2">📁</span> Ver casos de éxito
+                    </a>
                 </div>
             </div>
-        </section>
 
-        <!-- ============================================== -->
-        <!-- 2. VISTA SERVICIOS -->
-        <!-- ============================================== -->
-        <section id="servicios" class="view py-16 md:py-24 bg-gray-900 border-t border-gray-800">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <!-- Header interno con botón de atrás y logo -->
-                <div class="flex items-center justify-between mb-8 pb-4 border-b border-gray-700">
-                    <button onclick="showView('home'); return false;" class="flex items-center text-lg font-semibold text-gray-400 hover:text-blue-500 transition duration-200">
-                        <span class="text-2xl mr-2">⬅️</span> Volver a Inicio
-                    </button>
-                    <p class="flex items-center text-xl font-bold text-white">
-                        <span class="text-2xl mr-2 text-yellow-400">⚡</span> Servicios
-                    </p>
-                </div>
-
-                <div class="text-center">
-                    <h2 class="text-4xl font-extrabold text-white mb-4">Catálogo Completo de Servicios</h2>
-                    <p class="text-xl text-gray-400 mb-12">Detalles de las soluciones que ofrece rodreyrj para el crecimiento de tu negocio.</p>
-                </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
-                    
-                    <!-- Tarjeta de Desarrollo Web -->
-                    <div class="bg-gray-800 p-8 rounded-xl shadow-2xl border-t-8 border-blue-500">
-                        <div class="flex items-center mb-4">
-                            <div class="text-4xl text-blue-500 mr-4">💻</div>
-                            <h3 class="text-2xl font-bold text-white">Desarrollo de Software y Web</h3>
-                        </div>
-                        <p class="text-gray-400 mb-4">Desde landing pages hasta ERPs complejos. Nos especializamos en arquitectura escalable y experiencia de usuario. Entregamos código documentado y propiedad total del proyecto.</p>
-                        <ul class="list-disc list-inside text-gray-500 space-y-1 ml-4">
-                            <li>Sitios estáticos y dinámicos</li>
-                            <li>Integración con pasarelas de pago y APIs</li>
-                            <li>Webs optimizadas para SEO y velocidad</li>
-                        </ul>
-                    </div>
-
-                    <!-- Tarjeta de Soporte Técnico -->
-                    <div class="bg-gray-800 p-8 rounded-xl shadow-2xl border-t-8 border-green-500">
-                        <div class="flex items-center mb-4">
-                            <div class="text-4xl text-green-500 mr-4">🩺</div>
-                            <h3 class="text-2xl font-bold text-white">Mantenimiento y Soporte TI</h3>
-                        </div>
-                        <p class="text-gray-400 mb-4">Contratos de soporte 24/7 y planes de mantenimiento preventivo para evitar fallos. Incluye revisión de hardware, software y redes.</p>
-                        <ul class="list-disc list-inside text-gray-500 space-y-1 ml-4">
-                            <li>Soporte remoto y presencial (zona Guatemala)</li>
-                            <li>Gestión de servidores y hosting</li>
-                            <li>Auditorías de seguridad periódicas</li>
-                        </ul>
-                    </div>
-
-                    <!-- Tarjeta de Infraestructura -->
-                    <div class="bg-gray-800 p-8 rounded-xl shadow-2xl border-t-8 border-yellow-500">
-                        <div class="flex items-center mb-4">
-                            <div class="text-4xl text-yellow-500 mr-4">☁️</div>
-                            <h3 class="text-2xl font-bold text-white">Cloud Computing y Servidores</h3>
-                        </div>
-                        <p class="text-gray-400 mb-4">Migración y gestión de infraestructuras en la nube (AWS, Google Cloud). Configuración de servidores y balanceo de carga para alta disponibilidad.</p>
-                        <ul class="list-disc list-inside text-gray-500 space-y-1 ml-4">
-                            <li>Diseño de arquitectura de red</li>
-                            <li>Despliegue automatizado (CI/CD)</li>
-                            <li>Monitoreo continuo de recursos</li>
-                        </ul>
-                    </div>
-                    
-                    <!-- Tarjeta de Consultoría -->
-                    <div class="bg-gray-800 p-8 rounded-xl shadow-2xl border-t-8 border-purple-500">
-                        <div class="flex items-center mb-4">
-                            <div class="text-4xl text-purple-500 mr-4">🧠</div>
-                            <h3 class="text-2xl font-bold text-white">Consultoría Tecnológica Integral</h3>
-                        </div>
-                        <p class="text-gray-400 mb-4">Te ayudamos a tomar las mejores decisiones tecnológicas. Analizamos tus procesos y proponemos herramientas para optimizar recursos y costos.</p>
-                        <ul class="list-disc list-inside text-gray-500 space-y-1 ml-4">
-                            <li>Análisis de ROI en inversiones TI</li>
-                            <li>Planes de digitalización a corto y largo plazo</li>
-                            <li>Selección e implementación de CRMs/ERPs</li>
-                        </ul>
-                    </div>
-
-                </div>
-                <div class="mt-12 text-center">
-                    <button onclick="showView('contacto')" class="bg-blue-600 text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-blue-700 transition transform hover:scale-105">
-                        QUIERO EMPEZAR MI PROYECTO
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <!-- ============================================== -->
-        <!-- 3. VISTA PLANTILLAS -->
-        <!-- ============================================== -->
-        <section id="plantillas" class="view py-16 md:py-24 bg-gray-900 border-t border-gray-800">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <!-- Header interno con botón de atrás y logo -->
-                <div class="flex items-center justify-between mb-8 pb-4 border-b border-gray-700">
-                    <button onclick="showView('home'); return false;" class="flex items-center text-lg font-semibold text-gray-400 hover:text-blue-500 transition duration-200">
-                        <span class="text-2xl mr-2">⬅️</span> Volver a Inicio
-                    </button>
-                    <p class="flex items-center text-xl font-bold text-white">
-                        <span class="text-2xl mr-2 text-yellow-400">⚡</span> Plantillas
-                    </p>
-                </div>
-
-                <div class="text-center">
-                    <h2 class="text-4xl font-extrabold text-white mb-4">Plantillas Exclusivas de rodreyrj</h2>
-                    <p class="text-xl text-gray-400 mb-8">Soluciones pre-diseñadas y listas para implementarse en 24 horas.</p>
-                </div>
-                
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    
-                    <!-- Plantilla 1: E-commerce -->
-                    <div class="bg-gray-800 p-6 rounded-xl shadow-2xl hover:shadow-purple-500/30 transition duration-500 border border-gray-700">
-                        <div class="mockup-container mx-auto">
-                            <div class="mockup-pc"> <div class="mockup-pc-screen">Plantilla E-commerce</div> </div>
-                            <div class="mockup-mobile"> <div class="mockup-mobile-screen">Vista Móvil</div> </div>
-                        </div>
-                        <h3 class="text-2xl font-bold text-white mb-2">E-commerce Moderno (ReactJS)</h3>
-                        <p class="text-gray-400 mb-4 text-sm">Integración con Stripe/PayPal. Gestión de inventario y pedidos.</p>
-                        <div class="flex justify-center space-x-4">
-                            <button class="px-5 py-2 rounded-lg font-semibold text-white bg-purple-600 transition duration-300 hover:bg-purple-700">Comprar</button>
-                            <button class="px-5 py-2 rounded-lg font-semibold text-gray-300 bg-gray-700 transition duration-300 hover:bg-gray-600">Demo</button>
-                        </div>
-                    </div>
-                    
-                    <!-- Plantilla 2: Dashboard/CRM -->
-                    <div class="bg-gray-800 p-6 rounded-xl shadow-2xl hover:shadow-purple-500/30 transition duration-500 border border-gray-700">
-                        <div class="mockup-container mx-auto">
-                            <div class="mockup-pc"> <div class="mockup-pc-screen">Plantilla CRM</div> </div>
-                            <div class="mockup-mobile"> <div class="mockup-mobile-screen">Vista Móvil</div> </div>
-                        </div>
-                        <h3 class="text-2xl font-bold text-white mb-2">Dashboard de Gestión (NodeJS)</h3>
-                        <p class="text-gray-400 mb-4 text-sm">Panel de control completo para clientes, reportes y métricas de negocio.</p>
-                        <div class="flex justify-center space-x-4">
-                            <button class="px-5 py-2 rounded-lg font-semibold text-white bg-purple-600 transition duration-300 hover:bg-purple-700">Comprar</button>
-                            <button class="px-5 py-2 rounded-lg font-semibold text-gray-300 bg-gray-700 transition duration-300 hover:bg-gray-600">Demo</button>
-                        </div>
-                    </div>
-
-                    <!-- Plantilla 3: Landing Page Avanzada -->
-                    <div class="bg-gray-800 p-6 rounded-xl shadow-2xl hover:shadow-purple-500/30 transition duration-500 border border-gray-700">
-                        <div class="mockup-container mx-auto">
-                            <div class="mockup-pc"> <div class="mockup-pc-screen">Landing Page</div> </div>
-                            <div class="mockup-mobile"> <div class="mockup-mobile-screen">Vista Móvil</div> </div>
-                        </div>
-                        <h3 class="text-2xl font-bold text-white mb-2">Landing Page Conversión (HTML/JS)</h3>
-                        <p class="text-gray-400 mb-4 text-sm">Diseño enfocado en captación de leads y ventas con alta velocidad de carga.</p>
-                        <div class="flex justify-center space-x-4">
-                            <button class="px-5 py-2 rounded-lg font-semibold text-white bg-purple-600 transition duration-300 hover:bg-purple-700">Comprar</button>
-                            <button class="px-5 py-2 rounded-lg font-semibold text-gray-300 bg-gray-700 transition duration-300 hover:bg-gray-600">Demo</button>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="mt-12 text-center">
-                    <button onclick="showView('contacto')" class="bg-purple-600 text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-purple-700 transition transform hover:scale-105">
-                        SOLICITAR PLANTILLA PERSONALIZADA
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <!-- ============================================== -->
-        <!-- 4. VISTA QUIÉNES SOMOS -->
-        <!-- ============================================== -->
-        <section id="quienes-somos" class="view py-16 md:py-24 bg-gray-900 border-t border-gray-800">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <!-- Header interno con botón de atrás y logo -->
-                <div class="flex items-center justify-between mb-8 pb-4 border-b border-gray-700">
-                    <button onclick="showView('home'); return false;" class="flex items-center text-lg font-semibold text-gray-400 hover:text-blue-500 transition duration-200">
-                        <span class="text-2xl mr-2">⬅️</span> Volver a Inicio
-                    </button>
-                    <p class="flex items-center text-xl font-bold text-white">
-                        <span class="text-2xl mr-2 text-yellow-400">⚡</span> Quiénes Somos
-                    </p>
-                </div>
-                
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                    
-                    <div class="lg:order-2">
-                        <div class="mockup-container w-full h-auto">
-                            <div class="mockup-pc w-full h-auto">
-                                <div class="mockup-pc-screen h-64 md:h-96 flex flex-col justify-center items-center p-8">
-                                    <p class="text-white text-2xl font-bold mb-4">La Misión de rodreyrj</p>
-                                    <p class="text-gray-400 text-center text-sm">"Ofrecer soluciones informáticas de alto valor que impulsen la eficiencia y la rentabilidad de las PYMES en Latinoamérica, garantizando un soporte técnico inigualable."</p>
-                                </div>
-                            </div>
-                            <div class="mockup-mobile">
-                                <div class="mockup-mobile-screen">Diseño Móvil</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="text-left lg:order-1">
-                        <h2 class="text-4xl font-extrabold text-white mb-4">
-                            Conoce a **rodreyrj**
-                        </h2>
-                        <p class="text-xl text-gray-400 mb-6">
-                            Somos más que una agencia, somos tu socio tecnológico. Fundados en Guatemala, nuestro equipo está compuesto por desarrolladores y consultores de TI apasionados por la innovación y la seguridad.
-                        </p>
-                        <div class="bg-gray-800 p-4 rounded-lg border-l-4 border-green-500 mb-6">
-                            <h4 class="font-bold text-green-400">Nuestros Valores:</h4>
-                            <ul class="text-gray-500 text-sm list-disc list-inside ml-2 mt-1">
-                                <li>**Excelencia:** Solo entregamos código y soporte de máxima calidad.</li>
-                                <li>**Integridad:** Transparencia en cada proceso y presupuesto.</li>
-                                <li>**Compromiso:** Tu éxito es nuestra prioridad.</li>
-                            </ul>
-                        </div>
-                        
-                        <button onclick="showView('contacto')" class="bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-blue-700 transition duration-300 transform hover:scale-105">
-                            Hablemos de tu Proyecto
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ============================================== -->
-        <!-- 5. VISTA CONTACTO (Footer integrado) -->
-        <!-- ============================================== -->
-        <section id="contacto" class="view py-16 md:py-24 bg-gray-800 border-t border-gray-700">
-            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                <!-- Header interno con botón de atrás y logo -->
-                <div class="flex items-center justify-between mb-8 pb-4 border-b border-gray-700">
-                    <button onclick="showView('home'); return false;" class="flex items-center text-lg font-semibold text-gray-400 hover:text-blue-500 transition duration-200">
-                        <span class="text-2xl mr-2">⬅️</span> Volver a Inicio
-                    </button>
-                    <p class="flex items-center text-xl font-bold text-white">
-                        <span class="text-2xl mr-2 text-yellow-400">⚡</span> Contacto
-                    </p>
-                </div>
-                
-                <div class="text-center">
-                    <h2 class="text-4xl font-extrabold text-white mb-4">Ponte en Contacto</h2>
-                    <p class="text-xl text-gray-400 mb-10">
-                        Estamos listos para impulsar tu próximo proyecto. Envíanos un mensaje y te responderemos pronto.
-                    </p>
-                </div>
-                <div class="bg-gray-900 p-8 rounded-xl shadow-2xl border border-gray-700">
-                    <form class="space-y-4">
-                        <input type="text" placeholder="Tu Nombre" class="w-full p-4 rounded-lg bg-gray-700 text-white border-none focus:ring-2 focus:ring-blue-500" required>
-                        <input type="email" placeholder="Tu Correo Electrónico" class="w-full p-4 rounded-lg bg-gray-700 text-white border-none focus:ring-2 focus:ring-blue-500" required>
-                        <textarea placeholder="Tu Mensaje o Requerimiento" rows="4" class="w-full p-4 rounded-lg bg-gray-700 text-white border-none focus:ring-2 focus:ring-blue-500" required></textarea>
-                        <button type="submit" class="w-full bg-blue-600 text-white font-bold p-4 rounded-lg hover:bg-blue-700 transition duration-300">
-                            Enviar Mensaje
-                        </button>
-                    </div>
-                </div>
-            </div>
         </section>
 
     </main>
     
-    <!-- Pie de Página (con Logo y Copyright) -->
-    <footer class="bg-gray-900 text-center py-10 border-t border-gray-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-             <!-- Logo en Footer -->
-            <a href="#" onclick="showView('home'); return false;" class="inline-flex items-center text-3xl font-extrabold text-blue-500 hover:text-blue-400 transition duration-300 mb-4">
-                <span class="text-4xl mr-2 text-yellow-400">⚡</span> rodreyrj
-            </a>
-            <p class="text-gray-500 text-sm mt-2">
-                Desarrollo y Consultoría Informática de Alta Calidad.
+    <!-- Pie de Página (Footer con Contacto y Enlaces) -->
+    <footer id="footer" class="bg-gray-900 text-white border-t border-gray-800 pt-10 pb-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+            
+            <!-- Columna 1: Logo y Misión -->
+            <div>
+                <a href="#" class="inline-flex items-center text-3xl font-extrabold text-blue-500 mb-4">
+                    <span class="text-4xl mr-2 text-blue-500">⚡</span> rodreyrj
+                </a>
+                <p class="text-gray-400 text-sm mt-2 max-w-xs md:max-w-none mx-auto md:mx-0">
+                    Creamos sitios web modernos, rápidos y optimizados para Google. Aumenta tu presencia online y consigue más clientes desde hoy.
+                </p>
+            </div>
+
+            <!-- Columna 2: Enlaces (Links) -->
+            <div class="md:pl-16">
+                <h4 class="text-lg font-bold text-white mb-4">Enlaces</h4>
+                <ul class="space-y-2 text-gray-400 text-sm">
+                    <li><a href="#inicio" class="hover:text-blue-400">Inicio</a></li>
+                    <li><a href="#quienes-somos" class="hover:text-blue-400">Quiénes Somos</a></li>
+                    <li><a href="#cursos" class="hover:text-blue-400">Cursos</a></li>
+                    <li><a href="#plantillas" class="hover:text-blue-400">Plantillas</a></li>
+                </ul>
+            </div>
+
+            <!-- Columna 3: Contacto -->
+            <div>
+                <h4 id="contacto" class="text-lg font-bold text-white mb-4">Contacto</h4>
+                <div class="space-y-2 text-gray-400 text-sm">
+                    <p class="flex items-center justify-center md:justify-start">
+                        <span class="mr-2 text-blue-500">📧</span> edgarromerocuc94@gmail.com
+                    </p>
+                    <p class="flex items-center justify-center md:justify-start">
+                        <span class="mr-2 text-blue-500">📱</span> +502 4598 4577
+                    </p>
+                    <p class="flex items-center justify-center md:justify-start">
+                        <span class="mr-2 text-blue-500">📍</span> Ciudad de Cobán, A.V. Guatemala
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Copyright -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10 border-t border-gray-800 pt-4">
+            <p class="text-gray-500 text-xs text-center">
+                © 2025 rodreyrj. Todos los derechos reservados.
             </p>
-            <p class="text-gray-500 text-xs mt-4">© 2025 rodreyrj. Todos los derechos reservados.</p>
         </div>
     </footer>
 
 
-    <!-- Script de Navegación, Temporizador y Scroll Shadow -->
+    <!-- Script de Funcionalidad -->
     <script>
-        // Función para cambiar la vista (simulación de modularidad)
-        function showView(viewId) {
-            const views = document.querySelectorAll('.view');
-            views.forEach(view => {
-                view.classList.remove('active-view');
-            });
-            const activeView = document.getElementById(viewId);
-            if (activeView) {
-                activeView.classList.add('active-view');
-                // Scroll to top when changing view
-                window.scrollTo({ top: 0, behavior: 'smooth' }); 
-            }
-        }
-
         // Función para el menú móvil
         function toggleMenu() {
             const mobileMenu = document.getElementById('mobile-menu');
             mobileMenu.classList.toggle('hidden');
         }
-
         document.getElementById('menu-toggle').addEventListener('click', toggleMenu);
 
-        // Lógica para agregar sombra al header al hacer scroll
+        // Lógica para agregar sombra al header al hacer scroll (Efecto Flotante)
         function handleScroll() {
             const header = document.getElementById('main-header');
-            if (window.scrollY > 0) {
-                header.classList.add('header-shadow');
-                header.classList.add('border-b-transparent'); // Remueve la línea de abajo
+            if (window.scrollY > 50) { // Se activa la sombra después de 50px de scroll
+                header.classList.add('header-shadow-active');
+                header.classList.remove('header-initial');
             } else {
-                header.classList.remove('header-shadow');
-                header.classList.remove('border-b-transparent');
+                header.classList.remove('header-shadow-active');
+                header.classList.add('header-initial');
             }
         }
-        
         window.addEventListener('scroll', handleScroll);
-
-
-        // Lógica del temporizador (cuenta hasta las 18:00 - 6 PM)
+        
+        // Lógica del temporizador (simulado para el diseño)
         function startCountdown() {
-            const countdownElement = document.getElementById('countdown');
-            if (!countdownElement) return;
-
+            // NOTA: Para este diseño, se usa un temporizador simple basado en la hora actual
+            // que cuenta hacia las 6 PM (18:00)
+            const hoursElement = document.getElementById('timer-hours');
+            const minsElement = document.getElementById('timer-mins');
+            const secsElement = document.getElementById('timer-secs');
+            
             const interval = setInterval(function() {
                 const now = new Date();
                 const targetTime = new Date(now);
                 targetTime.setHours(18, 0, 0, 0); // 6:00 PM (18:00) hoy
 
-                // Si la hora actual ya pasó las 6 PM, establece el objetivo para las 6 PM de mañana
                 if (now.getHours() >= 18) {
                     targetTime.setDate(targetTime.getDate() + 1);
                 }
 
                 const distance = targetTime.getTime() - now.getTime();
 
-                // Cálculos de tiempo
+                if (distance < 0) {
+                    clearInterval(interval);
+                    hoursElement.textContent = '00';
+                    minsElement.textContent = '00';
+                    secsElement.textContent = '00';
+                    return;
+                }
+
                 const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-                // Formato con dos dígitos
                 const formatTime = (time) => String(time).padStart(2, '0');
 
-                countdownElement.innerHTML = 
-                    `${formatTime(hours)} HORAS : ${formatTime(minutes)} MIN : ${formatTime(seconds)} SEG`;
-
-                // Si por alguna razón la distancia es negativa (seguridad)
-                if (distance < 0) {
-                    clearInterval(interval);
-                    countdownElement.innerHTML = "JORNADA CERRADA";
-                }
+                hoursElement.textContent = formatTime(hours);
+                minsElement.textContent = formatTime(minutes);
+                secsElement.textContent = formatTime(seconds);
+                
             }, 1000);
         }
 
         window.onload = function() {
             startCountdown();
-            handleScroll(); // Verifica la posición inicial al cargar la página
+            handleScroll(); // Chequeo inicial
         };
     </script>
 
