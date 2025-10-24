@@ -3,28 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>rodreyrj | Diseños Profesionales Listos para Usar</title>
+    <title>rodreyrj | Diseños Profesionales y Soporte Informático</title>
     <!-- Carga de Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #0d111b; /* Fondo aún más oscuro para coincidir con Edukuk */
+            background-color: #0d111b; /* Fondo oscuro */
             color: #e5e7eb; /* Texto claro */
+            scroll-behavior: smooth;
         }
-        /* Clase para la sombra marcada en el Header al hacer scroll */
+        /* Clase para la sombra marcada en el Header al hacer scroll (Efecto Flotante) */
         .header-shadow-active {
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-            background-color: #111827; /* Fondo oscuro y sólido para que flote bien */
+            background-color: #111827;
             transition: all 0.3s ease-in-out;
         }
-        /* Clase para el fondo inicial del header (puede ser semi-transparente o sin sombra) */
+        /* Clase para el fondo inicial del header (transparente por encima del hero) */
         .header-initial {
             background-color: transparent;
         }
+        /* Estilos del Temporizador/Horario */
         .time-box {
-            background-color: #374151; /* Gray-700 */
+            background-color: #374151;
             padding: 0.5rem 1.5rem;
             border-radius: 0.75rem;
             display: flex;
@@ -36,226 +38,46 @@
         .time-number {
             font-size: 2rem;
             font-weight: 700;
-            color: #3b82f6; /* Blue-500 */
+            color: #3b82f6;
         }
         .time-label {
             font-size: 0.75rem;
             text-transform: uppercase;
-            color: #9ca3af; /* Gray-400 */
+            color: #9ca3af;
             margin-top: 0.25rem;
         }
-        /* Estilo para los botones de navegación horizontal (Plantillas) */
-        .nav-button {
-            padding: 0.5rem 1.5rem;
-            border-radius: 9999px;
-            font-weight: 600;
-            transition: all 0.2s;
-            cursor: pointer;
+        .no-scroll {
+            overflow: hidden;
         }
-        .nav-button-active {
-            background-color: #3b82f6; /* Blue-500 */
-            color: white;
-        }
-        .nav-button-inactive {
-            background-color: #1f2937; /* Gray-800 */
-            color: #d1d5db; /* Gray-300 */
-            border: 1px solid #374151;
+        .page-transition {
+            transition: opacity 0.3s ease-in-out;
         }
     </style>
 </head>
 <body class="bg-gray-900">
 
-    <!-- Navegación (Header) - Sticky y con transición para la sombra -->
-    <header id="main-header" class="header-initial sticky top-0 z-50 w-full transition duration-300 ease-in-out">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
-            <!-- Logo: Edukuk (usaremos "rodreyrj" para el ejemplo) -->
-            <a href="#" class="flex items-center text-2xl font-extrabold text-blue-500 hover:text-blue-400 transition duration-300">
-                <span class="text-3xl mr-2 text-blue-500">⚡</span> rodreyrj
-            </a>
-            
-            <!-- Menú Desktop con Enlaces de Navegación -->
-            <nav class="hidden md:flex space-x-6 text-sm font-medium">
-                <a href="#inicio" class="text-gray-300 hover:text-blue-400 transition duration-200">Inicio</a>
-                <a href="#quienes-somos" class="text-gray-300 hover:text-blue-400 transition duration-200">Quiénes Somos</a>
-                <a href="#cursos" class="text-white bg-blue-600 px-3 py-1 rounded-full hover:bg-blue-700 transition duration-200">Cursos</a>
-                <a href="#plantillas" class="text-white bg-purple-600 px-3 py-1 rounded-full hover:bg-purple-700 transition duration-200">Plantillas</a>
-            </nav>
-            
-            <!-- Botón de Menú Móvil (Hamburguesa) -->
-            <button id="menu-toggle" class="md:hidden text-gray-300 hover:text-blue-500 focus:outline-none p-2 rounded-lg bg-gray-800">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-            </button>
-        </div>
-        
-        <!-- Menú Móvil Desplegable -->
-        <nav id="mobile-menu" class="md:hidden hidden bg-gray-900 border-t border-gray-800">
-            <div class="px-4 pt-4 pb-4 space-y-2">
-                <a href="#inicio" onclick="toggleMenu()" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-800">Inicio</a>
-                <a href="#quienes-somos" onclick="toggleMenu()" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-800">Quiénes Somos</a>
-                <a href="#cursos" onclick="toggleMenu()" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-blue-600 hover:bg-blue-700">Cursos</a>
-                <a href="#plantillas" onclick="toggleMenu()" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-purple-600 hover:bg-purple-700">Plantillas</a>
-            </div>
-        </nav>
+    <!-- Header Contenedor - Se actualiza dinámicamente -->
+    <header id="main-header" class="header-initial fixed top-0 left-0 z-50 w-full transition duration-300 ease-in-out">
+        <!-- Contenido del header se inyecta aquí -->
     </header>
 
-    <!-- Contenido Principal -->
-    <main class="min-h-screen pt-4">
-        
-        <!-- SECCIÓN DE OFERTA / HOME (Diseño principal de la landing) -->
-        <section id="inicio" class="max-w-4xl mx-auto px-4 py-8 text-center">
-            
-            <!-- Tag NEW / NUEVO -->
-            <div class="inline-block bg-purple-600/50 text-white text-xs font-semibold px-4 py-1 rounded-full mb-4 border border-purple-500">
-                NUEVO
-                <span class="ml-2 text-purple-200">30 plantillas con HTML, CSS y JavaScript</span>
-            </div>
-
-            <h1 class="text-5xl md:text-6xl font-extrabold leading-tight mb-4 text-white">
-                Diseños profesionales <span class="text-blue-400">listos para usar</span>
-            </h1>
-            <p class="text-lg md:text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
-                Ideal para abogados, dentistas, restaurantes y más. Personalízalas fácilmente con tu propio contenido.
-            </p>
-
-            <!-- Contenedor del Temporizador y Precios -->
-            <div class="bg-gray-800 p-6 rounded-2xl shadow-xl inline-block w-full md:max-w-md border border-gray-700">
-                <div class="flex items-center justify-center space-x-2 text-yellow-400 mb-4 font-bold">
-                    <span class="text-xl">⚡</span> 
-                    <span>Oferta especial termina en:</span>
-                </div>
-                
-                <!-- Temporizador -->
-                <div id="countdown-timer" class="flex justify-center space-x-3 mb-6">
-                    <!-- Horas -->
-                    <div class="time-box">
-                        <span id="timer-hours" class="time-number">10</span>
-                        <span class="time-label">HORAS</span>
-                    </div>
-                    <span class="text-blue-500 text-4xl font-bold">:</span>
-                    <!-- Minutos -->
-                    <div class="time-box">
-                        <span id="timer-mins" class="time-number">06</span>
-                        <span class="time-label">MIN</span>
-                    </div>
-                    <span class="text-blue-500 text-4xl font-bold">:</span>
-                    <!-- Segundos -->
-                    <div class="time-box">
-                        <span id="timer-secs" class="time-number">19</span>
-                        <span class="time-label">SEG</span>
-                    </div>
-                </div>
-
-                <!-- Precios y Descuento -->
-                <div class="flex items-center justify-center space-x-4 mb-6">
-                    <span class="text-3xl text-gray-400 line-through">$10</span>
-                    <span class="text-4xl font-extrabold text-green-400">$5</span>
-                    <span class="text-md font-bold text-green-400 bg-green-900/50 px-3 py-1 rounded-full">-50%</span>
-                </div>
-
-                <!-- Botón de Oferta -->
-                <button class="w-full bg-red-600 text-white font-bold py-4 px-8 rounded-xl shadow-lg hover:bg-red-700 transition transform hover:scale-[1.01]">
-                    <span class="text-xl">🔥 OBTENER OFERTA</span>
-                </button>
-            </div>
-            
-            <!-- Mockup al lado (Solo visible en desktop, o un poco más abajo) -->
-            <div class="mt-8">
-                <!-- Placeholder de Mockup o Imagen (se deja el texto simple para evitar imágenes externas) -->
-                <div class="md:flex md:justify-center md:items-center hidden">
-                    <div class="bg-gray-700 p-8 rounded-xl w-3/4 h-64 flex items-center justify-center text-gray-400 border-2 border-dashed border-gray-600">
-                        [Mockup: Vista de PC y Móvil aquí]
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECCIÓN DE CONTENIDO ADICIONAL (Similar a tus videos) -->
-        <section class="max-w-4xl mx-auto px-4 py-12">
-            
-            <!-- MÓDULO 1: Curso / Tutorial -->
-            <div class="bg-gray-800 p-6 rounded-2xl shadow-2xl border border-gray-700 mb-8">
-                <h2 class="text-2xl font-bold text-gray-300 mb-4">Cómo construir una página web</h2>
-                <div class="flex flex-col md:flex-row gap-6 items-center">
-                    <div class="w-full md:w-2/3 bg-black h-48 rounded-lg flex items-center justify-center text-4xl text-red-500 font-bold border border-red-500">
-                        PÁGINA WEB <br>(PASO A PASO)
-                    </div>
-                    <div class="w-full md:w-1/3 text-left">
-                        <p class="text-sm text-gray-400 mb-3">Aprende CSS3 desde cero hasta dominarlo</p>
-                        <div class="bg-blue-600 p-3 rounded-lg text-white font-semibold">
-                            Curso de CSS (¡Clic para ver!)
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- MÓDULO 2: Plantillas (Sección de Plantillas) -->
-            <div id="plantillas" class="bg-gray-900 p-6 rounded-2xl shadow-2xl mb-8">
-                <h2 class="text-2xl font-bold text-gray-300 mb-6">Estrategias para conseguir clientes</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Tarjeta de Plantilla 1 -->
-                    <div class="bg-gray-800 p-4 rounded-xl border border-gray-700 hover:shadow-lg transition duration-300">
-                        <div class="h-32 bg-gray-700 rounded-lg mb-3 flex items-center justify-center text-xs text-gray-400">
-                            [Miniatura E-commerce]
-                        </div>
-                        <h3 class="text-lg font-semibold text-white mb-2">E-commerce con ReactJS y CSS</h3>
-                        <p class="text-xs text-gray-400 mb-3">Descubre tu esencia en Esencia Import.</p>
-                        <div class="flex space-x-3">
-                            <button class="bg-blue-600 text-white text-sm px-3 py-1 rounded-lg">Demo</button>
-                            <button class="bg-gray-700 text-gray-300 text-sm px-3 py-1 rounded-lg">Código</button>
-                        </div>
-                    </div>
-                    <!-- Tarjeta de Plantilla 2 -->
-                    <div class="bg-gray-800 p-4 rounded-xl border border-gray-700 hover:shadow-lg transition duration-300">
-                        <div class="h-32 bg-gray-700 rounded-lg mb-3 flex items-center justify-center text-xs text-gray-400">
-                            [Miniatura Portafolio]
-                        </div>
-                        <h3 class="text-lg font-semibold text-white mb-2">Portafolio modo claro y oscuro 4</h3>
-                        <p class="text-xs text-gray-400 mb-3">Presenta habilidades, proyectos y logros profesionales.</p>
-                        <div class="flex space-x-3">
-                            <button class="bg-blue-600 text-white text-sm px-3 py-1 rounded-lg">Demo</button>
-                            <button class="bg-gray-700 text-gray-300 text-sm px-3 py-1 rounded-lg">Código</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="text-center mt-8">
-                    <a href="#plantillas-completo" class="bg-blue-600 text-white font-bold py-3 px-8 rounded-xl shadow-lg hover:bg-blue-700 inline-block transition transform hover:scale-[1.01]">
-                        Ver todas las plantillas →
-                    </a>
-                </div>
-            </div>
-
-            <!-- MÓDULO 3: ¿Quiénes Somos? -->
-            <div id="quienes-somos" class="bg-gray-800 p-6 rounded-2xl shadow-2xl border border-gray-700">
-                <h2 class="text-3xl font-bold text-white mb-4">Agencia de Desarrollo Web en Guatemala y Latinoamérica</h2>
-                <p class="text-gray-400 mb-4">
-                    En **rodreyrj**, especialistas en diseño y desarrollo web, creamos sitios optimizados para SEO y enfocados en conversiones. Atendemos clientes en **Guatemala, México, Argentina** y toda la región.
-                </p>
-                <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mt-6">
-                    <a href="#contacto" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg shadow-md flex items-center justify-center hover:bg-blue-700 transition">
-                        <span class="mr-2">✉️</span> Cotizar proyecto
-                    </a>
-                    <a href="#casos-exito" class="w-full bg-gray-700 text-gray-300 font-bold py-3 px-4 rounded-lg shadow-md flex items-center justify-center hover:bg-gray-600 transition">
-                        <span class="mr-2">📁</span> Ver casos de éxito
-                    </a>
-                </div>
-            </div>
-
-        </section>
-
+    <!-- Contenido Principal - Donde se cargan las vistas -->
+    <main id="main-content" class="min-h-screen page-transition">
+        <!-- Vistas de la página (Home, Servicios, Plantillas, Quiénes Somos) se inyectan aquí -->
     </main>
     
-    <!-- Pie de Página (Footer con Contacto y Enlaces) -->
+    <!-- Footer (El footer siempre es estático y visible) -->
     <footer id="footer" class="bg-gray-900 text-white border-t border-gray-800 pt-10 pb-4">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
             
             <!-- Columna 1: Logo y Misión -->
             <div>
-                <a href="#" class="inline-flex items-center text-3xl font-extrabold text-blue-500 mb-4">
+                <!-- Enlace al Home desde el Footer -->
+                <a href="javascript:void(0);" onclick="navigateTo('home');" class="inline-flex items-center text-3xl font-extrabold text-blue-500 mb-4">
                     <span class="text-4xl mr-2 text-blue-500">⚡</span> rodreyrj
                 </a>
                 <p class="text-gray-400 text-sm mt-2 max-w-xs md:max-w-none mx-auto md:mx-0">
-                    Creamos sitios web modernos, rápidos y optimizados para Google. Aumenta tu presencia online y consigue más clientes desde hoy.
+                    Soporte técnico y diseños web modernos, rápidos y optimizados. Aumenta tu presencia online y mejora tu tecnología.
                 </p>
             </div>
 
@@ -263,16 +85,16 @@
             <div class="md:pl-16">
                 <h4 class="text-lg font-bold text-white mb-4">Enlaces</h4>
                 <ul class="space-y-2 text-gray-400 text-sm">
-                    <li><a href="#inicio" class="hover:text-blue-400">Inicio</a></li>
-                    <li><a href="#quienes-somos" class="hover:text-blue-400">Quiénes Somos</a></li>
-                    <li><a href="#cursos" class="hover:text-blue-400">Cursos</a></li>
-                    <li><a href="#plantillas" class="hover:text-blue-400">Plantillas</a></li>
+                    <li><a href="javascript:void(0);" onclick="navigateTo('home');" class="hover:text-blue-400">Inicio</a></li>
+                    <li><a href="javascript:void(0);" onclick="navigateTo('quienes-somos');" class="hover:text-blue-400">Quiénes Somos</a></li>
+                    <li><a href="javascript:void(0);" onclick="navigateTo('servicios-informaticos');" class="hover:text-blue-400">Servicios Informáticos</a></li>
+                    <li><a href="javascript:void(0);" onclick="navigateTo('plantillas');" class="hover:text-blue-400">Plantillas</a></li>
                 </ul>
             </div>
 
             <!-- Columna 3: Contacto -->
             <div>
-                <h4 id="contacto" class="text-lg font-bold text-white mb-4">Contacto</h4>
+                <h4 id="contacto-footer" class="text-lg font-bold text-white mb-4">Contacto</h4>
                 <div class="space-y-2 text-gray-400 text-sm">
                     <p class="flex items-center justify-center md:justify-start">
                         <span class="mr-2 text-blue-500">📧</span> edgarromerocuc94@gmail.com
@@ -298,53 +120,316 @@
 
     <!-- Script de Funcionalidad -->
     <script>
-        // Función para el menú móvil
-        function toggleMenu() {
-            const mobileMenu = document.getElementById('mobile-menu');
-            mobileMenu.classList.toggle('hidden');
-        }
-        document.getElementById('menu-toggle').addEventListener('click', toggleMenu);
+        const mainContent = document.getElementById('main-content');
+        const headerContainer = document.getElementById('main-header');
+        const mobileMenuId = 'mobile-menu'; 
 
-        // Lógica para agregar sombra al header al hacer scroll (Efecto Flotante)
+        // --- VISTAS / TEMPLATES ---
+
+        // 1. HOME VIEW (Página de Oferta)
+        const homeHeaderHTML = (isMobileMenuOpen) => `
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
+                <!-- Logo: ÚNICO enlace para volver al inicio -->
+                <a href="javascript:void(0);" onclick="navigateTo('home');" class="flex items-center text-2xl font-extrabold text-blue-500 hover:text-blue-400 transition duration-300">
+                    <span class="text-3xl mr-2 text-blue-500">⚡</span> rodreyrj
+                </a>
+                
+                <!-- Menú Desktop: SIN "Inicio" -->
+                <nav class="hidden md:flex space-x-6 text-sm font-medium">
+                    <a href="javascript:void(0);" onclick="navigateTo('quienes-somos');" class="text-gray-300 hover:text-blue-400 transition duration-200">Quiénes Somos</a>
+                    <a href="javascript:void(0);" onclick="navigateTo('servicios-informaticos');" class="text-white bg-blue-600 px-3 py-1 rounded-full hover:bg-blue-700 transition duration-200">Servicios Informáticos</a>
+                    <a href="javascript:void(0);" onclick="navigateTo('plantillas');" class="text-white bg-purple-600 px-3 py-1 rounded-full hover:bg-purple-700 transition duration-200">Plantillas</a>
+                </nav>
+                
+                <!-- Botón de Menú Móvil (Hamburguesa) -->
+                <button id="menu-toggle" onclick="toggleMenu()" class="md:hidden text-gray-300 hover:text-blue-500 focus:outline-none p-2 rounded-lg bg-gray-800">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+            
+            <!-- Menú Móvil Desplegable -->
+            <nav id="${mobileMenuId}" class="md:hidden ${isMobileMenuOpen ? '' : 'hidden'} bg-gray-900 border-t border-gray-800">
+                <div class="px-4 pt-4 pb-4 space-y-2">
+                    <a href="javascript:void(0);" onclick="navigateTo('quienes-somos')" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-800">Quiénes Somos</a>
+                    <a href="javascript:void(0);" onclick="navigateTo('servicios-informaticos')" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-blue-600 hover:bg-blue-700">Servicios Informáticos</a>
+                    <a href="javascript:void(0);" onclick="navigateTo('plantillas')" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-purple-600 hover:bg-purple-700">Plantillas</a>
+                </div>
+                <div class="border-t border-gray-800 pt-4 px-4 pb-4">
+                    <a href="javascript:void(0);" onclick="navigateTo('home');" class="inline-flex items-center text-xl font-extrabold text-blue-500 mb-2">
+                        <span class="text-2xl mr-2 text-blue-500">⚡</span> rodreyrj
+                    </a>
+                    <p class="text-gray-400 text-sm mt-1">
+                        Soporte técnico y diseños web modernos, rápidos y optimizados.
+                    </p>
+                </div>
+            </nav>
+        `;
+
+        const homeContentHTML = `
+            <section id="inicio" class="max-w-4xl mx-auto px-4 py-8 text-center min-h-[50vh] flex flex-col justify-center items-center">
+                <div class="inline-block bg-purple-600/50 text-white text-xs font-semibold px-4 py-1 rounded-full mb-4 border border-purple-500">
+                    SERVICIO TÉCNICO Y WEB
+                </div>
+
+                <h1 class="text-5xl md:text-6xl font-extrabold leading-tight mb-4 text-white">
+                    Soluciones Informáticas <span class="text-blue-400">para tu Negocio y Hogar</span>
+                </h1>
+                <p class="text-lg md:text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
+                    Mantenimiento de sistemas, seguridad y presencia digital profesional. ¡Trabajamos hasta las 6 PM!
+                </p>
+
+                <!-- Contenedor del Horario y Estado del Servicio -->
+                <div class="bg-gray-800 p-6 rounded-2xl shadow-xl inline-block w-full md:max-w-md border border-gray-700">
+                    <div id="service-status-message" class="flex items-center justify-center space-x-2 text-yellow-400 mb-4 font-bold text-xl">
+                        <!-- Mensaje de estado se inyecta aquí -->
+                    </div>
+                    
+                    <!-- Temporizador o Hora de Cierre -->
+                    <div id="countdown-timer" class="flex justify-center space-x-3 mb-6">
+                        <!-- Elementos del temporizador se inyectan aquí -->
+                    </div>
+
+                    <!-- Botón de Oferta/Contacto (habilitado o deshabilitado) -->
+                    <button id="home-action-button" class="w-full bg-red-600 text-white font-bold py-4 px-8 rounded-xl shadow-lg hover:bg-red-700 transition transform hover:scale-[1.01] disabled:bg-gray-600 disabled:cursor-not-allowed">
+                        <span class="text-xl">📞 SOLICITAR SERVICIO AHORA</span>
+                    </button>
+                </div>
+            </section>
+            
+            <!-- SECCIÓN DE SERVICIOS DESTACADOS EN INICIO -->
+            <section class="max-w-6xl mx-auto px-4 py-12">
+                <h2 class="text-3xl font-bold text-white mb-8 text-center">Nuestros Servicios Principales</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Destacado 1: Instalación de Sistemas -->
+                    <div class="bg-gray-800 p-6 rounded-xl border border-blue-600/50 hover:shadow-blue-500/30 shadow-lg transition">
+                        <span class="text-4xl text-blue-400 mb-3 block">⚙️</span>
+                        <h3 class="text-xl font-semibold text-white mb-2">Instalación y Mantenimiento de SO</h3>
+                        <p class="text-sm text-gray-400">Windows y Linux. Formateo y configuración completa del sistema operativo.</p>
+                    </div>
+                    <!-- Destacado 2: Diseño Web -->
+                    <div class="bg-gray-800 p-6 rounded-xl border border-purple-600/50 hover:shadow-purple-500/30 shadow-lg transition">
+                        <span class="text-4xl text-purple-400 mb-3 block">🌐</span>
+                        <h3 class="text-xl font-semibold text-white mb-2">Creación de Páginas Web y Logos</h3>
+                        <p class="text-sm text-gray-400">Diseño profesional de sitios web, logos y posters para tu marca.</p>
+                    </div>
+                    <!-- Destacado 3: Seguridad y Antivirus -->
+                    <div class="bg-gray-800 p-6 rounded-xl border border-red-600/50 hover:shadow-red-500/30 shadow-lg transition">
+                        <span class="text-4xl text-red-400 mb-3 block">🛡️</span>
+                        <h3 class="text-xl font-semibold text-white mb-2">Seguridad Informática</h3>
+                        <p class="text-sm text-gray-400">Instalación, actualización de antivirus y eliminación de malware/cuentas.</p>
+                    </div>
+                </div>
+                <div class="text-center mt-10">
+                    <a href="javascript:void(0);" onclick="navigateTo('servicios-informaticos');" class="text-blue-400 font-bold hover:text-blue-300 transition">
+                        Ver listado completo de servicios →
+                    </a>
+                </div>
+            </section>
+        `;
+
+        // 2. SECONDARY PAGE HEADER
+        const secondaryHeaderHTML = (title) => `
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center bg-gray-900 border-b border-gray-800">
+                <!-- Botón de Volver al Inicio (La Flechita) -->
+                <a href="javascript:void(0);" onclick="navigateTo('home');" class="flex items-center text-gray-300 hover:text-blue-400 transition duration-300 font-semibold text-sm">
+                    <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                    Inicio
+                </a>
+                
+                <!-- Título Central de la Página -->
+                <h1 class="text-xl font-extrabold text-white">${title}</h1>
+
+                <!-- Espacio para mantener el centrado (o un botón de contacto) -->
+                <a href="#contacto-footer" class="text-sm font-medium text-blue-500 hover:text-blue-400 hidden sm:block">Contáctanos</a>
+            </div>
+        `;
+
+        // 3. SECONDARY PAGE CONTENT TEMPLATES
+        
+        const quienesSomosContentHTML = `
+            <section class="max-w-4xl mx-auto px-4 py-12 pt-20">
+                <div class="bg-gray-800 p-8 rounded-2xl shadow-2xl border border-gray-700">
+                    <h2 class="text-4xl font-bold text-white mb-6 border-b border-gray-700 pb-3">Agencia de Soporte y Desarrollo Web</h2>
+                    <p class="text-gray-400 text-lg mb-6">
+                        En **rodreyrj**, somos especialistas en soluciones informáticas integrales. Nuestro objetivo es asegurar que tu tecnología (hardware y software) funcione perfectamente, al mismo tiempo que potenciamos tu presencia digital con diseños web profesionales y optimizados.
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+                        <div>
+                            <h3 class="text-2xl font-semibold text-blue-400 mb-3">Nuestra Filosofía</h3>
+                            <p class="text-gray-400">Ofrecer soluciones rápidas y eficientes. Minimizar el tiempo de inactividad de tus equipos y maximizar la visibilidad de tu negocio online.</p>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-semibold text-blue-400 mb-3">Nuestros Pilares</h3>
+                            <ul class="list-disc list-inside text-gray-400 space-y-2">
+                                <li>Velocidad en respuesta técnica.</li>
+                                <li>Diseño web 100% profesional.</li>
+                                <li>Compromiso con la seguridad de tus datos.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        `;
+        
+        const serviciosInformaticosContentHTML = `
+            <section class="max-w-4xl mx-auto px-4 py-12 pt-20">
+                <div class="bg-gray-800 p-8 rounded-2xl shadow-2xl border border-gray-700">
+                    <h2 class="text-4xl font-bold text-blue-400 mb-6 border-b border-gray-700 pb-3">Listado Completo de Servicios Informáticos</h2>
+                    <p class="text-gray-400 text-lg mb-8">
+                        Ofrecemos un amplio rango de soluciones técnicas y creativas para cubrir todas tus necesidades digitales.
+                    </p>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        
+                        <!-- Columna 1: Soporte de Sistemas -->
+                        <div>
+                            <h3 class="text-2xl font-semibold text-white mb-4 flex items-center"><span class="mr-2 text-blue-400">⚙️</span> Soporte Técnico y SO</h3>
+                            <ul class="space-y-3 text-gray-400">
+                                <li class="bg-gray-700 p-3 rounded-lg border-l-4 border-blue-500">Instalación de Sistemas Operativos (Windows, Linux).</li>
+                                <li class="bg-gray-700 p-3 rounded-lg border-l-4 border-blue-500">Eliminación de Cuentas de Google asociadas a dispositivos.</li>
+                                <li class="bg-gray-700 p-3 rounded-lg border-l-4 border-blue-500">Instalación y Actualización de Paquete Office.</li>
+                                <li class="bg-gray-700 p-3 rounded-lg border-l-4 border-blue-500">Instalación y Actualización de Antivirus.</li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Columna 2: Diseño y Presencia Digital -->
+                        <div>
+                            <h3 class="text-2xl font-semibold text-white mb-4 flex items-center"><span class="mr-2 text-purple-400">🎨</span> Diseño y Desarrollo Web</h3>
+                            <ul class="space-y-3 text-gray-400">
+                                <li class="bg-gray-700 p-3 rounded-lg border-l-4 border-purple-500">Creación de Páginas Web (Sitios, Landings, E-commerce).</li>
+                                <li class="bg-gray-700 p-3 rounded-lg border-l-4 border-purple-500">Diseño de Logos Profesionales.</li>
+                                <li class="bg-gray-700 p-3 rounded-lg border-l-4 border-purple-500">Creación de Póster e Imagen Corporativa.</li>
+                                <li class="bg-gray-700 p-3 rounded-lg border-l-4 border-purple-500">Optimización y Mantenimiento Web.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="mt-10 p-5 bg-blue-900/30 rounded-lg text-center border border-blue-700">
+                        <p class="text-lg font-bold text-white">¿Listo para mejorar tu tecnología?</p>
+                        <a href="#contacto-footer" class="mt-3 inline-block bg-blue-600 text-white font-bold py-3 px-8 rounded-xl hover:bg-blue-700 transition">
+                            Contáctanos para una cotización
+                        </a>
+                    </div>
+                </div>
+            </section>
+        `;
+        
+        const plantillasContentHTML = `
+            <section class="max-w-7xl mx-auto px-4 py-12 pt-20">
+                <div class="bg-gray-800 p-8 rounded-2xl shadow-2xl border border-gray-700">
+                    <h2 class="text-4xl font-bold text-purple-400 mb-6 border-b border-gray-700 pb-3">Catálogo de Plantillas Profesionales</h2>
+                    <p class="text-gray-400 text-lg mb-8">
+                        Descarga diseños listos para usar en HTML, CSS y JavaScript. Perfectas para clientes o proyectos personales.
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        
+                        <!-- Plantilla 1 -->
+                        <div class="bg-gray-700 p-4 rounded-xl border border-gray-600">
+                            <div class="h-40 bg-gray-600 rounded-lg mb-3 flex items-center justify-center text-gray-400">
+                                
+                            </div>
+                            <h3 class="text-xl font-semibold text-white mb-2">E-commerce Dinámico</h3>
+                            <p class="text-sm text-gray-400 mb-3">Integración con pasarelas de pago y diseño moderno.</p>
+                            <button class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">Ver Demo</button>
+                        </div>
+
+                        <!-- Plantilla 2 -->
+                        <div class="bg-gray-700 p-4 rounded-xl border border-gray-600">
+                            <div class="h-40 bg-gray-600 rounded-lg mb-3 flex items-center justify-center text-gray-400">
+                                
+                            </div>
+                            <h3 class="text-xl font-semibold text-white mb-2">Portafolio Creativo</h3>
+                            <p class="text-sm text-gray-400 mb-3">Diseño minimalista con modo claro y oscuro.</p>
+                            <button class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">Ver Demo</button>
+                        </div>
+
+                        <!-- Plantilla 3 -->
+                        <div class="bg-gray-700 p-4 rounded-xl border border-gray-600">
+                            <div class="h-40 bg-gray-600 rounded-lg mb-3 flex items-center justify-center text-gray-400">
+                                
+                            </div>
+                            <h3 class="text-xl font-semibold text-white mb-2">Landing Page de Agencia</h3>
+                            <p class="text-sm text-gray-400 mb-3">Enfocada en captación de leads y conversión.</p>
+                            <button class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">Ver Demo</button>
+                        </div>
+                        
+                    </div>
+                </div>
+            </section>
+        `;
+
+        // --- LÓGICA DE NAVEGACIÓN Y HORARIO ---
+
+        let currentView = 'home';
+        let countdownInterval;
+
+        // 1. Manejador de Scroll (solo para el Home)
         function handleScroll() {
-            const header = document.getElementById('main-header');
-            if (window.scrollY > 50) { // Se activa la sombra después de 50px de scroll
-                header.classList.add('header-shadow-active');
-                header.classList.remove('header-initial');
-            } else {
-                header.classList.remove('header-shadow-active');
-                header.classList.add('header-initial');
+            if (currentView === 'home') {
+                const header = document.getElementById('main-header');
+                if (window.scrollY > 50) { 
+                    header.classList.add('header-shadow-active');
+                    header.classList.remove('header-initial');
+                } else {
+                    header.classList.remove('header-shadow-active');
+                    header.classList.add('header-initial');
+                }
             }
         }
-        window.addEventListener('scroll', handleScroll);
-        
-        // Lógica del temporizador (simulado para el diseño)
-        function startCountdown() {
-            // NOTA: Para este diseño, se usa un temporizador simple basado en la hora actual
-            // que cuenta hacia las 6 PM (18:00)
+
+        // 2. Lógica del Temporizador y Estado del Servicio (CIERRE A LAS 18:00 HRS)
+        function updateServiceStatus() {
             const hoursElement = document.getElementById('timer-hours');
             const minsElement = document.getElementById('timer-mins');
             const secsElement = document.getElementById('timer-secs');
+            const statusMessage = document.getElementById('service-status-message');
+            const actionButton = document.getElementById('home-action-button');
+
+            if (!hoursElement || !statusMessage || !actionButton) {
+                // Si los elementos no están en el DOM (no estamos en Home), detenemos el intervalo
+                if (countdownInterval) clearInterval(countdownInterval);
+                return;
+            }
+
+            const now = new Date();
+            const closeHour = 18; // 6:00 PM
+            const targetTime = new Date(now);
+            targetTime.setHours(closeHour, 0, 0, 0); 
             
-            const interval = setInterval(function() {
-                const now = new Date();
-                const targetTime = new Date(now);
-                targetTime.setHours(18, 0, 0, 0); // 6:00 PM (18:00) hoy
+            let distance = targetTime.getTime() - now.getTime();
 
-                if (now.getHours() >= 18) {
-                    targetTime.setDate(targetTime.getDate() + 1);
-                }
-
-                const distance = targetTime.getTime() - now.getTime();
-
-                if (distance < 0) {
-                    clearInterval(interval);
+            // Si ya pasaron las 6 PM, el servicio está cerrado
+            if (distance < 0) {
+                // Si ya pasaron las 6 PM, verificamos si ya es el día siguiente
+                const startOfDay = new Date(now);
+                startOfDay.setHours(0, 0, 0, 0); 
+                
+                // Si estamos entre 18:00 (6pm) y 23:59:59 (medianoche)
+                if (now.getHours() >= closeHour) {
+                    // Mostrar cerrado
+                    statusMessage.innerHTML = '<span class="text-2xl text-red-500">❌</span> SERVICIO CERRADO';
+                    actionButton.textContent = 'Servicio Cerrado (Abrimos 8:00 AM)';
+                    actionButton.disabled = true;
+                    
+                    // Mostrar tiempo restante hasta medianoche (00:00:00) si es necesario,
+                    // pero el requisito es mostrar cerrado. Mostraremos 00:00:00
                     hoursElement.textContent = '00';
                     minsElement.textContent = '00';
                     secsElement.textContent = '00';
                     return;
-                }
 
+                } 
+                // Si la hora es menor a 18:00 (ya en el día siguiente si aplicara, pero la lógica de arriba cubre el caso)
+                // Usamos la lógica de abajo para el conteo normal si la hora fuera anterior a 18:00.
+                
+            } 
+
+            // Lógica para contar hasta las 18:00
+            if (now.getHours() < closeHour) {
+                statusMessage.innerHTML = '<span class="text-xl">⏱️</span> CIERRA EN:';
+                actionButton.textContent = '📞 SOLICITAR SERVICIO AHORA';
+                actionButton.disabled = false;
+                
                 const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((distance % (1000 * 60)) / 1000);
@@ -354,13 +439,131 @@
                 hoursElement.textContent = formatTime(hours);
                 minsElement.textContent = formatTime(minutes);
                 secsElement.textContent = formatTime(seconds);
+            } else {
+                 // Si la distancia ya fue negativa y estamos después de las 18:00
+                statusMessage.innerHTML = '<span class="text-2xl text-red-500">❌</span> SERVICIO CERRADO';
+                actionButton.textContent = 'Servicio Cerrado (Abrimos 8:00 AM)';
+                actionButton.disabled = true;
                 
-            }, 1000);
+                hoursElement.textContent = '00';
+                minsElement.textContent = '00';
+                secsElement.textContent = '00';
+
+            }
         }
 
+        function startCountdown() {
+            if (countdownInterval) clearInterval(countdownInterval); // Limpiar cualquier intervalo anterior
+            // Inyectar la estructura del temporizador antes de iniciar el conteo
+            const timerContainer = document.getElementById('countdown-timer');
+            if (timerContainer) {
+                timerContainer.innerHTML = `
+                    <div class="time-box"><span id="timer-hours" class="time-number">--</span><span class="time-label">HORAS</span></div>
+                    <span class="text-blue-500 text-4xl font-bold">:</span>
+                    <div class="time-box"><span id="timer-mins" class="time-number">--</span><span class="time-label">MIN</span></div>
+                    <span class="text-blue-500 text-4xl font-bold">:</span>
+                    <div class="time-box"><span id="timer-secs" class="time-number">--</span><span class="time-label">SEG</span></div>
+                `;
+            }
+
+            updateServiceStatus(); // Primera ejecución
+            countdownInterval = setInterval(updateServiceStatus, 1000); // Ejecutar cada segundo
+        }
+
+
+        // 3. Renderizado de las Vistas
+        function renderView(viewName) {
+            let headerHTML = '';
+            let contentHTML = '';
+            let newHeaderClass = '';
+            let pageTitle = '';
+
+            // 1. Determinar el contenido y estilo
+            switch (viewName) {
+                case 'home':
+                    headerHTML = homeHeaderHTML(false);
+                    contentHTML = homeContentHTML;
+                    newHeaderClass = 'header-initial';
+                    pageTitle = 'rodreyrj | Inicio';
+                    break;
+                case 'quienes-somos':
+                    pageTitle = 'Quiénes Somos';
+                    headerHTML = secondaryHeaderHTML(pageTitle);
+                    contentHTML = quienesSomosContentHTML;
+                    newHeaderClass = 'header-shadow-active'; 
+                    break;
+                case 'servicios-informaticos':
+                    pageTitle = 'Servicios Informáticos';
+                    headerHTML = secondaryHeaderHTML(pageTitle);
+                    contentHTML = serviciosInformaticosContentHTML;
+                    newHeaderClass = 'header-shadow-active';
+                    break;
+                case 'plantillas':
+                    pageTitle = 'Plantillas';
+                    headerHTML = secondaryHeaderHTML(pageTitle);
+                    contentHTML = plantillasContentHTML;
+                    newHeaderClass = 'header-shadow-active';
+                    break;
+                default:
+                    renderView('home');
+                    return;
+            }
+
+            // 2. Realizar la transición visual
+            mainContent.style.opacity = '0';
+            
+            setTimeout(() => {
+                // 3. Actualizar el contenido y las clases
+                currentView = viewName;
+                document.title = pageTitle;
+                headerContainer.className = `fixed top-0 left-0 z-50 w-full transition duration-300 ease-in-out ${newHeaderClass}`;
+                headerContainer.innerHTML = headerHTML;
+                mainContent.innerHTML = contentHTML;
+                
+                // 4. Limpiar y establecer scroll al inicio
+                window.scrollTo(0, 0);
+
+                // 5. Iniciar lógica específica de la vista
+                if (viewName === 'home') {
+                    startCountdown(); // Iniciar el temporizador
+                    handleScroll(); 
+                    window.addEventListener('scroll', handleScroll);
+                } else {
+                    if (countdownInterval) clearInterval(countdownInterval); // Detener temporizador
+                    window.removeEventListener('scroll', handleScroll);
+                }
+
+                // 6. Finalizar la transición
+                mainContent.style.opacity = '1';
+
+            }, 300); 
+        }
+
+        // 4. Función de Navegación Global
+        function navigateTo(viewName) {
+            const mobileMenu = document.getElementById(mobileMenuId);
+            if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                toggleMenu();
+            }
+            renderView(viewName);
+        }
+
+        // 5. Función para el menú móvil (actualiza el header)
+        function toggleMenu() {
+            const mobileMenu = document.getElementById(mobileMenuId);
+            if (mobileMenu) {
+                const isOpen = mobileMenu.classList.toggle('hidden');
+                // Al abrir/cerrar el menú, re-renderizamos el header para asegurar la vinculación
+                if (currentView === 'home') {
+                    headerContainer.innerHTML = homeHeaderHTML(!isOpen);
+                    handleScroll(); 
+                }
+            }
+        }
+        
+        // --- INICIALIZACIÓN ---
         window.onload = function() {
-            startCountdown();
-            handleScroll(); // Chequeo inicial
+            renderView('home');
         };
     </script>
 
