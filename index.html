@@ -73,7 +73,7 @@
             box-shadow: 0 15px 30px rgba(239, 68, 68, 0.3); /* Sombra roja */
         }
 
-        /* Estilo para los botones de contacto en Quiénes Somos */
+        /* Estilo para los botones de contacto en Quién Soy */
         .contact-link {
             transition: background-color 0.3s ease, transform 0.2s ease;
         }
@@ -94,7 +94,7 @@
 
     <!-- Contenido Principal - Donde se cargan las vistas -->
     <main id="main-content" class="min-h-screen page-transition">
-        <!-- Vistas de la página (Home, Servicios, Proyectos, Quiénes Somos) se inyectan aquí -->
+        <!-- Vistas de la página (Home, Servicios, Proyectos, Quién Soy) se inyectan aquí -->
     </main>
     
     <!-- Footer (El footer siempre es estático y visible) -->
@@ -117,10 +117,10 @@
                 <h4 class="text-lg font-bold text-white mb-4">Enlaces</h4>
                 <ul class="space-y-2 text-gray-400 text-sm">
                     <li><a href="javascript:void(0);" onclick="navigateTo('home');" class="hover:text-blue-400">Inicio</a></li>
-                    <li><a href="javascript:void(0);" onclick="navigateTo('quienes-somos');" class="hover:text-blue-400">Quiénes Somos</a></li>
+                    <li><a href="javascript:void(0);" onclick="navigateTo('quien-soy');" class="hover:text-blue-400">Quién Soy</a></li>
                     <li><a href="javascript:void(0);" onclick="navigateTo('servicios-informaticos');" class="hover:text-blue-400">Servicios Informáticos</a></li>
-                    <!-- Enlace del footer ahora dice Proyectos -->
-                    <li><a href="javascript:void(0);" onclick="navigateTo('plantillas');" class="hover:text-blue-400">Proyectos</a></li> 
+                    <li><a href="javascript:void(0);" onclick="navigateTo('plantillas');" class="hover:text-blue-400">Proyectos</a></li>
+                    <!-- Eliminado el enlace directo al Catálogo de Series del footer -->
                 </ul>
             </div>
 
@@ -159,7 +159,7 @@
         // URL del CSV con los datos de los proyectos
         const TEMPLATES_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTurxcfqNiMeXwH7GdrsL1MGih4HhKv7cS_g7JRgwu17i2IGeaaUV8FlMrir-f7wf9SgRw6g4WLw1BH/pub?output=csv";
         
-        // NUEVA URL del CSV para el Catálogo de Series
+        // URL del CSV para el Catálogo de Series
         const SERIES_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQMqFFyVFUM9e157cdDMwcX7DGmOj8DuL8ZUHMw9QAnNYn-tG1dDZ_u89Za19QPHjIvpBvc-q9E1SQR/pub?output=csv";
 
         // Número de WhatsApp del usuario
@@ -171,6 +171,9 @@
         // Instagram del usuario
         const INSTAGRAM_URL = "https://www.instagram.com/rodreyrj?igsh=MWV0OTh0cGE3M2EzbA==";
 
+        // Límite de series a mostrar en la vista HOME
+        const HOME_SERIES_LIMIT = 4;
+
 
         const mainContent = document.getElementById('main-content');
         const headerContainer = document.getElementById('main-header');
@@ -180,7 +183,7 @@
         
         // Caché para los datos (Proyectos y Series)
         let templatesData = null; // Caché para los proyectos (plantillas)
-        let seriesData = null;    // NUEVA Caché para las series
+        let seriesData = null;    // Caché para las series
 
         // --- LÓGICA DE DATOS CSV ---
 
@@ -227,7 +230,7 @@
             }
         }
         
-        // NUEVA Función de obtención de datos con caché (Para Series)
+        // Función de obtención de datos con caché (Para Series)
         async function fetchSeries() {
             if (seriesData) return seriesData; 
 
@@ -255,9 +258,10 @@
                 </a>
                 
                 <nav class="hidden md:flex space-x-6 text-sm font-medium">
-                    <a href="javascript:void(0);" onclick="navigateTo('quienes-somos');" class="text-gray-300 hover:text-blue-400 transition duration-200">Quiénes Somos</a>
+                    <a href="javascript:void(0);" onclick="navigateTo('quien-soy');" class="text-gray-300 hover:text-blue-400 transition duration-200">Quién Soy</a>
                     <a href="javascript:void(0);" onclick="navigateTo('servicios-informaticos');" class="text-white bg-blue-600 px-3 py-1 rounded-full hover:bg-blue-700 transition duration-200">Servicios Informáticos</a>
                     <a href="javascript:void(0);" onclick="navigateTo('plantillas');" class="text-white bg-purple-600 px-3 py-1 rounded-full hover:bg-purple-700 transition duration-200">Proyectos</a>
+                    <!-- ELIMINADO: Enlace directo a Catálogo de Series -->
                 </nav>
                 
                 <button id="menu-toggle" class="md:hidden text-gray-300 hover:text-blue-500 focus:outline-none p-2 rounded-lg bg-gray-800" aria-label="Abrir Menú Móvil">
@@ -267,9 +271,10 @@
             
             <nav id="${mobileMenuId}" class="md:hidden ${isMobileMenuOpen ? '' : 'hidden'} bg-gray-900 border-t border-gray-800">
                 <div class="px-4 pt-4 pb-4 space-y-2">
-                    <a href="javascript:void(0);" onclick="navigateTo('quienes-somos')" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-800">Quiénes Somos</a>
+                    <a href="javascript:void(0);" onclick="navigateTo('quien-soy')" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-800">Quién Soy</a>
                     <a href="javascript:void(0);" onclick="navigateTo('servicios-informaticos')" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-blue-600 hover:bg-blue-700">Servicios Informáticos</a>
                     <a href="javascript:void(0);" onclick="navigateTo('plantillas')" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-purple-600 hover:bg-purple-700">Proyectos</a>
+                    <!-- ELIMINADO: Enlace directo a Catálogo de Series en móvil -->
                 </div>
                 <div class="border-t border-gray-800 pt-4 px-4 pb-4">
                     <a href="javascript:void(0);" onclick="navigateTo('home');" class="inline-flex items-center text-2xl font-extrabold text-blue-500 mb-2">
@@ -283,14 +288,17 @@
         `;
         
         // Función para generar las tarjetas de series con enlace a WhatsApp
-        function generateSeriesHTML(data) {
+        // El parámetro `limit` define cuántas series mostrar. Si es null, muestra todas.
+        function generateSeriesHTML(data, limit = null) {
             if (!data || data.length === 0) {
                 return `<div class="col-span-full text-center p-4 bg-gray-700 rounded-xl text-yellow-400">
                             No hay series disponibles en este momento.
                         </div>`;
             }
 
-            return data.map(serie => {
+            const seriesToDisplay = limit ? data.slice(0, limit) : data;
+
+            let html = seriesToDisplay.map(serie => {
                 // Las propiedades son url, nombre, precio
                 const name = serie.nombre || 'Título Desconocido';
                 const imageUrl = serie.url || `https://placehold.co/200x300/1f2937/ffffff?text=Serie`;
@@ -324,6 +332,21 @@
                     </div>
                 `;
             }).join('');
+            
+            // Si estamos en la vista HOME y hay más series que el límite, añade el botón "Ver Más"
+            if (limit && data.length > limit) {
+                html += `
+                    <div class="col-span-full text-center mt-6">
+                        <button onclick="navigateTo('catalogo-series')" 
+                                class="bg-red-500 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-red-600 transition transform hover:scale-105 flex items-center justify-center mx-auto space-x-2">
+                            <i class="fas fa-arrow-right"></i>
+                            <span>Ver ${data.length - limit} Series Más</span>
+                        </button>
+                    </div>
+                `;
+            }
+            
+            return html;
         }
 
         const homeContentHTML = `
@@ -349,7 +372,7 @@
             </section>
             
             <!-- SECCIÓN DE SERVICIOS DESTACADOS EN INICIO -->
-            <section class="max-w-6xl mx-auto px-4 py-12">
+            <section class="max-w-6xl mx-auto px-4 py-12 border-t border-gray-800">
                 <h2 class="text-3xl font-bold text-white mb-8 text-center">Nuestros Servicios Principales</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div class="bg-gray-800 p-6 rounded-xl border border-blue-600/50 hover:shadow-blue-500/30 shadow-lg transition">
@@ -377,7 +400,7 @@
 
             <!-- NUEVA SECCIÓN: CATÁLOGO DE SERIES (SOLO EN INICIO) -->
             <section class="max-w-6xl mx-auto px-4 py-12 border-t border-gray-800">
-                <h2 class="text-3xl font-bold text-red-400 mb-8 text-center">🍿 Nuestro Catálogo de Series</h2>
+                <h2 class="text-3xl font-bold text-red-400 mb-8 text-center">🍿 Nuestro Catálogo de Series (Destacadas)</h2>
                 <div id="series-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
                     <!-- Las tarjetas de series se inyectarán aquí -->
                 </div>
@@ -398,20 +421,20 @@
             </div>
         `;
 
-        const quienesSomosContentHTML = `
+        const quienSoyContentHTML = `
             <section class="max-w-4xl mx-auto px-4 py-12 pt-20">
                 <div class="bg-gray-800 p-8 rounded-2xl shadow-2xl border border-gray-700">
-                    <h2 class="text-4xl font-bold text-white mb-6 border-b border-gray-700 pb-3">Agencia de Soporte y Desarrollo Web</h2>
+                    <h2 class="text-4xl font-bold text-white mb-6 border-b border-gray-700 pb-3">Sobre mí: Soporte y Desarrollo Web</h2>
                     <p class="text-gray-400 text-lg mb-6">
-                        En **rodreyrj**, somos especialistas en soluciones informáticas integrales. Nuestro objetivo es asegurar que tu tecnología (hardware y software) funcione perfectamente, al mismo tiempo que potenciamos tu presencia digital con diseños web profesionales y optimizados.
+                        Soy **rodreyrj**, especialista en soluciones informáticas integrales. Mi objetivo es asegurar que tu tecnología (hardware y software) funcione perfectamente, al mismo tiempo que potenciar tu presencia digital con diseños web profesionales y optimizados.
                     </p>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
                         <div>
-                            <h3 class="text-2xl font-semibold text-blue-400 mb-3">Nuestra Filosofía</h3>
+                            <h3 class="text-2xl font-semibold text-blue-400 mb-3">Mi Filosofía</h3>
                             <p class="text-gray-400">Ofrecer soluciones rápidas y eficientes. Minimizar el tiempo de inactividad de tus equipos y maximizar la visibilidad de tu negocio online.</p>
                         </div>
                         <div>
-                            <h3 class="text-2xl font-semibold text-blue-400 mb-3">Nuestros Pilares</h3>
+                            <h3 class="text-2xl font-semibold text-blue-400 mb-3">Mis Pilares</h3>
                             <ul class="list-disc list-inside text-gray-400 space-y-2">
                                 <li>Velocidad en respuesta técnica.</li>
                                 <li>Diseño web 100% profesional.</li>
@@ -420,10 +443,10 @@
                         </div>
                     </div>
                     
-                    <!-- NUEVA SECCIÓN DE CONTACTO EN QUIÉNES SOMOS -->
+                    <!-- SECCIÓN DE CONTACTO -->
                     <div class="mt-10 pt-6 border-t border-gray-700">
-                        <h3 class="text-2xl font-semibold text-blue-400 mb-4">Conéctate con Nosotros</h3>
-                        <p class="text-gray-400 mb-6">¡Estamos disponibles para cualquier consulta o proyecto! Haz clic para contactarnos directamente.</p>
+                        <h3 class="text-2xl font-semibold text-blue-400 mb-4">Conéctate Conmigo</h3>
+                        <p class="text-gray-400 mb-6">¡Estoy disponible para cualquier consulta o proyecto! Haz clic para contactarme directamente.</p>
                         
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                             <!-- Enlace de WhatsApp -->
@@ -450,7 +473,7 @@
                             </a>
                         </div>
                     </div>
-                    <!-- FIN NUEVA SECCIÓN DE CONTACTO -->
+                    <!-- FIN SECCIÓN DE CONTACTO -->
 
                 </div>
             </section>
@@ -498,7 +521,7 @@
                                 <i class="fas fa-images"></i>
                             </div>
                             <h3 class="text-xl font-bold text-white mb-2">Creación de Póster</h3>
-                            <p class="text-gray-400">Diseño gráfico de pósters, flyers y material promocional de alto impacto visual para eventos o negocios.</p>
+                            <p class="text-sm text-gray-400">Diseño gráfico de pósters, flyers y material promocional de alto impacto visual para eventos o negocios.</p>
                         </div>
                         <div class="service-card bg-gray-900 p-6 rounded-xl border border-gray-700/50 shadow-xl">
                             <div class="text-gray-500 text-4xl mb-4">
@@ -537,6 +560,26 @@
                 </div>
             </section>
         `;
+
+        // Plantilla estática con un contenedor para inyectar datos dinámicos (Catálogo de Series)
+        const baseSeriesCatalogContentHTML = `
+            <section class="max-w-7xl mx-auto px-4 py-12 pt-20">
+                <div class="bg-gray-800 p-8 rounded-2xl shadow-2xl border border-gray-700">
+                    <h2 class="text-4xl font-bold text-red-400 mb-6 text-center border-b border-gray-700 pb-3">🎬 Catálogo Completo de Series</h2>
+                    <p class="text-gray-400 text-lg mb-8 text-center">
+                        Explora la lista completa de series. Contacta por WhatsApp para más detalles o realizar tu pedido.
+                    </p>
+                    <div id="full-series-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                        <!-- Todas las series dinámicas se inyectarán aquí -->
+                    </div>
+                    <!-- Mensaje de carga para SERIES -->
+                    <div id="series-loading-full" class="text-center text-xl text-gray-400 mt-10 hidden">
+                        Cargando catálogo completo...
+                    </div>
+                </div>
+            </section>
+        `;
+
 
         // Función para generar las tarjetas de plantillas (proyectos)
         function generateTemplatesHTML(data) {
@@ -649,109 +692,94 @@
             countdownInterval = setInterval(updateServiceStatus, 1000); 
         }
 
-        // Función para renderizar el catálogo de series en la vista de inicio
-        async function renderSeriesCatalog() {
+        // Función para renderizar el catálogo de series en la vista de inicio (Limitado)
+        async function renderHomeSeriesCatalog() {
             const seriesGrid = document.getElementById('series-grid');
             const loadingMessage = document.getElementById('series-loading-message');
             
             if (!seriesGrid) return; 
 
-            // 1. Si los datos ya están en caché, renderiza de inmediato
-            if (seriesData) {
-                seriesGrid.innerHTML = generateSeriesHTML(seriesData);
-            } else {
-                // 2. Muestra mensaje de carga (aunque la precarga ya lo intentó)
-                if (loadingMessage) loadingMessage.style.display = 'block';
+            // 1. Muestra mensaje de carga
+            if (loadingMessage) loadingMessage.style.display = 'block';
 
-                const data = await fetchSeries(); 
-                
-                // 3. Cuando los datos lleguen, oculta el mensaje y renderiza
-                if (loadingMessage) loadingMessage.style.display = 'none';
-                seriesGrid.innerHTML = generateSeriesHTML(data);
-            }
+            const data = await fetchSeries(); 
+            
+            // 2. Cuando los datos lleguen, oculta el mensaje y renderiza con límite
+            if (loadingMessage) loadingMessage.style.display = 'none';
+            // Limitamos a HOME_SERIES_LIMIT (4) y generamos el botón "Ver Más" si es necesario.
+            seriesGrid.innerHTML = generateSeriesHTML(data, HOME_SERIES_LIMIT);
+        }
+        
+        // Función para renderizar el catálogo completo de series
+        async function renderFullSeriesCatalog() {
+            const seriesGrid = document.getElementById('full-series-grid');
+            const loadingMessage = document.getElementById('series-loading-full');
+            
+            if (!seriesGrid) return; 
+
+            // 1. Muestra mensaje de carga
+            if (loadingMessage) loadingMessage.style.display = 'block';
+
+            const data = await fetchSeries(); 
+            
+            // 2. Cuando los datos lleguen, oculta el mensaje y renderiza TODAS las series
+            if (loadingMessage) loadingMessage.style.display = 'none';
+            seriesGrid.innerHTML = generateSeriesHTML(data, null); // Sin límite (muestra todo)
         }
 
 
         async function renderView(viewName) {
             let headerHTML = '';
             let contentHTML = '';
-            let newHeaderClass = '';
             let pageTitle = '';
-            
-            // 1. Manejo de Proyectos (Plantillas) para precarga / síncrono
-            if (viewName === 'plantillas') {
-                pageTitle = 'Proyectos'; 
-                headerHTML = secondaryHeaderHTML(pageTitle);
-                contentHTML = basePlantillasContentHTML;
-                newHeaderClass = 'header-shadow-active';
+            let needsAsyncRender = false;
 
-                currentView = viewName;
-                document.title = pageTitle;
-                headerContainer.className = `fixed top-0 left-0 z-50 w-full transition duration-300 ease-in-out ${newHeaderClass}`;
-                headerContainer.innerHTML = headerHTML;
-                mainContent.innerHTML = contentHTML;
-                window.scrollTo(0, 0);
-                
-                const templatesGrid = document.getElementById('plantillas-grid');
-                const loadingMessage = document.getElementById('loading-message');
-                
-                if (templatesData) {
-                    templatesGrid.innerHTML = generateTemplatesHTML(templatesData);
-                    if (loadingMessage) loadingMessage.style.display = 'none';
-                } else {
-                    if (loadingMessage) loadingMessage.style.display = 'block';
-
-                    const data = await fetchTemplates(); 
-                    if (loadingMessage) loadingMessage.style.display = 'none';
-                    templatesGrid.innerHTML = generateTemplatesHTML(data);
-                }
-
-                // Lógica de transición y eventos
-                mainContent.style.opacity = '1';
-                const menuButton = document.getElementById('menu-toggle');
-                if (menuButton) {
-                    menuButton.removeEventListener('click', toggleMenu); 
-                    menuButton.addEventListener('click', toggleMenu);
-                }
-                if (countdownInterval) clearInterval(countdownInterval);
-                return; 
-            }
-
-            // --- Lógica para vistas estáticas (home, quienes-somos, servicios) ---
+            // 1. Determinar el contenido de la vista
             switch (viewName) {
                 case 'home':
                     pageTitle = 'rodreyrj | Inicio';
                     headerHTML = homeHeaderHTML(false);
                     contentHTML = homeContentHTML;
-                    newHeaderClass = 'header-initial';
                     break;
-                case 'quienes-somos':
-                    pageTitle = 'Quiénes Somos';
+                case 'quien-soy':
+                    pageTitle = 'Quién Soy';
                     headerHTML = secondaryHeaderHTML(pageTitle);
-                    contentHTML = quienesSomosContentHTML;
-                    newHeaderClass = 'header-shadow-active'; 
+                    contentHTML = quienSoyContentHTML;
                     break;
                 case 'servicios-informaticos':
                     pageTitle = 'Servicios Informáticos';
                     headerHTML = secondaryHeaderHTML(pageTitle);
                     contentHTML = serviciosInformaticosContentHTML;
-                    newHeaderClass = 'header-shadow-active';
+                    break;
+                case 'plantillas':
+                    pageTitle = 'Proyectos'; 
+                    headerHTML = secondaryHeaderHTML(pageTitle);
+                    contentHTML = basePlantillasContentHTML;
+                    needsAsyncRender = true; // Necesita renderizado asíncrono de proyectos
+                    break;
+                case 'catalogo-series':
+                    pageTitle = 'Catálogo de Series'; 
+                    headerHTML = secondaryHeaderHTML(pageTitle); // Usa el header secundario para esta vista
+                    contentHTML = baseSeriesCatalogContentHTML;
+                    needsAsyncRender = true; // Necesita renderizado asíncrono de series
                     break;
                 default:
                     renderView('home');
                     return;
             }
 
-            // 2. Realizar la transición visual (Para vistas estáticas)
+            // 2. Realizar la transición visual
             mainContent.style.opacity = '0';
             
-            setTimeout(() => {
+            setTimeout(async () => {
                 // 3. Actualizar el contenido y las clases
                 currentView = viewName;
                 document.title = pageTitle;
                 
-                headerContainer.className = `fixed top-0 left-0 z-50 w-full transition duration-300 ease-in-out ${newHeaderClass}`;
-
+                headerContainer.innerHTML = headerHTML;
+                mainContent.innerHTML = contentHTML;
+                
+                // Limpiar y restablecer el listener de scroll
                 if (viewName !== 'home') {
                     headerContainer.classList.add('header-shadow-active');
                     window.removeEventListener('scroll', handleScroll);
@@ -759,23 +787,32 @@
                     window.addEventListener('scroll', handleScroll);
                     handleScroll(); 
                 }
-
-                headerContainer.innerHTML = headerHTML;
-                mainContent.innerHTML = contentHTML;
                 
-                // 4. Limpiar y establecer scroll al inicio
-                window.scrollTo(0, 0);
-
-                // 5. Iniciar lógica específica de la vista
+                // 4. Iniciar/Detener lógica específica de la vista
                 if (viewName === 'home') {
                     startCountdown(); 
-                    // Llamar al renderizado de series en HOME
-                    renderSeriesCatalog(); 
+                    await renderHomeSeriesCatalog(); // Renderiza series limitadas
                 } else {
                     if (countdownInterval) clearInterval(countdownInterval); 
                 }
 
+                // 5. Manejo del contenido asíncrono (Proyectos y Catálogo de Series)
+                if (needsAsyncRender) {
+                    if (viewName === 'plantillas') {
+                        const templatesGrid = document.getElementById('plantillas-grid');
+                        const loadingMessage = document.getElementById('loading-message');
+                        if (loadingMessage) loadingMessage.style.display = 'block';
+
+                        const data = await fetchTemplates(); 
+                        if (loadingMessage) loadingMessage.style.display = 'none';
+                        templatesGrid.innerHTML = generateTemplatesHTML(data);
+                    } else if (viewName === 'catalogo-series') {
+                        await renderFullSeriesCatalog(); // Renderiza todas las series
+                    }
+                }
+
                 // 6. Finalizar la transición
+                window.scrollTo(0, 0);
                 mainContent.style.opacity = '1';
 
                 // 7. Re-adjuntar listener del menú móvil (ESENCIAL)
@@ -788,7 +825,7 @@
             }, 300); 
         }
 
-        // 4. Función de Navegación Global
+        // 8. Función de Navegación Global
         function navigateTo(viewName) {
             const mobileMenu = document.getElementById(mobileMenuId);
             if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
@@ -797,7 +834,7 @@
             renderView(viewName);
         }
 
-        // 5. Función para el menú móvil
+        // 9. Función para el menú móvil
         function toggleMenu() {
             const mobileMenu = document.getElementById(mobileMenuId);
             if (mobileMenu) {
