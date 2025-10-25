@@ -120,7 +120,6 @@
                     <li><a href="javascript:void(0);" onclick="navigateTo('quien-soy');" class="hover:text-blue-400">Quién Soy</a></li>
                     <li><a href="javascript:void(0);" onclick="navigateTo('servicios-informaticos');" class="hover:text-blue-400">Servicios Informáticos</a></li>
                     <li><a href="javascript:void(0);" onclick="navigateTo('plantillas');" class="hover:text-blue-400">Proyectos</a></li>
-                    <!-- Eliminado el enlace directo al Catálogo de Series del footer -->
                 </ul>
             </div>
 
@@ -131,6 +130,7 @@
                     <p class="flex items-center justify-center md:justify-start">
                         <span class="mr-2 text-blue-500">📧</span> edgarromerocuc94@gmail.com
                     </p>
+                    <!-- Número de teléfono en el footer -->
                     <p class="flex items-center justify-center md:justify-start">
                         <span class="mr-2 text-blue-500">📱</span> +502 4598 4577
                     </p>
@@ -162,11 +162,14 @@
         // URL del CSV para el Catálogo de Series
         const SERIES_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQMqFFyVFUM9e157cdDMwcX7DGmOj8DuL8ZUHMw9QAnNYn-tG1dDZ_u89Za19QPHjIvpBvc-q9E1SQR/pub?output=csv";
 
-        // Número de WhatsApp del usuario
+        // Número de WhatsApp (se utiliza para el enlace de WhatsApp)
         const WHATSAPP_NUMBER = "56639178"; 
         
+        // Número de Teléfono para llamada directa (se utiliza para la acción del botón)
+        const PHONE_NUMBER = "+50256639178"; 
+        
         // Correo del usuario
-        const EMAIL_ADDRESS = "rodreyrj@gmail.com"; 
+        const EMAIL_ADDRESS = "edgarromerocuc94@gmail.com"; 
         
         // Instagram del usuario
         const INSTAGRAM_URL = "https://www.instagram.com/rodreyrj?igsh=MWV0OTh0cGE3M2EzbA==";
@@ -250,6 +253,12 @@
 
 
         // --- VISTAS / TEMPLATES ---
+        
+        // Función de manejo del botón de Llamada
+        function handleCallNow() {
+            // Usa el prefijo tel: para iniciar una llamada
+            window.location.href = `tel:${PHONE_NUMBER}`;
+        }
 
         const homeHeaderHTML = (isMobileMenuOpen) => `
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
@@ -261,7 +270,6 @@
                     <a href="javascript:void(0);" onclick="navigateTo('quien-soy');" class="text-gray-300 hover:text-blue-400 transition duration-200">Quién Soy</a>
                     <a href="javascript:void(0);" onclick="navigateTo('servicios-informaticos');" class="text-white bg-blue-600 px-3 py-1 rounded-full hover:bg-blue-700 transition duration-200">Servicios Informáticos</a>
                     <a href="javascript:void(0);" onclick="navigateTo('plantillas');" class="text-white bg-purple-600 px-3 py-1 rounded-full hover:bg-purple-700 transition duration-200">Proyectos</a>
-                    <!-- ELIMINADO: Enlace directo a Catálogo de Series -->
                 </nav>
                 
                 <button id="menu-toggle" class="md:hidden text-gray-300 hover:text-blue-500 focus:outline-none p-2 rounded-lg bg-gray-800" aria-label="Abrir Menú Móvil">
@@ -274,7 +282,6 @@
                     <a href="javascript:void(0);" onclick="navigateTo('quien-soy')" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-800">Quién Soy</a>
                     <a href="javascript:void(0);" onclick="navigateTo('servicios-informaticos')" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-blue-600 hover:bg-blue-700">Servicios Informáticos</a>
                     <a href="javascript:void(0);" onclick="navigateTo('plantillas')" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-purple-600 hover:bg-purple-700">Proyectos</a>
-                    <!-- ELIMINADO: Enlace directo a Catálogo de Series en móvil -->
                 </div>
                 <div class="border-t border-gray-800 pt-4 px-4 pb-4">
                     <a href="javascript:void(0);" onclick="navigateTo('home');" class="inline-flex items-center text-2xl font-extrabold text-blue-500 mb-2">
@@ -350,7 +357,7 @@
         }
 
         const homeContentHTML = `
-            <section id="inicio" class="max-w-4xl mx-auto px-4 py-8 text-center min-h-[50vh] flex flex-col justify-center items-center">
+            <section class="max-w-4xl mx-auto px-4 py-8 text-center min-h-[50vh] flex flex-col justify-center items-center">
                 <div class="inline-block bg-purple-600/50 text-white text-xs font-semibold px-4 py-1 rounded-full mb-4 border border-purple-500">
                     SERVICIO TÉCNICO Y WEB
                 </div>
@@ -365,7 +372,8 @@
                     </div>
                     <div id="countdown-timer" class="flex justify-center space-x-3 mb-6">
                     </div>
-                    <button id="home-action-button" onclick="window.location.hash = 'contacto-footer';" class="w-full bg-red-600 text-white font-bold py-4 px-8 rounded-xl shadow-lg hover:bg-red-700 transition transform hover:scale-[1.01] disabled:bg-gray-600 disabled:cursor-not-allowed">
+                    <!-- CAMBIO: Llama directamente a la función handleCallNow() -->
+                    <button id="home-action-button" onclick="handleCallNow();" class="w-full bg-red-600 text-white font-bold py-4 px-8 rounded-xl shadow-lg hover:bg-red-700 transition transform hover:scale-[1.01] disabled:bg-gray-600 disabled:cursor-not-allowed">
                         <span class="text-xl">📞 SOLICITAR SERVICIO AHORA</span>
                     </button>
                 </div>
@@ -398,7 +406,7 @@
                 </div>
             </section>
 
-            <!-- NUEVA SECCIÓN: CATÁLOGO DE SERIES (SOLO EN INICIO) -->
+            <!-- SECCIÓN DE CATÁLOGO DE SERIES (SOLO EN INICIO) -->
             <section class="max-w-6xl mx-auto px-4 py-12 border-t border-gray-800">
                 <h2 class="text-3xl font-bold text-red-400 mb-8 text-center">🍿 Nuestro Catálogo de Series (Destacadas)</h2>
                 <div id="series-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -417,7 +425,7 @@
                     Inicio
                 </a>
                 <h1 class="text-xl font-extrabold text-white">${title}</h1>
-                <a href="#contacto-footer" class="text-sm font-medium text-blue-500 hover:text-blue-400 hidden sm:block">Contáctanos</a>
+                <a href="javascript:void(0);" onclick="handleCallNow();" class="text-sm font-medium text-blue-500 hover:text-blue-400 hidden sm:block">📞 Llámanos</a>
             </div>
         `;
 
@@ -534,9 +542,10 @@
 
                     <div class="mt-10 p-5 bg-blue-900/30 rounded-xl text-center border border-blue-700">
                         <p class="text-lg font-bold text-white mb-3">¿Necesitas ayuda inmediata? Estamos listos para comenzar.</p>
-                        <a href="#contacto-footer" class="inline-block bg-blue-600 text-white font-bold py-3 px-8 rounded-xl hover:bg-blue-700 transition transform hover:scale-[1.02]">
-                            Contáctanos para una Cotización Rápida
-                        </a>
+                        <!-- CAMBIO: Llama directamente a la función handleCallNow() -->
+                        <button onclick="handleCallNow();" class="inline-block bg-blue-600 text-white font-bold py-3 px-8 rounded-xl hover:bg-blue-700 transition transform hover:scale-[1.02]">
+                            📞 Llámanos para una Cotización Rápida
+                        </button>
                     </div>
                 </div>
             </section>
@@ -652,6 +661,9 @@
                 actionButton.textContent = 'Servicio Cerrado (Abrimos mañana)';
                 actionButton.disabled = true;
                 
+                // Asegurar que el botón no intente llamar cuando está deshabilitado
+                actionButton.onclick = null; 
+                
                 hoursElement.textContent = '00';
                 minsElement.textContent = '00';
                 secsElement.textContent = '00';
@@ -662,6 +674,8 @@
                 statusMessage.innerHTML = '<span class="text-xl">⏱️</span> CIERRA EN:';
                 actionButton.textContent = '📞 SOLICITAR SERVICIO AHORA';
                 actionButton.disabled = false;
+                // Restablecer la función de llamada si el servicio está activo
+                actionButton.onclick = handleCallNow; 
                 
                 const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
