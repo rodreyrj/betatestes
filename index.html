@@ -72,6 +72,17 @@
             transform: scale(1.02);
             box-shadow: 0 15px 30px rgba(239, 68, 68, 0.3); /* Sombra roja */
         }
+
+        /* Estilo para los botones de contacto en Quiénes Somos */
+        .contact-link {
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .whatsapp-bg { background-color: #25D366; }
+        .whatsapp-bg:hover { background-color: #128C7E; transform: translateY(-2px); }
+        .instagram-bg { background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); }
+        .instagram-bg:hover { opacity: 0.9; transform: translateY(-2px); }
+        .email-bg { background-color: #EA4335; }
+        .email-bg:hover { background-color: #D62D20; transform: translateY(-2px); }
     </style>
 </head>
 <body class="bg-gray-900">
@@ -153,6 +164,13 @@
 
         // Número de WhatsApp del usuario
         const WHATSAPP_NUMBER = "56639178"; 
+        
+        // Correo del usuario
+        const EMAIL_ADDRESS = "rodreyrj@gmail.com"; 
+        
+        // Instagram del usuario
+        const INSTAGRAM_URL = "https://www.instagram.com/rodreyrj?igsh=MWV0OTh0cGE3M2EzbA==";
+
 
         const mainContent = document.getElementById('main-content');
         const headerContainer = document.getElementById('main-header');
@@ -401,6 +419,39 @@
                             </ul>
                         </div>
                     </div>
+                    
+                    <!-- NUEVA SECCIÓN DE CONTACTO EN QUIÉNES SOMOS -->
+                    <div class="mt-10 pt-6 border-t border-gray-700">
+                        <h3 class="text-2xl font-semibold text-blue-400 mb-4">Conéctate con Nosotros</h3>
+                        <p class="text-gray-400 mb-6">¡Estamos disponibles para cualquier consulta o proyecto! Haz clic para contactarnos directamente.</p>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <!-- Enlace de WhatsApp -->
+                            <a href="https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Me interesan sus servicios de soporte informático y diseño web.')}" 
+                               target="_blank" rel="noopener noreferrer" 
+                               class="contact-link whatsapp-bg text-white font-bold py-3 px-4 rounded-xl shadow-lg flex items-center justify-center space-x-3">
+                                <i class="fab fa-whatsapp text-xl"></i>
+                                <span class="text-sm">WhatsApp ${WHATSAPP_NUMBER}</span>
+                            </a>
+                            
+                            <!-- Enlace de Instagram -->
+                            <a href="${INSTAGRAM_URL}" 
+                               target="_blank" rel="noopener noreferrer" 
+                               class="contact-link instagram-bg text-white font-bold py-3 px-4 rounded-xl shadow-lg flex items-center justify-center space-x-3">
+                                <i class="fab fa-instagram text-xl"></i>
+                                <span class="text-sm">Instagram</span>
+                            </a>
+
+                            <!-- Enlace de Correo Electrónico -->
+                            <a href="mailto:${EMAIL_ADDRESS}" 
+                               class="contact-link email-bg text-white font-bold py-3 px-4 rounded-xl shadow-lg flex items-center justify-center space-x-3">
+                                <i class="fas fa-envelope text-xl"></i>
+                                <span class="text-sm">${EMAIL_ADDRESS}</span>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- FIN NUEVA SECCIÓN DE CONTACTO -->
+
                 </div>
             </section>
         `;
