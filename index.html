@@ -132,7 +132,7 @@
                     </p>
                     <!-- Número de teléfono en el footer -->
                     <p class="flex items-center justify-center md:justify-start">
-                        <span class="mr-2 text-blue-500">📱</span> +502 4598 4577
+                        <span class="mr-2 text-blue-500">📱</span> +53 5663 9178
                     </p>
                     <p class="flex items-center justify-center md:justify-start">
                         <span class="mr-2 text-blue-500">📍</span> Ciudad de Cobán, A.V. Guatemala
@@ -165,8 +165,8 @@
         // Número de WhatsApp (se utiliza para el enlace de WhatsApp)
         const WHATSAPP_NUMBER = "56639178"; 
         
-        // Número de Teléfono para llamada directa (se utiliza para la acción del botón)
-        const PHONE_NUMBER = "+50256639178"; 
+        // NÚMERO DE TELÉFONO PARA LLAMADA DIRECTA (ACTUALIZADO A CUBA +53)
+        const PHONE_NUMBER = "+5356639178"; 
         
         // Correo del usuario
         const EMAIL_ADDRESS = "edgarromerocuc94@gmail.com"; 
@@ -256,7 +256,7 @@
         
         // Función de manejo del botón de Llamada
         function handleCallNow() {
-            // Usa el prefijo tel: para iniciar una llamada
+            // Usa el prefijo tel: para iniciar una llamada con el número actualizado
             window.location.href = `tel:${PHONE_NUMBER}`;
         }
 
@@ -372,7 +372,7 @@
                     </div>
                     <div id="countdown-timer" class="flex justify-center space-x-3 mb-6">
                     </div>
-                    <!-- CAMBIO: Llama directamente a la función handleCallNow() -->
+                    <!-- Acción de llamada directa actualizada con el nuevo número -->
                     <button id="home-action-button" onclick="handleCallNow();" class="w-full bg-red-600 text-white font-bold py-4 px-8 rounded-xl shadow-lg hover:bg-red-700 transition transform hover:scale-[1.01] disabled:bg-gray-600 disabled:cursor-not-allowed">
                         <span class="text-xl">📞 SOLICITAR SERVICIO AHORA</span>
                     </button>
@@ -542,7 +542,7 @@
 
                     <div class="mt-10 p-5 bg-blue-900/30 rounded-xl text-center border border-blue-700">
                         <p class="text-lg font-bold text-white mb-3">¿Necesitas ayuda inmediata? Estamos listos para comenzar.</p>
-                        <!-- CAMBIO: Llama directamente a la función handleCallNow() -->
+                        <!-- Acción de llamada directa actualizada con el nuevo número -->
                         <button onclick="handleCallNow();" class="inline-block bg-blue-600 text-white font-bold py-3 px-8 rounded-xl hover:bg-blue-700 transition transform hover:scale-[1.02]">
                             📞 Llámanos para una Cotización Rápida
                         </button>
